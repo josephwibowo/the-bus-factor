@@ -187,7 +187,7 @@
       "registry_url": "https://www.npmjs.com/package/aged-template",
       "repository_url": "https://github.com/fake-aged-template/aged-template",
       "risk_score": 51.5516,
-      "severity_tier": "Watch",
+      "severity_tier": "Critical",
       "slug": "npm-aged-template",
       "snapshot_week": "2026-04-20"
     },
@@ -216,7 +216,7 @@
         },
         {
           "contribution": 0.0,
-          "evidence": "Fewer than 10 eligible issues in the last 180 days; signal skipped.",
+          "evidence": "Fewer than 5 eligible issues in the last 180 days; signal skipped.",
           "name": "issue_responsiveness"
         },
         {
@@ -505,7 +505,7 @@
       "registry_url": "https://www.npmjs.com/package/frozen-format",
       "repository_url": "https://github.com/fake-frozen/frozen-format",
       "risk_score": 67.1031,
-      "severity_tier": "Elevated",
+      "severity_tier": "Critical",
       "slug": "npm-frozen-format",
       "snapshot_week": "2026-04-20"
     },
@@ -568,7 +568,7 @@
       "registry_url": "https://www.npmjs.com/package/legacy-forge",
       "repository_url": "https://github.com/fake-legacy-forge/legacy-forge",
       "risk_score": 85.7742,
-      "severity_tier": "High",
+      "severity_tier": "Critical",
       "slug": "npm-legacy-forge",
       "snapshot_week": "2026-04-20"
     },
@@ -824,7 +824,7 @@
       "registry_url": "https://www.npmjs.com/package/neglected-stream",
       "repository_url": "https://github.com/fake-neglected/neglected-stream",
       "risk_score": 83.0537,
-      "severity_tier": "High",
+      "severity_tier": "Critical",
       "slug": "npm-neglected-stream",
       "snapshot_week": "2026-04-20"
     },
@@ -896,7 +896,7 @@
       "ecosystem": "npm",
       "exclusion_reason": null,
       "first_release_date": "2016-05-20",
-      "flagged": false,
+      "flagged": true,
       "fragility_score": 89.5835,
       "fragility_signals": [
         {
@@ -950,7 +950,7 @@
       "registry_url": "https://www.npmjs.com/package/old-validator",
       "repository_url": "https://github.com/fake-old-validator/old-validator",
       "risk_score": 71.4311,
-      "severity_tier": "Elevated",
+      "severity_tier": "Critical",
       "slug": "npm-old-validator",
       "snapshot_week": "2026-04-20"
     },
@@ -979,7 +979,7 @@
         },
         {
           "contribution": 0.0,
-          "evidence": "Fewer than 10 eligible issues in the last 180 days; signal skipped.",
+          "evidence": "Fewer than 5 eligible issues in the last 180 days; signal skipped.",
           "name": "issue_responsiveness"
         },
         {
@@ -1136,7 +1136,7 @@
       "registry_url": "https://www.npmjs.com/package/robust-cache",
       "repository_url": "https://github.com/fake-robust/robust-cache",
       "risk_score": 24.4343,
-      "severity_tier": "Stable",
+      "severity_tier": "Watch",
       "slug": "npm-robust-cache",
       "snapshot_week": "2026-04-20"
     },
@@ -1273,7 +1273,7 @@
       "ecosystem": "npm",
       "exclusion_reason": null,
       "first_release_date": "2016-08-01",
-      "flagged": false,
+      "flagged": true,
       "fragility_score": 86.9763,
       "fragility_signals": [
         {
@@ -1328,7 +1328,7 @@
       "registry_url": "https://www.npmjs.com/package/stale-bundle",
       "repository_url": "https://github.com/fake-stale-bundle/stale-bundle",
       "risk_score": 72.5565,
-      "severity_tier": "Elevated",
+      "severity_tier": "Critical",
       "slug": "npm-stale-bundle",
       "snapshot_week": "2026-04-20"
     },
@@ -1646,7 +1646,7 @@
       "registry_url": "https://pypi.org/project/aged-pytemplate/",
       "repository_url": "https://github.com/fake-aged-py/aged-pytemplate",
       "risk_score": 52.7394,
-      "severity_tier": "Watch",
+      "severity_tier": "Critical",
       "slug": "pypi-aged-pytemplate",
       "snapshot_week": "2026-04-20"
     },
@@ -1675,7 +1675,7 @@
         },
         {
           "contribution": 0.0,
-          "evidence": "Fewer than 10 eligible issues in the last 180 days; signal skipped.",
+          "evidence": "Fewer than 5 eligible issues in the last 180 days; signal skipped.",
           "name": "issue_responsiveness"
         },
         {
@@ -1964,7 +1964,7 @@
       "registry_url": "https://pypi.org/project/frozen-pyformat/",
       "repository_url": "https://github.com/fake-frozen-py/frozen-pyformat",
       "risk_score": 67.1031,
-      "severity_tier": "Elevated",
+      "severity_tier": "Critical",
       "slug": "pypi-frozen-pyformat",
       "snapshot_week": "2026-04-20"
     },
@@ -2027,7 +2027,7 @@
       "registry_url": "https://pypi.org/project/legacy-pyforge/",
       "repository_url": "https://github.com/fake-legacy-pyforge/legacy-pyforge",
       "risk_score": 86.9492,
-      "severity_tier": "High",
+      "severity_tier": "Critical",
       "slug": "pypi-legacy-pyforge",
       "snapshot_week": "2026-04-20"
     },
@@ -2283,7 +2283,7 @@
       "registry_url": "https://pypi.org/project/neglected-pystream/",
       "repository_url": "https://github.com/fake-neglected-py/neglected-pystream",
       "risk_score": 83.0537,
-      "severity_tier": "High",
+      "severity_tier": "Critical",
       "slug": "pypi-neglected-pystream",
       "snapshot_week": "2026-04-20"
     },
@@ -2355,7 +2355,7 @@
       "ecosystem": "pypi",
       "exclusion_reason": null,
       "first_release_date": "2016-05-20",
-      "flagged": false,
+      "flagged": true,
       "fragility_score": 89.5835,
       "fragility_signals": [
         {
@@ -2409,7 +2409,7 @@
       "registry_url": "https://pypi.org/project/old-pyvalidator/",
       "repository_url": "https://github.com/fake-old-pyvalidator/old-pyvalidator",
       "risk_score": 71.4311,
-      "severity_tier": "Elevated",
+      "severity_tier": "Critical",
       "slug": "pypi-old-pyvalidator",
       "snapshot_week": "2026-04-20"
     },
@@ -2438,7 +2438,7 @@
         },
         {
           "contribution": 0.0,
-          "evidence": "Fewer than 10 eligible issues in the last 180 days; signal skipped.",
+          "evidence": "Fewer than 5 eligible issues in the last 180 days; signal skipped.",
           "name": "issue_responsiveness"
         },
         {
@@ -2595,7 +2595,7 @@
       "registry_url": "https://pypi.org/project/robust-pycache/",
       "repository_url": "https://github.com/fake-robust-py/robust-pycache",
       "risk_score": 24.4343,
-      "severity_tier": "Stable",
+      "severity_tier": "Watch",
       "slug": "pypi-robust-pycache",
       "snapshot_week": "2026-04-20"
     },
@@ -2732,7 +2732,7 @@
       "ecosystem": "pypi",
       "exclusion_reason": null,
       "first_release_date": "2016-08-01",
-      "flagged": false,
+      "flagged": true,
       "fragility_score": 86.9763,
       "fragility_signals": [
         {
@@ -2787,7 +2787,7 @@
       "registry_url": "https://pypi.org/project/stale-pybundle/",
       "repository_url": "https://github.com/fake-stale-pybundle/stale-pybundle",
       "risk_score": 72.5565,
-      "severity_tier": "Elevated",
+      "severity_tier": "Critical",
       "slug": "pypi-stale-pybundle",
       "snapshot_week": "2026-04-20"
     },

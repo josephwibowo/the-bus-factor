@@ -373,6 +373,50 @@ Fix: the two known-state custom checks now run only when
 `source_mode = fixture`. They still protect fixture scoring drift, but
 they no longer block live source samples.
 
+## Issue 8 — Resolved: OSV `highest_severity` normalisation
+
+Live OSV data mixed the GHSA convention (`LOW`/`MODERATE`/`HIGH`/
+`CRITICAL`) with CVSS vector severities (`MEDIUM`). The
+`stg.osv.highest_severity` `accepted_values` check listed only the
+GHSA forms, so 51 live rows failed the check. `highest_severity` is
+not consumed downstream (scoring derives its own `severity_tier` from
+`risk_score`), but we kept the check honest by normalising
+`MEDIUM → MODERATE` inside `stg.osv` (both DuckDB and BQ siblings).
+
+## Issue 9 — Resolved: null `last_commit_date` for real repos
+
+Live GitHub data included 150 repos with a null `last_commit_date`
+(empty default branch, archived fork, or a rate-limited commits
+endpoint that still produced a row). Downstream
+`int.fragility_inputs` already treats null dates neutrally, so the
+`stg.github_commits.last_commit_date` `not_null` check was
+fixture-biased.
+
+Fix: removed the `not_null` check on `last_commit_date` in both
+DuckDB and BQ siblings. Missing data reduces confidence, never
+inflates fragility (AGENTS rule 4).
+
+## `scripts/generate_bq_siblings.py` gotcha
+
+The generator is a one-shot translator: its output has since been
+hand-tweaked (partition/cluster frontmatter, `ORDER BY` removal, DATE
+casts, 3-arg `REGEXP_REPLACE`). Re-running it blindly **overwrites
+those tweaks**, which `tests/test_sql_parity.py` then flags across
+many files.
+
+Workflow when editing a DuckDB-side asset:
+
+1. Edit `pipeline/assets/<layer>/<file>.sql`.
+2. Apply the **same** change by hand to the matching
+   `pipeline/assets_bq/<layer>/<file>.bq.sql`.
+3. Do **not** re-run `scripts/generate_bq_siblings.py` unless you are
+   ready to re-audit every hand tweak across the BQ tree.
+
+Eventually (Cycle 3 hardening), fold the missing transformations
+(partition/cluster, ORDER-BY stripping, DATE casting,
+3-arg regex) into the generator itself so the parity tests pass on a
+fresh generation.
+
 ---
 
 ## Next steps (not yet done)

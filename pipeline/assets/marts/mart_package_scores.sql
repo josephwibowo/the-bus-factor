@@ -10,7 +10,7 @@ description: |
   excluded packages never skew the leaderboard.
 
   Flagged criteria (scoring.yml `flagged`):
-    * risk_score >= 75
+    * risk_score >= 30
     * severity_tier in (High, Critical)
     * confidence in (medium, high)
     * >= 2 independent fragility signals >= 40, and at least one of them
@@ -124,7 +124,7 @@ custom_checks:
     description: Flagged packages must meet the configured risk_score minimum.
     query: |
       SELECT COUNT(*) FROM mart.package_scores
-      WHERE flagged AND risk_score < 75
+      WHERE flagged AND risk_score < 30
 
   - name: flagged_in_top_quantile
     description: Flagged packages must be in the top 25% importance within their ecosystem.
@@ -250,10 +250,10 @@ with_tier AS (
     SELECT
         *,
         CASE
-            WHEN risk_score < 40 THEN 'Stable'
-            WHEN risk_score < 60 THEN 'Watch'
-            WHEN risk_score < 75 THEN 'Elevated'
-            WHEN risk_score < 90 THEN 'High'
+            WHEN risk_score < 15 THEN 'Stable'
+            WHEN risk_score < 25 THEN 'Watch'
+            WHEN risk_score < 30 THEN 'Elevated'
+            WHEN risk_score < 50 THEN 'High'
             ELSE 'Critical'
         END AS severity_tier,
         (
@@ -300,7 +300,7 @@ flagged_decision AS (
         *,
         (
             severity_tier IN ('High', 'Critical')
-            AND risk_score >= 75
+            AND risk_score >= 30
             AND confidence IN ('medium', 'high')
             AND signals_above_threshold >= 2
             AND non_paired_signals_above_threshold >= 1

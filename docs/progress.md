@@ -10,8 +10,8 @@ Baseline rules: [`AGENTS.md`](../AGENTS.md), [`CLAUDE.md`](../CLAUDE.md).
 | Cycle | Scope | Status |
 | --- | --- | --- |
 | 1 | Fixture pipeline + full Astro site, zero API keys | **Complete** |
-| 2 | Live BigQuery-backed ingestion for npm, PyPI, deps.dev, GitHub, OSV, Scorecard | **Smoke-complete; 500/500 pending** |
-| 3 | Scoring tune, Bruin proof, AI gallery, launch hardening | Pending |
+| 2 | Live BigQuery-backed ingestion for npm, PyPI, deps.dev, GitHub, OSV, Scorecard | **Complete** |
+| 3 | Scoring tune, Bruin proof, AI gallery, launch hardening | **Phase A complete** |
 
 ## Deadline
 
@@ -50,7 +50,7 @@ Plan: [`cycle1_fixture_pipeline_plan_c7a41f9b`](../.cursor/plans/cycle1_fixture_
 | Tightened CI (`ci.yml`) | Done |
 | README with Bruin proof table, SCA comparison, architecture diagram | Done |
 
-## Cycle 2 — Live ingestion + BigQuery (smoke-complete)
+## Cycle 2 — Live ingestion + BigQuery (complete)
 
 Plan: [`cycle2_live_ingestion_plan_74ddacb9`](../.cursor/plans/cycle2_live_ingestion_plan_74ddacb9.plan.md).
 
@@ -70,7 +70,7 @@ GCP target: project `bus-factor-494119` (under josephwibowo@gmail.com). Local de
 | 10 | `tests/test_sql_parity.py` | Every `*.sql` has a matching `*.bq.sql`; column lists equal |
 | 11 | Live-smoke CI job (manual dispatch, limit=5) | Runs real-source Bruin smoke, then `scripts/run_bigquery_smoke.py`; doesn't run on PRs |
 | 12 | `.github/workflows/weekly.yml` hardening (concurrency, `BQ_MAX_BYTES_BILLED`, stale_fallback) | Dispatch succeeds; stale_fallback path tested via forced failure |
-| 13 | First real 500/500 live snapshot committed | `public-data/metadata.json` shows `source_mode: live`; `<=25 MB` total |
+| 13 | First real 500/500 live snapshot committed | Done — `public-data/metadata.json` shows `source_mode: live`; 782 packages scored (2026-W17) |
 | 14 | `docs/sources.md` + README "Run live sources" walkthrough | Matches verified command output |
 
 Validation note: a 5 npm + 5 PyPI `local_live_bq` smoke passed on
@@ -83,11 +83,28 @@ checks were zero-failure. This validates Cycle 2 at smoke scale, but it
 is **not** the first real 500/500 snapshot and does not populate a GCS
 bucket.
 
-## Cycle 3 — Polish + Bruin proof + AI gallery + launch (pending)
+## Cycle 3 — Polish + Bruin proof + AI gallery + launch
 
-Plan file TBD — will cover:
+### Phase A — complete (2026-04-22)
 
-- Scoring weight tune against live data + `methodology_version` bump + refreshed `known_states.md` expectations
+Plan: [`cycle3_phase_a_604a6ad8`](../.cursor/plans/cycle3_phase_a_604a6ad8.plan.md).
+
+| Item | Status |
+| --- | --- |
+| Refresh npm universe from deps.dev BigQuery (real `dependent_count`) | Done |
+| Refresh PyPI universe (HTTP) | Done |
+| Full 500/500 `local_live_bq` run — 782 packages scored | Done |
+| BigQuery SQL smoke against `bus-factor-494119` (`bf_live_*` datasets) | Done |
+| Tone / false-positive review of live leaderboard | Done |
+| Scoring weights tuned; `methodology_version` bumped to v0.2.0 | Done |
+| `mart_package_scores` SQL updated to v0.2.0 thresholds (risk_min: 30, severity tiers) | Done |
+| `known_states.csv` / `known_states.md` realigned to v0.2.0 (4 packages flipped to flagged) | Done |
+| Live `public-data/` bundle committed | Done |
+
+### Phase B and beyond — plan file TBD
+
+Remaining Cycle 3 work:
+
 - Demo polish: package detail evidence display, freshness/source-health badges, weekly card polish, real headline finding
 - `bruin ai enhance` on mart columns (commit reviewed output)
 - Bruin lineage screenshot (VS Code extension) for README hero

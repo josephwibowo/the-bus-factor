@@ -7,6 +7,11 @@ description: |
   Typed OSV advisory counts per tracked package. Feeds into importance
   (security_exposure) after being joined with transitive counts from deps.dev.
 
+  Severity is normalised to the GHSA convention (LOW, MODERATE, HIGH,
+  CRITICAL). Upstream OSV records that originated from CVSS vectors emit
+  ``MEDIUM`` instead of ``MODERATE``; we map it so downstream only sees
+  the canonical form and the accepted-values check stays meaningful.
+
 materialization:
   type: table
 
@@ -49,5 +54,8 @@ SELECT
         ELSE LOWER(TRIM(package_name))
     END AS package_name,
     direct_vuln_count,
-    UPPER(TRIM(highest_severity)) AS highest_severity
+    CASE
+        WHEN UPPER(TRIM(highest_severity)) = 'MEDIUM' THEN 'MODERATE'
+        ELSE UPPER(TRIM(highest_severity))
+    END AS highest_severity
 FROM raw.osv

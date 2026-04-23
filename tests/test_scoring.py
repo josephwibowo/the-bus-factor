@@ -106,9 +106,9 @@ def test_independent_fragility_signals_excludes_release_recency_alone(config) ->
 
 
 def test_tier_name_matches_config(config) -> None:  # type: ignore[no-untyped-def]
-    assert tier_name(82.5, config) == "High"
-    assert tier_name(95.0, config) == "Critical"
-    assert tier_name(30.0, config) == "Stable"
+    assert tier_name(35.0, config) == "High"
+    assert tier_name(60.0, config) == "Critical"
+    assert tier_name(10.0, config) == "Stable"
 
 
 def test_is_flagged_happy_path(config) -> None:  # type: ignore[no-untyped-def]
@@ -125,7 +125,7 @@ def test_is_flagged_happy_path(config) -> None:  # type: ignore[no-untyped-def]
     )
     decision = is_flagged(
         eligible=True,
-        risk=82.0,
+        risk=35.0,
         tier="High",
         confidence="high",
         fragility=breakdown,
@@ -140,7 +140,7 @@ def test_is_flagged_happy_path(config) -> None:  # type: ignore[no-untyped-def]
     "override,expected_reason",
     [
         ({"eligible": False}, "not_eligible"),
-        ({"risk": 60.0}, "risk_below_min"),
+        ({"risk": 20.0}, "risk_below_min"),
         ({"tier": "Elevated"}, "tier_not_allowed"),
         ({"confidence": "low"}, "confidence_too_low"),
         ({"importance_rank_percentile": 10.0}, "importance_below_gate"),
@@ -160,7 +160,7 @@ def test_is_flagged_rejections(config, override, expected_reason) -> None:  # ty
     )
     defaults = {
         "eligible": True,
-        "risk": 82.0,
+        "risk": 35.0,
         "tier": "High",
         "confidence": "high",
         "fragility": breakdown,

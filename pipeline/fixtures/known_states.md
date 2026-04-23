@@ -12,28 +12,30 @@ All packages below are **synthetic / curated**. They are designed to exercise th
 
 Snapshot reference date: **2026-04-20** (Monday 00:00 UTC).
 
+Scoring version: **v0.2.0** (risk_score_min: 30; severity tiers: Stable <15 / Watch 15–24 / Elevated 25–29 / High 30–49 / Critical ≥50).
+
 ---
 
 ## npm — expected `flagged = true`
 
 | Package | Rationale | Dominant fragility signals |
 | --- | --- | --- |
-| `legacy-forge` | Top-1 dep reach among the eligible cohort. | release_recency, commit_recency, contributor_bus_factor, scorecard |
-| `neglected-stream` | Solo-maintainer pattern with oldest release. | contributor_bus_factor, release_recency, commit_recency |
-| `stale-bundle` | Release cadence collapsed from 6 to 0 year-over-year. | release_cadence_decay, release_recency, commit_recency |
-| `old-validator` | Broad fragility with low Scorecard. | release_recency, commit_recency, scorecard |
-| `frozen-format` | Oldest release + commit, very high contributor concentration. | release_recency, commit_recency, contributor_bus_factor, scorecard |
+| `legacy-forge` | Top-1 dep reach; risk ~86 (Critical). | release_recency, commit_recency, release_cadence_decay, contributor_bus_factor, openssf_scorecard |
+| `neglected-stream` | Solo-maintainer pattern; risk ~83 (Critical). | contributor_bus_factor, release_recency, commit_recency, release_cadence_decay |
+| `stale-bundle` | Risk ~72 (Critical); cleared flag gate under v0.2.0. | release_recency, commit_recency, release_cadence_decay, contributor_bus_factor, openssf_scorecard |
+| `old-validator` | Risk ~71 (Critical); cleared flag gate under v0.2.0. | release_recency, commit_recency, release_cadence_decay, contributor_bus_factor, openssf_scorecard |
 
 ## npm — expected `flagged = false` (ranked)
 
 | Package | Expected state | Why not flagged |
 | --- | --- | --- |
-| `active-logger` | Stable/Watch | Actively maintained; no fragility accumulation. |
+| `active-logger` | Stable | Actively maintained; no fragility accumulation. |
 | `fresh-parser` | Stable | Strongest maintenance signals. |
 | `vibrant-router` | Stable | Healthy; not in fragility band. |
-| `aged-template` | Elevated (not flagged) | Fragile signals BUT importance rank 9 of 20 → below top quartile. Demonstrates the importance gate. |
-| `robust-cache` | Watch/Elevated | Some weak signals but fewer than two independent inputs ≥40. |
-| `quiet-daemon` | Stable/Watch | Middling signals; fragility below flagged floor. |
+| `frozen-format` | Critical (not flagged) | Risk ~67 (Critical) but importance percentile ~74% falls just below the top-quartile gate (75%). Demonstrates the importance gate. |
+| `aged-template` | Critical (not flagged) | Importance percentile ~53%; well below top-quartile gate. Demonstrates the importance gate. |
+| `robust-cache` | Watch/Elevated | Partial fragility signals; risk below 30. |
+| `quiet-daemon` | Stable/Watch | Low fragility; risk below 30. |
 
 ## npm — expected excluded
 
@@ -50,22 +52,22 @@ Snapshot reference date: **2026-04-20** (Monday 00:00 UTC).
 
 | Package | Rationale | Dominant fragility signals |
 | --- | --- | --- |
-| `legacy-pyforge` | Top-1 dep reach. | release_recency, commit_recency, contributor_bus_factor, scorecard |
-| `neglected-pystream` | Solo-maintainer. | contributor_bus_factor, release_recency |
-| `stale-pybundle` | Release cadence decay. | release_cadence_decay, release_recency |
-| `old-pyvalidator` | Broad fragility + low Scorecard. | release_recency, commit_recency, scorecard |
-| `frozen-pyformat` | Oldest release/commit. | release_recency, commit_recency, contributor_bus_factor |
+| `legacy-pyforge` | Top-1 dep reach; risk ~87 (Critical). | release_recency, commit_recency, release_cadence_decay, contributor_bus_factor, openssf_scorecard |
+| `neglected-pystream` | Solo-maintainer; risk ~83 (Critical). | contributor_bus_factor, release_recency, commit_recency, release_cadence_decay |
+| `stale-pybundle` | Risk ~72 (Critical); cleared flag gate under v0.2.0. | release_recency, commit_recency, release_cadence_decay, contributor_bus_factor, openssf_scorecard |
+| `old-pyvalidator` | Risk ~71 (Critical); cleared flag gate under v0.2.0. | release_recency, commit_recency, release_cadence_decay, contributor_bus_factor, openssf_scorecard |
 
 ## PyPI — expected `flagged = false` (ranked)
 
 | Package | Expected state | Why not flagged |
 | --- | --- | --- |
-| `active-pylogger` | Stable/Watch | Active maintenance. |
+| `active-pylogger` | Stable | Active maintenance. |
 | `fresh-pyparser` | Stable | Strong signals. |
 | `vibrant-pyrouter` | Stable | Healthy. |
-| `aged-pytemplate` | Elevated (not flagged) | Fragile but below top-quartile importance. |
-| `robust-pycache` | Watch/Elevated | Fewer than two independent ≥40 signals. |
-| `quiet-pydaemon` | Stable/Watch | Middling signals. |
+| `frozen-pyformat` | Critical (not flagged) | Risk ~67 (Critical) but importance percentile ~74% falls just below the top-quartile gate (75%). Demonstrates the importance gate. |
+| `aged-pytemplate` | Critical (not flagged) | Importance percentile ~53%; well below top-quartile gate. |
+| `robust-pycache` | Watch/Elevated | Partial signals; risk below 30. |
+| `quiet-pydaemon` | Stable/Watch | Low fragility; risk below 30. |
 
 ## PyPI — expected excluded
 

@@ -78,7 +78,23 @@ SELECT
     NULLIF(TRIM(homepage_url), '') AS homepage_url_clean,
     CASE
         WHEN NULLIF(TRIM(repository_url), '') IS NULL THEN NULL
-        ELSE LOWER(TRIM(repository_url))
+        WHEN REGEXP_EXTRACT(
+            LOWER(TRIM(repository_url)) || '/',
+            'github\.com[/:]([a-z0-9_.-]+?)/([a-z0-9_.-]+?)(\.git)?($|[/#?])',
+            1
+        ) = '' THEN NULL
+        ELSE 'https://github.com/'
+            || REGEXP_EXTRACT(
+                LOWER(TRIM(repository_url)) || '/',
+                'github\.com[/:]([a-z0-9_.-]+?)/([a-z0-9_.-]+?)(\.git)?($|[/#?])',
+                1
+            )
+            || '/'
+            || REGEXP_EXTRACT(
+                LOWER(TRIM(repository_url)) || '/',
+                'github\.com[/:]([a-z0-9_.-]+?)/([a-z0-9_.-]+?)(\.git)?($|[/#?])',
+                2
+            )
     END AS repository_url_clean,
     is_deprecated,
     is_archived,

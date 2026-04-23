@@ -8,7 +8,7 @@
       "excluded_stub_types": 1,
       "excluded_too_new": 1,
       "excluded_unmappable": 1,
-      "flagged": 2,
+      "flagged": 4,
       "tracked": 24
     },
     {
@@ -18,7 +18,7 @@
       "excluded_stub_types": 1,
       "excluded_too_new": 1,
       "excluded_unmappable": 1,
-      "flagged": 2,
+      "flagged": 4,
       "tracked": 24
     }
   ],

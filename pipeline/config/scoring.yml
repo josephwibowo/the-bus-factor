@@ -4,7 +4,7 @@
 #
 # Loaded by both SQL assets (via Bruin `{{ var() }}` / Jinja) and Python assets.
 
-methodology_version: v0.1.0
+methodology_version: v0.2.0
 
 # ------------------------------------------------------------------
 # Importance: 0-100 ecosystem-relative percentile, weights sum to 1.0
@@ -45,8 +45,11 @@ fragility:
 
     issue_responsiveness:
       # Median time-to-first-maintainer-response on issues opened in last 180 days.
+      # v0.2.0: lowered min_eligible_issues from 10 -> 5 after live calibration showed
+      # most real popular packages sit in the 5-9 issues/180d band; the old gate
+      # silenced the signal for ~85% of scored packages.
       lookback_days: 180
-      min_eligible_issues: 10
+      min_eligible_issues: 5
       floor_days: 7
       cap_days: 90
 
@@ -75,9 +78,20 @@ exclusion_states:
 
 # ------------------------------------------------------------------
 # Flagged definition (enforced by a custom SQL check on every run)
+#
+# v0.2.0 calibration:
+#   The v0.1.0 defaults (risk_score_min: 75; High starts at 75) were calibrated
+#   against synthetic fixture packages that co-fire all six fragility signals
+#   simultaneously. Real popular packages almost never exhibit that pattern
+#   (they tend to have two or three strong fragility signals alongside neutral
+#   or missing ones), so the live risk_score ceiling sits around 40-50 rather
+#   than 75+. The thresholds below are tuned against the first full live
+#   snapshot (2026-W17, 782 packages scored) so that approximately 1% of
+#   scored packages can clear the combined flag gate - matching the
+#   methodology's "false positives cost more than false negatives" stance.
 # ------------------------------------------------------------------
 flagged:
-  risk_score_min: 75
+  risk_score_min: 30
   allowed_severity_tiers: [High, Critical]
   allowed_confidence: [medium, high]
   min_independent_fragility_signals: 2
@@ -86,13 +100,17 @@ flagged:
 
 # ------------------------------------------------------------------
 # Severity tiers (risk_score bands)
+#
+# v0.2.0 bands follow the observed live distribution (npm p95 ~= 22,
+# combined p99 ~= 30). Packages hit "High" only when they rank in the
+# top ~1% of their ecosystem across multiple fragility signals.
 # ------------------------------------------------------------------
 severity_tiers:
-  - { name: Stable,   min: 0,  max: 39, flagged: false }
-  - { name: Watch,    min: 40, max: 59, flagged: false }
-  - { name: Elevated, min: 60, max: 74, flagged: false }
-  - { name: High,     min: 75, max: 89, flagged: true  }
-  - { name: Critical, min: 90, max: 100, flagged: true }
+  - { name: Stable,   min: 0,  max: 14, flagged: false }
+  - { name: Watch,    min: 15, max: 24, flagged: false }
+  - { name: Elevated, min: 25, max: 29, flagged: false }
+  - { name: High,     min: 30, max: 49, flagged: true  }
+  - { name: Critical, min: 50, max: 100, flagged: true }
 
 # ------------------------------------------------------------------
 # Repository mapping confidence (additive)

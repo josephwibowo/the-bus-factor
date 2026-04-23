@@ -100,14 +100,14 @@ def _write_bootstrap(
     log.info("wrote %s (%d packages, source=%s)", path, len(packages), source)
 
 
-def _refresh(ecosystem: str, limit: int, *, bootstrap: bool) -> None:
+def _refresh(ecosystem: str, limit: int, *, bootstrap: bool, min_overlap: float) -> None:
     if bootstrap and ecosystem == "npm":
         log.info("bootstrapping npm via %s", NPM_BOOTSTRAP_URL)
         pkgs = asyncio.run(_bootstrap_npm(limit))
         _write_bootstrap("npm", pkgs, "wooorm/npm-high-impact (bootstrap)", UNIVERSE_SEED_DIR)
         return
-    log.info("refreshing %s (limit=%d)", ecosystem, limit)
-    result = refresh_seed(ecosystem, limit)
+    log.info("refreshing %s (limit=%d, min_overlap=%.3f)", ecosystem, limit, min_overlap)
+    result = refresh_seed(ecosystem, limit, threshold=min_overlap)
     log.info(
         "refreshed %s -> %d packages from %s (overlap=%s)",
         ecosystem,
@@ -136,12 +136,26 @@ def main() -> int:
         action="store_true",
         help="use a free HTTP fallback (npm-high-impact) instead of deps.dev BigQuery",
     )
+    parser.add_argument(
+        "--min-overlap",
+        type=float,
+        default=0.95,
+        help=(
+            "minimum Jaccard-style overlap with the previous committed seed "
+            "before the refresh is allowed to replace it (default: 0.95). "
+            "Lower this when you know you're legitimately changing ranking "
+            "signals (e.g. first npm bootstrap -> deps.dev transition)."
+        ),
+    )
     args = parser.parse_args()
+
+    if not 0.0 <= args.min_overlap <= 1.0:
+        parser.error("--min-overlap must be between 0.0 and 1.0")
 
     targets = ECOSYSTEMS if args.ecosystem == "all" else (args.ecosystem,)
     os.environ.setdefault("GCP_PROJECT_ID", "bus-factor-494119")
     for eco in targets:
-        _refresh(eco, args.limit, bootstrap=args.bootstrap)
+        _refresh(eco, args.limit, bootstrap=args.bootstrap, min_overlap=args.min_overlap)
     return 0
 
 

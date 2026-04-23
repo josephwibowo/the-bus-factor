@@ -10,7 +10,7 @@
       "primary_finding": "948 days since latest release.",
       "rank_within_ecosystem": 1,
       "risk_score": 85.7742,
-      "severity_tier": "High",
+      "severity_tier": "Critical",
       "slug": "npm-legacy-forge"
     },
     {
@@ -23,33 +23,33 @@
       "primary_finding": "1015 days since latest release.",
       "rank_within_ecosystem": 2,
       "risk_score": 83.0537,
-      "severity_tier": "High",
+      "severity_tier": "Critical",
       "slug": "npm-neglected-stream"
     },
     {
       "confidence": "high",
       "ecosystem": "npm",
-      "flagged": false,
+      "flagged": true,
       "fragility_score": 86.9763,
       "importance_score": 83.4211,
       "package_name": "stale-bundle",
       "primary_finding": "898 days since latest release.",
       "rank_within_ecosystem": 3,
       "risk_score": 72.5565,
-      "severity_tier": "Elevated",
+      "severity_tier": "Critical",
       "slug": "npm-stale-bundle"
     },
     {
       "confidence": "high",
       "ecosystem": "npm",
-      "flagged": false,
+      "flagged": true,
       "fragility_score": 89.5835,
       "importance_score": 79.7368,
       "package_name": "old-validator",
       "primary_finding": "915 days since latest release.",
       "rank_within_ecosystem": 4,
       "risk_score": 71.4311,
-      "severity_tier": "Elevated",
+      "severity_tier": "Critical",
       "slug": "npm-old-validator"
     },
     {
@@ -62,7 +62,7 @@
       "primary_finding": "867 days since latest release.",
       "rank_within_ecosystem": 5,
       "risk_score": 67.1031,
-      "severity_tier": "Elevated",
+      "severity_tier": "Critical",
       "slug": "npm-frozen-format"
     },
     {
@@ -75,7 +75,7 @@
       "primary_finding": "989 days since latest release.",
       "rank_within_ecosystem": 6,
       "risk_score": 51.5516,
-      "severity_tier": "Watch",
+      "severity_tier": "Critical",
       "slug": "npm-aged-template"
     },
     {
@@ -88,7 +88,7 @@
       "primary_finding": "204 days since last commit on default branch.",
       "rank_within_ecosystem": 7,
       "risk_score": 24.4343,
-      "severity_tier": "Stable",
+      "severity_tier": "Watch",
       "slug": "npm-robust-cache"
     },
     {
@@ -270,7 +270,7 @@
       "primary_finding": "948 days since latest release.",
       "rank_within_ecosystem": 1,
       "risk_score": 86.9492,
-      "severity_tier": "High",
+      "severity_tier": "Critical",
       "slug": "pypi-legacy-pyforge"
     },
     {
@@ -283,33 +283,33 @@
       "primary_finding": "1015 days since latest release.",
       "rank_within_ecosystem": 2,
       "risk_score": 83.0537,
-      "severity_tier": "High",
+      "severity_tier": "Critical",
       "slug": "pypi-neglected-pystream"
     },
     {
       "confidence": "high",
       "ecosystem": "pypi",
-      "flagged": false,
+      "flagged": true,
       "fragility_score": 86.9763,
       "importance_score": 83.4211,
       "package_name": "stale-pybundle",
       "primary_finding": "898 days since latest release.",
       "rank_within_ecosystem": 3,
       "risk_score": 72.5565,
-      "severity_tier": "Elevated",
+      "severity_tier": "Critical",
       "slug": "pypi-stale-pybundle"
     },
     {
       "confidence": "high",
       "ecosystem": "pypi",
-      "flagged": false,
+      "flagged": true,
       "fragility_score": 89.5835,
       "importance_score": 79.7368,
       "package_name": "old-pyvalidator",
       "primary_finding": "915 days since latest release.",
       "rank_within_ecosystem": 4,
       "risk_score": 71.4311,
-      "severity_tier": "Elevated",
+      "severity_tier": "Critical",
       "slug": "pypi-old-pyvalidator"
     },
     {
@@ -322,7 +322,7 @@
       "primary_finding": "867 days since latest release.",
       "rank_within_ecosystem": 5,
       "risk_score": 67.1031,
-      "severity_tier": "Elevated",
+      "severity_tier": "Critical",
       "slug": "pypi-frozen-pyformat"
     },
     {
@@ -335,7 +335,7 @@
       "primary_finding": "989 days since latest release.",
       "rank_within_ecosystem": 6,
       "risk_score": 52.7394,
-      "severity_tier": "Watch",
+      "severity_tier": "Critical",
       "slug": "pypi-aged-pytemplate"
     },
     {
@@ -348,7 +348,7 @@
       "primary_finding": "204 days since last commit on default branch.",
       "rank_within_ecosystem": 7,
       "risk_score": 24.4343,
-      "severity_tier": "Stable",
+      "severity_tier": "Watch",
       "slug": "pypi-robust-pycache"
     },
     {

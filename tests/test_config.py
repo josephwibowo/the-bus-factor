@@ -13,7 +13,7 @@ from pipeline.lib.config import (
 
 def test_scoring_config_loads() -> None:
     config = load_scoring_config()
-    assert config.methodology_version == "v0.1.0"
+    assert config.methodology_version == "v0.2.0"
     # Weights sum to 1.0 (within fp tolerance) for both pillars.
     assert abs(sum(config.importance_weights.values()) - 1.0) < 1e-9
     assert abs(sum(config.fragility_weights.values()) - 1.0) < 1e-9
@@ -41,15 +41,15 @@ def test_share_threshold_evaluates() -> None:
     "risk,expected",
     [
         (0.0, "Stable"),
-        (39.0, "Stable"),
-        (39.9, "Stable"),
-        (40.0, "Watch"),
-        (59.5, "Watch"),
-        (60.0, "Elevated"),
-        (74.9, "Elevated"),
-        (75.0, "High"),
-        (89.9, "High"),
-        (90.0, "Critical"),
+        (14.0, "Stable"),
+        (14.9, "Stable"),
+        (15.0, "Watch"),
+        (24.5, "Watch"),
+        (25.0, "Elevated"),
+        (29.9, "Elevated"),
+        (30.0, "High"),
+        (49.9, "High"),
+        (50.0, "Critical"),
         (100.0, "Critical"),
     ],
 )

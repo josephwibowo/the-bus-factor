@@ -6,7 +6,7 @@
       "primary_finding": "948 days since latest release.",
       "rank": 1,
       "risk_score": 86.9492,
-      "severity_tier": "High",
+      "severity_tier": "Critical",
       "slug": "pypi-legacy-pyforge"
     },
     {
@@ -15,7 +15,7 @@
       "primary_finding": "948 days since latest release.",
       "rank": 2,
       "risk_score": 85.7742,
-      "severity_tier": "High",
+      "severity_tier": "Critical",
       "slug": "npm-legacy-forge"
     },
     {
@@ -24,7 +24,7 @@
       "primary_finding": "1015 days since latest release.",
       "rank": 3,
       "risk_score": 83.0537,
-      "severity_tier": "High",
+      "severity_tier": "Critical",
       "slug": "npm-neglected-stream"
     },
     {
@@ -33,16 +33,25 @@
       "primary_finding": "1015 days since latest release.",
       "rank": 4,
       "risk_score": 83.0537,
-      "severity_tier": "High",
+      "severity_tier": "Critical",
       "slug": "pypi-neglected-pystream"
+    },
+    {
+      "ecosystem": "npm",
+      "package_name": "stale-bundle",
+      "primary_finding": "898 days since latest release.",
+      "rank": 5,
+      "risk_score": 72.5565,
+      "severity_tier": "Critical",
+      "slug": "npm-stale-bundle"
     }
   ],
   "headline": {
     "ecosystem_breakdown": {
-      "npm": 2,
-      "pypi": 2
+      "npm": 4,
+      "pypi": 4
     },
-    "headline": "4 packages flagged for continuity risk in 2026-W17.",
+    "headline": "8 packages flagged for continuity risk in 2026-W17.",
     "methodology_version": "v0.1.0",
     "snapshot_week": "2026-04-20",
     "summary": "Flagged packages combine high downstream reach with at least two independent fragility signals. Repositories and maintainer identities are never referenced in the viral surfaces."

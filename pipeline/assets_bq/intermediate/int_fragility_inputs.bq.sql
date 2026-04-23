@@ -162,10 +162,13 @@ components AS (
             ELSE 100.0 * (1.0 - (j.releases_last_365d * 1.0 / j.releases_prior_365d))
         END AS release_cadence_decay,
 
-        -- issue_responsiveness: gated on >=10 eligible issues and non-null median
+        -- issue_responsiveness: gated on >= min_eligible_issues (scoring.yml
+        -- fragility.thresholds.issue_responsiveness.min_eligible_issues; 5 in
+        -- v0.2.0) and a non-null response-time median. Keep in sync with
+        -- mart.package_evidence.
         CASE
             WHEN j.issues_opened_last_180d IS NULL
-                 OR j.issues_opened_last_180d < 10
+                 OR j.issues_opened_last_180d < 5
                  OR j.median_time_to_first_response_days IS NULL
                 THEN 0
             WHEN j.median_time_to_first_response_days <= 7 THEN 0
