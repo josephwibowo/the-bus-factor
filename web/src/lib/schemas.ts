@@ -14,7 +14,7 @@ export const sourceStatusSchema = z
     failure_count: z.number().int().nonnegative(),
     note: z.string().nullable().optional(),
   })
-  .strict();
+  .passthrough();
 export type SourceStatus = z.infer<typeof sourceStatusSchema>;
 
 export const metadataSchema = z
