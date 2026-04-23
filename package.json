@@ -2,6 +2,7 @@
   "name": "the-bus-factor",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "description": "Bruin-powered weekly snapshot of open-source package continuity fragility.",
   "packageManager": "pnpm@10.0.0",
   "engines": {
@@ -18,7 +19,11 @@
     "format:fix": "prettier --write \"**/*.{ts,tsx,astro,md,json,yml,yaml}\""
   },
   "devDependencies": {
+    "@eslint/js": "^9.10.0",
+    "eslint": "^9.10.0",
+    "eslint-plugin-astro": "^1.2.4",
     "prettier": "^3.3.3",
-    "prettier-plugin-astro": "^0.14.1"
+    "prettier-plugin-astro": "^0.14.1",
+    "typescript-eslint": "^8.5.0"
   }
 }
