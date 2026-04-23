@@ -28,6 +28,9 @@ htmlcov/
 *.duckdb.wal
 *.duckdb.tmp
 data/
+!pipeline/data/
+!pipeline/data/universe/
+!pipeline/data/universe/*.json
 pipeline/fixtures/*.duckdb
 
 # --- Node / frontend ---

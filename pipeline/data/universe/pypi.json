@@ -1,0 +1,1507 @@
+{
+  "ecosystem": "pypi",
+  "packages": [
+    {
+      "name": "boto3"
+    },
+    {
+      "name": "packaging"
+    },
+    {
+      "name": "setuptools"
+    },
+    {
+      "name": "urllib3"
+    },
+    {
+      "name": "certifi"
+    },
+    {
+      "name": "typing-extensions"
+    },
+    {
+      "name": "requests"
+    },
+    {
+      "name": "charset-normalizer"
+    },
+    {
+      "name": "idna"
+    },
+    {
+      "name": "botocore"
+    },
+    {
+      "name": "aiobotocore"
+    },
+    {
+      "name": "python-dateutil"
+    },
+    {
+      "name": "cryptography"
+    },
+    {
+      "name": "six"
+    },
+    {
+      "name": "numpy"
+    },
+    {
+      "name": "cffi"
+    },
+    {
+      "name": "pyyaml"
+    },
+    {
+      "name": "grpcio-status"
+    },
+    {
+      "name": "pycparser"
+    },
+    {
+      "name": "pydantic"
+    },
+    {
+      "name": "pluggy"
+    },
+    {
+      "name": "s3transfer"
+    },
+    {
+      "name": "pygments"
+    },
+    {
+      "name": "click"
+    },
+    {
+      "name": "attrs"
+    },
+    {
+      "name": "protobuf"
+    },
+    {
+      "name": "pydantic-core"
+    },
+    {
+      "name": "anyio"
+    },
+    {
+      "name": "fsspec"
+    },
+    {
+      "name": "pandas"
+    },
+    {
+      "name": "pytest"
+    },
+    {
+      "name": "h11"
+    },
+    {
+      "name": "markupsafe"
+    },
+    {
+      "name": "iniconfig"
+    },
+    {
+      "name": "s3fs"
+    },
+    {
+      "name": "platformdirs"
+    },
+    {
+      "name": "annotated-types"
+    },
+    {
+      "name": "pip"
+    },
+    {
+      "name": "wheel"
+    },
+    {
+      "name": "jinja2"
+    },
+    {
+      "name": "jmespath"
+    },
+    {
+      "name": "importlib-metadata"
+    },
+    {
+      "name": "filelock"
+    },
+    {
+      "name": "pathspec"
+    },
+    {
+      "name": "pyjwt"
+    },
+    {
+      "name": "httpx"
+    },
+    {
+      "name": "typing-inspection"
+    },
+    {
+      "name": "python-dotenv"
+    },
+    {
+      "name": "httpcore"
+    },
+    {
+      "name": "pytz"
+    },
+    {
+      "name": "zipp"
+    },
+    {
+      "name": "rich"
+    },
+    {
+      "name": "pyasn1"
+    },
+    {
+      "name": "jsonschema"
+    },
+    {
+      "name": "yarl"
+    },
+    {
+      "name": "multidict"
+    },
+    {
+      "name": "aiohttp"
+    },
+    {
+      "name": "google-auth"
+    },
+    {
+      "name": "uvicorn"
+    },
+    {
+      "name": "markdown-it-py"
+    },
+    {
+      "name": "google-api-core"
+    },
+    {
+      "name": "tzdata"
+    },
+    {
+      "name": "tqdm"
+    },
+    {
+      "name": "tomli"
+    },
+    {
+      "name": "colorama"
+    },
+    {
+      "name": "googleapis-common-protos"
+    },
+    {
+      "name": "mdurl"
+    },
+    {
+      "name": "starlette"
+    },
+    {
+      "name": "virtualenv"
+    },
+    {
+      "name": "awscli"
+    },
+    {
+      "name": "pillow"
+    },
+    {
+      "name": "propcache"
+    },
+    {
+      "name": "frozenlist"
+    },
+    {
+      "name": "scipy"
+    },
+    {
+      "name": "rpds-py"
+    },
+    {
+      "name": "trove-classifiers"
+    },
+    {
+      "name": "fastapi"
+    },
+    {
+      "name": "rsa"
+    },
+    {
+      "name": "referencing"
+    },
+    {
+      "name": "wrapt"
+    },
+    {
+      "name": "pyasn1-modules"
+    },
+    {
+      "name": "aiosignal"
+    },
+    {
+      "name": "jsonschema-specifications"
+    },
+    {
+      "name": "greenlet"
+    },
+    {
+      "name": "grpcio"
+    },
+    {
+      "name": "sqlalchemy"
+    },
+    {
+      "name": "requests-oauthlib"
+    },
+    {
+      "name": "pyarrow"
+    },
+    {
+      "name": "pyparsing"
+    },
+    {
+      "name": "aiohappyeyeballs"
+    },
+    {
+      "name": "opentelemetry-api"
+    },
+    {
+      "name": "tenacity"
+    },
+    {
+      "name": "annotated-doc"
+    },
+    {
+      "name": "cachetools"
+    },
+    {
+      "name": "regex"
+    },
+    {
+      "name": "psutil"
+    },
+    {
+      "name": "opentelemetry-semantic-conventions"
+    },
+    {
+      "name": "hatchling"
+    },
+    {
+      "name": "oauthlib"
+    },
+    {
+      "name": "opentelemetry-sdk"
+    },
+    {
+      "name": "sniffio"
+    },
+    {
+      "name": "more-itertools"
+    },
+    {
+      "name": "soupsieve"
+    },
+    {
+      "name": "shellingham"
+    },
+    {
+      "name": "websockets"
+    },
+    {
+      "name": "exceptiongroup"
+    },
+    {
+      "name": "docutils"
+    },
+    {
+      "name": "beautifulsoup4"
+    },
+    {
+      "name": "tomlkit"
+    },
+    {
+      "name": "lxml"
+    },
+    {
+      "name": "typer"
+    },
+    {
+      "name": "distlib"
+    },
+    {
+      "name": "grpcio-tools"
+    },
+    {
+      "name": "et-xmlfile"
+    },
+    {
+      "name": "openpyxl"
+    },
+    {
+      "name": "requests-toolbelt"
+    },
+    {
+      "name": "google-genai"
+    },
+    {
+      "name": "mypy-extensions"
+    },
+    {
+      "name": "pydantic-settings"
+    },
+    {
+      "name": "networkx"
+    },
+    {
+      "name": "dnspython"
+    },
+    {
+      "name": "proto-plus"
+    },
+    {
+      "name": "websocket-client"
+    },
+    {
+      "name": "opentelemetry-proto"
+    },
+    {
+      "name": "coverage"
+    },
+    {
+      "name": "werkzeug"
+    },
+    {
+      "name": "python-multipart"
+    },
+    {
+      "name": "msgpack"
+    },
+    {
+      "name": "pyopenssl"
+    },
+    {
+      "name": "openai"
+    },
+    {
+      "name": "langchain"
+    },
+    {
+      "name": "google-cloud-storage"
+    },
+    {
+      "name": "distro"
+    },
+    {
+      "name": "flask"
+    },
+    {
+      "name": "psycopg2-binary"
+    },
+    {
+      "name": "pynacl"
+    },
+    {
+      "name": "tabulate"
+    },
+    {
+      "name": "wcwidth"
+    },
+    {
+      "name": "opentelemetry-exporter-otlp-proto-http"
+    },
+    {
+      "name": "keyring"
+    },
+    {
+      "name": "huggingface-hub"
+    },
+    {
+      "name": "smmap"
+    },
+    {
+      "name": "sortedcontainers"
+    },
+    {
+      "name": "scikit-learn"
+    },
+    {
+      "name": "decorator"
+    },
+    {
+      "name": "fonttools"
+    },
+    {
+      "name": "isodate"
+    },
+    {
+      "name": "watchfiles"
+    },
+    {
+      "name": "jaraco-classes"
+    },
+    {
+      "name": "matplotlib"
+    },
+    {
+      "name": "secretstorage"
+    },
+    {
+      "name": "joblib"
+    },
+    {
+      "name": "jeepney"
+    },
+    {
+      "name": "opentelemetry-exporter-otlp-proto-grpc"
+    },
+    {
+      "name": "ruff"
+    },
+    {
+      "name": "poetry-core"
+    },
+    {
+      "name": "jiter"
+    },
+    {
+      "name": "redis"
+    },
+    {
+      "name": "jaraco-context"
+    },
+    {
+      "name": "opentelemetry-exporter-otlp-proto-common"
+    },
+    {
+      "name": "kiwisolver"
+    },
+    {
+      "name": "google-cloud-aiplatform"
+    },
+    {
+      "name": "jaraco-functools"
+    },
+    {
+      "name": "gitpython"
+    },
+    {
+      "name": "azure-core"
+    },
+    {
+      "name": "azure-identity"
+    },
+    {
+      "name": "ptyprocess"
+    },
+    {
+      "name": "pexpect"
+    },
+    {
+      "name": "bcrypt"
+    },
+    {
+      "name": "email-validator"
+    },
+    {
+      "name": "itsdangerous"
+    },
+    {
+      "name": "threadpoolctl"
+    },
+    {
+      "name": "editables"
+    },
+    {
+      "name": "msal"
+    },
+    {
+      "name": "pytest-cov"
+    },
+    {
+      "name": "google-cloud-core"
+    },
+    {
+      "name": "python-discovery"
+    },
+    {
+      "name": "alembic"
+    },
+    {
+      "name": "mcp"
+    },
+    {
+      "name": "zstandard"
+    },
+    {
+      "name": "sse-starlette"
+    },
+    {
+      "name": "contourpy"
+    },
+    {
+      "name": "prompt-toolkit"
+    },
+    {
+      "name": "ruamel-yaml"
+    },
+    {
+      "name": "snowflake-connector-python"
+    },
+    {
+      "name": "defusedxml"
+    },
+    {
+      "name": "async-timeout"
+    },
+    {
+      "name": "opentelemetry-instrumentation"
+    },
+    {
+      "name": "types-requests"
+    },
+    {
+      "name": "orjson"
+    },
+    {
+      "name": "textual"
+    },
+    {
+      "name": "gitdb"
+    },
+    {
+      "name": "sympy"
+    },
+    {
+      "name": "deprecated"
+    },
+    {
+      "name": "pytest-asyncio"
+    },
+    {
+      "name": "docstring-parser"
+    },
+    {
+      "name": "blinker"
+    },
+    {
+      "name": "google-crc32c"
+    },
+    {
+      "name": "docker"
+    },
+    {
+      "name": "rapidfuzz"
+    },
+    {
+      "name": "google-resumable-media"
+    },
+    {
+      "name": "mpmath"
+    },
+    {
+      "name": "tzlocal"
+    },
+    {
+      "name": "chardet"
+    },
+    {
+      "name": "pyproject-hooks"
+    },
+    {
+      "name": "cycler"
+    },
+    {
+      "name": "jsonpointer"
+    },
+    {
+      "name": "asn1crypto"
+    },
+    {
+      "name": "build"
+    },
+    {
+      "name": "kubernetes"
+    },
+    {
+      "name": "mako"
+    },
+    {
+      "name": "google-api-python-client"
+    },
+    {
+      "name": "dill"
+    },
+    {
+      "name": "setuptools-scm"
+    },
+    {
+      "name": "prometheus-client"
+    },
+    {
+      "name": "backoff"
+    },
+    {
+      "name": "paramiko"
+    },
+    {
+      "name": "sentry-sdk"
+    },
+    {
+      "name": "uv"
+    },
+    {
+      "name": "hf-xet"
+    },
+    {
+      "name": "opentelemetry-exporter-otlp"
+    },
+    {
+      "name": "yandexcloud"
+    },
+    {
+      "name": "google-auth-oauthlib"
+    },
+    {
+      "name": "marshmallow"
+    },
+    {
+      "name": "uritemplate"
+    },
+    {
+      "name": "fastjsonschema"
+    },
+    {
+      "name": "google-cloud-bigquery"
+    },
+    {
+      "name": "mypy"
+    },
+    {
+      "name": "tokenizers"
+    },
+    {
+      "name": "uvloop"
+    },
+    {
+      "name": "google-auth-httplib2"
+    },
+    {
+      "name": "nodeenv"
+    },
+    {
+      "name": "httplib2"
+    },
+    {
+      "name": "sqlparse"
+    },
+    {
+      "name": "transformers"
+    },
+    {
+      "name": "toml"
+    },
+    {
+      "name": "ipython"
+    },
+    {
+      "name": "msal-extensions"
+    },
+    {
+      "name": "authlib"
+    },
+    {
+      "name": "babel"
+    },
+    {
+      "name": "black"
+    },
+    {
+      "name": "tiktoken"
+    },
+    {
+      "name": "azure-storage-blob"
+    },
+    {
+      "name": "xmltodict"
+    },
+    {
+      "name": "httptools"
+    },
+    {
+      "name": "jsonpatch"
+    },
+    {
+      "name": "httpx-sse"
+    },
+    {
+      "name": "tornado"
+    },
+    {
+      "name": "cython"
+    },
+    {
+      "name": "aiofiles"
+    },
+    {
+      "name": "pre-commit"
+    },
+    {
+      "name": "cloudpickle"
+    },
+    {
+      "name": "identify"
+    },
+    {
+      "name": "gunicorn"
+    },
+    {
+      "name": "google-cloud-secret-manager"
+    },
+    {
+      "name": "parso"
+    },
+    {
+      "name": "traitlets"
+    },
+    {
+      "name": "cfgv"
+    },
+    {
+      "name": "executing"
+    },
+    {
+      "name": "asgiref"
+    },
+    {
+      "name": "databricks-sdk"
+    },
+    {
+      "name": "opentelemetry-util-http"
+    },
+    {
+      "name": "jedi"
+    },
+    {
+      "name": "opentelemetry-instrumentation-requests"
+    },
+    {
+      "name": "asttokens"
+    },
+    {
+      "name": "importlib-resources"
+    },
+    {
+      "name": "pytest-xdist"
+    },
+    {
+      "name": "google-cloud-batch"
+    },
+    {
+      "name": "pydantic-ai-slim"
+    },
+    {
+      "name": "matplotlib-inline"
+    },
+    {
+      "name": "grpc-google-iam-v1"
+    },
+    {
+      "name": "py4j"
+    },
+    {
+      "name": "execnet"
+    },
+    {
+      "name": "python-json-logger"
+    },
+    {
+      "name": "langchain-core"
+    },
+    {
+      "name": "jsonschema-path"
+    },
+    {
+      "name": "markdown"
+    },
+    {
+      "name": "durationpy"
+    },
+    {
+      "name": "google-analytics-admin"
+    },
+    {
+      "name": "cachecontrol"
+    },
+    {
+      "name": "webencodings"
+    },
+    {
+      "name": "stack-data"
+    },
+    {
+      "name": "pure-eval"
+    },
+    {
+      "name": "nest-asyncio"
+    },
+    {
+      "name": "xxhash"
+    },
+    {
+      "name": "multiprocess"
+    },
+    {
+      "name": "typing-inspect"
+    },
+    {
+      "name": "isort"
+    },
+    {
+      "name": "litellm"
+    },
+    {
+      "name": "h2"
+    },
+    {
+      "name": "gcsfs"
+    },
+    {
+      "name": "hyperframe"
+    },
+    {
+      "name": "hpack"
+    },
+    {
+      "name": "dbt-core"
+    },
+    {
+      "name": "grpcio-health-checking"
+    },
+    {
+      "name": "pathable"
+    },
+    {
+      "name": "termcolor"
+    },
+    {
+      "name": "watchdog"
+    },
+    {
+      "name": "pymongo"
+    },
+    {
+      "name": "flatbuffers"
+    },
+    {
+      "name": "pyperclip"
+    },
+    {
+      "name": "pytest-mock"
+    },
+    {
+      "name": "debugpy"
+    },
+    {
+      "name": "pandas-stubs"
+    },
+    {
+      "name": "dulwich"
+    },
+    {
+      "name": "pkginfo"
+    },
+    {
+      "name": "torch"
+    },
+    {
+      "name": "aioitertools"
+    },
+    {
+      "name": "mccabe"
+    },
+    {
+      "name": "installer"
+    },
+    {
+      "name": "pydantic-graph"
+    },
+    {
+      "name": "pyzmq"
+    },
+    {
+      "name": "dbt-adapters"
+    },
+    {
+      "name": "awswrangler"
+    },
+    {
+      "name": "pymysql"
+    },
+    {
+      "name": "dataclasses-json"
+    },
+    {
+      "name": "pymupdf"
+    },
+    {
+      "name": "anthropic"
+    },
+    {
+      "name": "beartype"
+    },
+    {
+      "name": "jsonpath-ng"
+    },
+    {
+      "name": "jsonref"
+    },
+    {
+      "name": "slack-sdk"
+    },
+    {
+      "name": "cyclopts"
+    },
+    {
+      "name": "pycryptodome"
+    },
+    {
+      "name": "poetry"
+    },
+    {
+      "name": "lz4"
+    },
+    {
+      "name": "onnxruntime"
+    },
+    {
+      "name": "ruamel-yaml-clib"
+    },
+    {
+      "name": "cattrs"
+    },
+    {
+      "name": "typedload"
+    },
+    {
+      "name": "tree-sitter"
+    },
+    {
+      "name": "aliyun-python-sdk-core"
+    },
+    {
+      "name": "dbt-common"
+    },
+    {
+      "name": "fastmcp"
+    },
+    {
+      "name": "pycodestyle"
+    },
+    {
+      "name": "librt"
+    },
+    {
+      "name": "pygithub"
+    },
+    {
+      "name": "msrest"
+    },
+    {
+      "name": "crashtest"
+    },
+    {
+      "name": "rich-rst"
+    },
+    {
+      "name": "deepdiff"
+    },
+    {
+      "name": "langsmith"
+    },
+    {
+      "name": "rfc3339-validator"
+    },
+    {
+      "name": "rich-toolkit"
+    },
+    {
+      "name": "tinycss2"
+    },
+    {
+      "name": "semver"
+    },
+    {
+      "name": "cleo"
+    },
+    {
+      "name": "future"
+    },
+    {
+      "name": "sphinx"
+    },
+    {
+      "name": "smart-open"
+    },
+    {
+      "name": "invoke"
+    },
+    {
+      "name": "databricks-sql-connector"
+    },
+    {
+      "name": "xlsxwriter"
+    },
+    {
+      "name": "arrow"
+    },
+    {
+      "name": "pendulum"
+    },
+    {
+      "name": "narwhals"
+    },
+    {
+      "name": "wsproto"
+    },
+    {
+      "name": "jupyter-core"
+    },
+    {
+      "name": "datasets"
+    },
+    {
+      "name": "google-cloud-monitoring"
+    },
+    {
+      "name": "loguru"
+    },
+    {
+      "name": "shapely"
+    },
+    {
+      "name": "argcomplete"
+    },
+    {
+      "name": "safetensors"
+    },
+    {
+      "name": "structlog"
+    },
+    {
+      "name": "text-unidecode"
+    },
+    {
+      "name": "ipykernel"
+    },
+    {
+      "name": "py-key-value-aio"
+    },
+    {
+      "name": "backports-tarfile"
+    },
+    {
+      "name": "google-cloud-speech"
+    },
+    {
+      "name": "faker"
+    },
+    {
+      "name": "requests-file"
+    },
+    {
+      "name": "google-cloud-compute"
+    },
+    {
+      "name": "google-cloud-vision"
+    },
+    {
+      "name": "datadog"
+    },
+    {
+      "name": "python-slugify"
+    },
+    {
+      "name": "google-cloud-kms"
+    },
+    {
+      "name": "jupyter-client"
+    },
+    {
+      "name": "notebook"
+    },
+    {
+      "name": "graphql-core"
+    },
+    {
+      "name": "pytest-json-ctrf"
+    },
+    {
+      "name": "simplejson"
+    },
+    {
+      "name": "py"
+    },
+    {
+      "name": "mistune"
+    },
+    {
+      "name": "google-cloud-tasks"
+    },
+    {
+      "name": "comm"
+    },
+    {
+      "name": "lark"
+    },
+    {
+      "name": "types-protobuf"
+    },
+    {
+      "name": "opensearch-py"
+    },
+    {
+      "name": "opentelemetry-exporter-prometheus"
+    },
+    {
+      "name": "snowflake-sqlalchemy"
+    },
+    {
+      "name": "brotli"
+    },
+    {
+      "name": "google-cloud-dlp"
+    },
+    {
+      "name": "google-cloud-bigtable"
+    },
+    {
+      "name": "pytokens"
+    },
+    {
+      "name": "pysocks"
+    },
+    {
+      "name": "poetry-plugin-export"
+    },
+    {
+      "name": "azure-common"
+    },
+    {
+      "name": "croniter"
+    },
+    {
+      "name": "google-cloud-workflows"
+    },
+    {
+      "name": "typeguard"
+    },
+    {
+      "name": "responses"
+    },
+    {
+      "name": "sqlalchemy-bigquery"
+    },
+    {
+      "name": "pyflakes"
+    },
+    {
+      "name": "google-cloud-videointelligence"
+    },
+    {
+      "name": "nvidia-nccl-cu12"
+    },
+    {
+      "name": "xlrd"
+    },
+    {
+      "name": "google-cloud-language"
+    },
+    {
+      "name": "asyncpg"
+    },
+    {
+      "name": "bleach"
+    },
+    {
+      "name": "types-pyyaml"
+    },
+    {
+      "name": "google-cloud-resource-manager"
+    },
+    {
+      "name": "deprecation"
+    },
+    {
+      "name": "scramp"
+    },
+    {
+      "name": "google-cloud-dataform"
+    },
+    {
+      "name": "google-cloud-os-login"
+    },
+    {
+      "name": "pbs-installer"
+    },
+    {
+      "name": "nbformat"
+    },
+    {
+      "name": "google-cloud-logging"
+    },
+    {
+      "name": "google-cloud-redis"
+    },
+    {
+      "name": "uncalled-for"
+    },
+    {
+      "name": "colorlog"
+    },
+    {
+      "name": "nltk"
+    },
+    {
+      "name": "requests-aws4auth"
+    },
+    {
+      "name": "numba"
+    },
+    {
+      "name": "zope-interface"
+    },
+    {
+      "name": "caio"
+    },
+    {
+      "name": "argon2-cffi"
+    },
+    {
+      "name": "argon2-cffi-bindings"
+    },
+    {
+      "name": "plotly"
+    },
+    {
+      "name": "aiofile"
+    },
+    {
+      "name": "portalocker"
+    },
+    {
+      "name": "google-ads"
+    },
+    {
+      "name": "llvmlite"
+    },
+    {
+      "name": "ipython-pygments-lexers"
+    },
+    {
+      "name": "pycryptodomex"
+    },
+    {
+      "name": "nbconvert"
+    },
+    {
+      "name": "tree-sitter-languages"
+    },
+    {
+      "name": "google-cloud-memcache"
+    },
+    {
+      "name": "weaviate-client"
+    },
+    {
+      "name": "toolz"
+    },
+    {
+      "name": "types-python-dateutil"
+    },
+    {
+      "name": "flake8"
+    },
+    {
+      "name": "selenium"
+    },
+    {
+      "name": "json5"
+    },
+    {
+      "name": "findpython"
+    },
+    {
+      "name": "psycopg"
+    },
+    {
+      "name": "celery"
+    },
+    {
+      "name": "pyee"
+    },
+    {
+      "name": "inflection"
+    },
+    {
+      "name": "redshift-connector"
+    },
+    {
+      "name": "triton"
+    },
+    {
+      "name": "pytest-timeout"
+    },
+    {
+      "name": "langchain-openai"
+    },
+    {
+      "name": "elasticsearch"
+    },
+    {
+      "name": "confluent-kafka"
+    },
+    {
+      "name": "nbclient"
+    },
+    {
+      "name": "opentelemetry-instrumentation-fastapi"
+    },
+    {
+      "name": "click-plugins"
+    },
+    {
+      "name": "uuid-utils"
+    },
+    {
+      "name": "openapi-pydantic"
+    },
+    {
+      "name": "pylint"
+    },
+    {
+      "name": "ray"
+    },
+    {
+      "name": "pyspark"
+    },
+    {
+      "name": "async-lru"
+    },
+    {
+      "name": "kombu"
+    },
+    {
+      "name": "humanize"
+    },
+    {
+      "name": "types-awscrt"
+    },
+    {
+      "name": "orderly-set"
+    },
+    {
+      "name": "trio"
+    },
+    {
+      "name": "google-cloud-pubsub"
+    },
+    {
+      "name": "opentelemetry-instrumentation-asgi"
+    },
+    {
+      "name": "humanfriendly"
+    },
+    {
+      "name": "asyncio"
+    },
+    {
+      "name": "jupyterlab"
+    },
+    {
+      "name": "playwright"
+    },
+    {
+      "name": "botocore-stubs"
+    },
+    {
+      "name": "mdit-py-plugins"
+    },
+    {
+      "name": "openapi-spec-validator"
+    },
+    {
+      "name": "jupyter-server"
+    },
+    {
+      "name": "astroid"
+    },
+    {
+      "name": "zarr"
+    },
+    {
+      "name": "pandocfilters"
+    },
+    {
+      "name": "flask-cors"
+    },
+    {
+      "name": "jupyterlab-pygments"
+    },
+    {
+      "name": "opencv-python"
+    },
+    {
+      "name": "pypdf"
+    },
+    {
+      "name": "altair"
+    },
+    {
+      "name": "mmh3"
+    },
+    {
+      "name": "django"
+    },
+    {
+      "name": "outcome"
+    },
+    {
+      "name": "ecdsa"
+    },
+    {
+      "name": "types-s3transfer"
+    },
+    {
+      "name": "absl-py"
+    },
+    {
+      "name": "aenum"
+    },
+    {
+      "name": "sqlglot"
+    },
+    {
+      "name": "polars"
+    },
+    {
+      "name": "overrides"
+    },
+    {
+      "name": "aws-sam-translator"
+    },
+    {
+      "name": "seaborn"
+    }
+  ],
+  "refreshed_at": "2026-04-23T04:27:08Z",
+  "source": "hugovk/top-pypi-packages"
+}

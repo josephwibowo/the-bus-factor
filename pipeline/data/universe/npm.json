@@ -1,0 +1,2007 @@
+{
+  "ecosystem": "npm",
+  "packages": [
+    {
+      "dependent_count": 858439,
+      "name": "tslib"
+    },
+    {
+      "dependent_count": 350191,
+      "name": "@smithy/types"
+    },
+    {
+      "dependent_count": 336320,
+      "name": "@aws-sdk/types"
+    },
+    {
+      "dependent_count": 204452,
+      "name": "react"
+    },
+    {
+      "dependent_count": 199401,
+      "name": "lodash"
+    },
+    {
+      "dependent_count": 169021,
+      "name": "chalk"
+    },
+    {
+      "dependent_count": 164447,
+      "name": "react-dom"
+    },
+    {
+      "dependent_count": 157648,
+      "name": "axios"
+    },
+    {
+      "dependent_count": 132388,
+      "name": "inherits"
+    },
+    {
+      "dependent_count": 129125,
+      "name": "commander"
+    },
+    {
+      "dependent_count": 117085,
+      "name": "@smithy/protocol-http"
+    },
+    {
+      "dependent_count": 104096,
+      "name": "debug"
+    },
+    {
+      "dependent_count": 102215,
+      "name": "inquirer"
+    },
+    {
+      "dependent_count": 94958,
+      "name": "uuid"
+    },
+    {
+      "dependent_count": 91424,
+      "name": "express"
+    },
+    {
+      "dependent_count": 88481,
+      "name": "vue"
+    },
+    {
+      "dependent_count": 84449,
+      "name": "@smithy/node-config-provider"
+    },
+    {
+      "dependent_count": 83586,
+      "name": "safe-buffer"
+    },
+    {
+      "dependent_count": 80368,
+      "name": "fs-extra"
+    },
+    {
+      "dependent_count": 76777,
+      "name": "semver"
+    },
+    {
+      "dependent_count": 74230,
+      "name": "@smithy/property-provider"
+    },
+    {
+      "dependent_count": 73404,
+      "name": "zod"
+    },
+    {
+      "dependent_count": 71272,
+      "name": "graceful-fs"
+    },
+    {
+      "dependent_count": 69036,
+      "name": "typescript"
+    },
+    {
+      "dependent_count": 67467,
+      "name": "glob"
+    },
+    {
+      "dependent_count": 67004,
+      "name": "@smithy/util-utf8"
+    },
+    {
+      "dependent_count": 65397,
+      "name": "once"
+    },
+    {
+      "dependent_count": 64182,
+      "name": "@smithy/smithy-client"
+    },
+    {
+      "dependent_count": 63807,
+      "name": "@types/node"
+    },
+    {
+      "dependent_count": 63225,
+      "name": "core-js"
+    },
+    {
+      "dependent_count": 62823,
+      "name": "dotenv"
+    },
+    {
+      "dependent_count": 60668,
+      "name": "@aws-crypto/sha256-js"
+    },
+    {
+      "dependent_count": 60647,
+      "name": "strip-ansi"
+    },
+    {
+      "dependent_count": 60122,
+      "name": "@smithy/util-middleware"
+    },
+    {
+      "dependent_count": 58446,
+      "name": "readable-stream"
+    },
+    {
+      "dependent_count": 57400,
+      "name": "prop-types"
+    },
+    {
+      "dependent_count": 57039,
+      "name": "moment"
+    },
+    {
+      "dependent_count": 56485,
+      "name": "request"
+    },
+    {
+      "dependent_count": 55890,
+      "name": "function-bind"
+    },
+    {
+      "dependent_count": 54286,
+      "name": "next"
+    },
+    {
+      "dependent_count": 54211,
+      "name": "@aws-sdk/middleware-user-agent"
+    },
+    {
+      "dependent_count": 53472,
+      "name": "@aws-crypto/sha256-browser"
+    },
+    {
+      "dependent_count": 52971,
+      "name": "@babel/runtime"
+    },
+    {
+      "dependent_count": 51801,
+      "name": "@aws-sdk/util-endpoints"
+    },
+    {
+      "dependent_count": 51761,
+      "name": "@aws-sdk/util-user-agent-browser"
+    },
+    {
+      "dependent_count": 51712,
+      "name": "@aws-sdk/util-user-agent-node"
+    },
+    {
+      "dependent_count": 51625,
+      "name": "mkdirp"
+    },
+    {
+      "dependent_count": 51576,
+      "name": "@aws-sdk/middleware-logger"
+    },
+    {
+      "dependent_count": 51574,
+      "name": "@aws-sdk/middleware-host-header"
+    },
+    {
+      "dependent_count": 51017,
+      "name": "node-fetch"
+    },
+    {
+      "dependent_count": 50797,
+      "name": "@smithy/util-base64"
+    },
+    {
+      "dependent_count": 50287,
+      "name": "@aws-sdk/core"
+    },
+    {
+      "dependent_count": 50285,
+      "name": "get-intrinsic"
+    },
+    {
+      "dependent_count": 50203,
+      "name": "@aws-sdk/protocol-http"
+    },
+    {
+      "dependent_count": 47532,
+      "name": "@aws-sdk/middleware-recursion-detection"
+    },
+    {
+      "dependent_count": 46971,
+      "name": "@smithy/url-parser"
+    },
+    {
+      "dependent_count": 46839,
+      "name": "string-width"
+    },
+    {
+      "dependent_count": 46362,
+      "name": "minimatch"
+    },
+    {
+      "dependent_count": 46223,
+      "name": "babel-runtime"
+    },
+    {
+      "dependent_count": 44010,
+      "name": "rxjs"
+    },
+    {
+      "dependent_count": 43631,
+      "name": "@smithy/fetch-http-handler"
+    },
+    {
+      "dependent_count": 43608,
+      "name": "@smithy/middleware-serde"
+    },
+    {
+      "dependent_count": 43534,
+      "name": "@smithy/node-http-handler"
+    },
+    {
+      "dependent_count": 43423,
+      "name": "rimraf"
+    },
+    {
+      "dependent_count": 43040,
+      "name": "yargs"
+    },
+    {
+      "dependent_count": 42518,
+      "name": "ora"
+    },
+    {
+      "dependent_count": 42243,
+      "name": "@smithy/shared-ini-file-loader"
+    },
+    {
+      "dependent_count": 41679,
+      "name": "@smithy/middleware-endpoint"
+    },
+    {
+      "dependent_count": 41026,
+      "name": "mime-types"
+    },
+    {
+      "dependent_count": 40925,
+      "name": "classnames"
+    },
+    {
+      "dependent_count": 40891,
+      "name": "ms"
+    },
+    {
+      "dependent_count": 40718,
+      "name": "minimist"
+    },
+    {
+      "dependent_count": 40434,
+      "name": "@smithy/config-resolver"
+    },
+    {
+      "dependent_count": 39928,
+      "name": "wrappy"
+    },
+    {
+      "dependent_count": 39309,
+      "name": "@modelcontextprotocol/sdk"
+    },
+    {
+      "dependent_count": 39304,
+      "name": "@smithy/middleware-stack"
+    },
+    {
+      "dependent_count": 38993,
+      "name": "@smithy/core"
+    },
+    {
+      "dependent_count": 38951,
+      "name": "async"
+    },
+    {
+      "dependent_count": 38789,
+      "name": "@smithy/util-retry"
+    },
+    {
+      "dependent_count": 38767,
+      "name": "call-bind"
+    },
+    {
+      "dependent_count": 37690,
+      "name": "@aws-sdk/credential-provider-node"
+    },
+    {
+      "dependent_count": 37106,
+      "name": "isarray"
+    },
+    {
+      "dependent_count": 36961,
+      "name": "@smithy/util-body-length-browser"
+    },
+    {
+      "dependent_count": 35928,
+      "name": "@smithy/util-endpoints"
+    },
+    {
+      "dependent_count": 35879,
+      "name": "string_decoder"
+    },
+    {
+      "dependent_count": 35577,
+      "name": "@smithy/middleware-retry"
+    },
+    {
+      "dependent_count": 34940,
+      "name": "@aws-sdk/property-provider"
+    },
+    {
+      "dependent_count": 34387,
+      "name": "es-errors"
+    },
+    {
+      "dependent_count": 33715,
+      "name": "@smithy/util-body-length-node"
+    },
+    {
+      "dependent_count": 33617,
+      "name": "@smithy/hash-node"
+    },
+    {
+      "dependent_count": 33612,
+      "name": "@smithy/invalid-dependency"
+    },
+    {
+      "dependent_count": 33609,
+      "name": "@smithy/middleware-content-length"
+    },
+    {
+      "dependent_count": 33593,
+      "name": "@smithy/util-defaults-mode-browser"
+    },
+    {
+      "dependent_count": 33590,
+      "name": "@smithy/util-defaults-mode-node"
+    },
+    {
+      "dependent_count": 32302,
+      "name": "util-deprecate"
+    },
+    {
+      "dependent_count": 31616,
+      "name": "qs"
+    },
+    {
+      "dependent_count": 31445,
+      "name": "ansi-styles"
+    },
+    {
+      "dependent_count": 31372,
+      "name": "ws"
+    },
+    {
+      "dependent_count": 31015,
+      "name": "ansi-regex"
+    },
+    {
+      "dependent_count": 31000,
+      "name": "webpack"
+    },
+    {
+      "dependent_count": 30885,
+      "name": "object-assign"
+    },
+    {
+      "dependent_count": 30550,
+      "name": "has-symbols"
+    },
+    {
+      "dependent_count": 30303,
+      "name": "jsonwebtoken"
+    },
+    {
+      "dependent_count": 30274,
+      "name": "@types/hyper-function-component"
+    },
+    {
+      "dependent_count": 29826,
+      "name": "lru-cache"
+    },
+    {
+      "dependent_count": 29713,
+      "name": "bluebird"
+    },
+    {
+      "dependent_count": 29577,
+      "name": "@aws-sdk/region-config-resolver"
+    },
+    {
+      "dependent_count": 29469,
+      "name": "js-yaml"
+    },
+    {
+      "dependent_count": 29375,
+      "name": "form-data"
+    },
+    {
+      "dependent_count": 28983,
+      "name": "postcss"
+    },
+    {
+      "dependent_count": 28794,
+      "name": "@smithy/util-buffer-from"
+    },
+    {
+      "dependent_count": 28361,
+      "name": "reflect-metadata"
+    },
+    {
+      "dependent_count": 28237,
+      "name": "brace-expansion"
+    },
+    {
+      "dependent_count": 28103,
+      "name": "core-util-is"
+    },
+    {
+      "dependent_count": 28000,
+      "name": "has-tostringtag"
+    },
+    {
+      "dependent_count": 27950,
+      "name": "balanced-match"
+    },
+    {
+      "dependent_count": 27255,
+      "name": "@aws-sdk/client-sts"
+    },
+    {
+      "dependent_count": 27105,
+      "name": "@aws-crypto/util"
+    },
+    {
+      "dependent_count": 27041,
+      "name": "@babel/core"
+    },
+    {
+      "dependent_count": 26966,
+      "name": "colors"
+    },
+    {
+      "dependent_count": 26889,
+      "name": "@aws-sdk/util-utf8-browser"
+    },
+    {
+      "dependent_count": 26842,
+      "name": "eslint"
+    },
+    {
+      "dependent_count": 26654,
+      "name": "@aws-sdk/node-config-provider"
+    },
+    {
+      "dependent_count": 26370,
+      "name": "react-scripts"
+    },
+    {
+      "dependent_count": 26115,
+      "name": "@aws-sdk/middleware-signing"
+    },
+    {
+      "dependent_count": 25902,
+      "name": "supports-color"
+    },
+    {
+      "dependent_count": 25699,
+      "name": "yallist"
+    },
+    {
+      "dependent_count": 25650,
+      "name": "gopd"
+    },
+    {
+      "dependent_count": 25473,
+      "name": "vue-router"
+    },
+    {
+      "dependent_count": 25277,
+      "name": "body-parser"
+    },
+    {
+      "dependent_count": 24567,
+      "name": "underscore"
+    },
+    {
+      "dependent_count": 23824,
+      "name": "styled-components"
+    },
+    {
+      "dependent_count": 23734,
+      "name": "buffer"
+    },
+    {
+      "dependent_count": 23420,
+      "name": "universalify"
+    },
+    {
+      "dependent_count": 23292,
+      "name": "is-fullwidth-code-point"
+    },
+    {
+      "dependent_count": 23208,
+      "name": "@types/react"
+    },
+    {
+      "dependent_count": 23156,
+      "name": "@aws-sdk/url-parser"
+    },
+    {
+      "dependent_count": 22988,
+      "name": "inflight"
+    },
+    {
+      "dependent_count": 22912,
+      "name": "ajv"
+    },
+    {
+      "dependent_count": 22672,
+      "name": "dayjs"
+    },
+    {
+      "dependent_count": 22666,
+      "name": "escape-html"
+    },
+    {
+      "dependent_count": 22510,
+      "name": "@aws-sdk/config-resolver"
+    },
+    {
+      "dependent_count": 22234,
+      "name": "concat-map"
+    },
+    {
+      "dependent_count": 22175,
+      "name": "prettier"
+    },
+    {
+      "dependent_count": 21996,
+      "name": "@aws-sdk/middleware-stack"
+    },
+    {
+      "dependent_count": 21974,
+      "name": "clsx"
+    },
+    {
+      "dependent_count": 21830,
+      "name": "path-is-absolute"
+    },
+    {
+      "dependent_count": 21782,
+      "name": "shelljs"
+    },
+    {
+      "dependent_count": 21697,
+      "name": "@testing-library/react"
+    },
+    {
+      "dependent_count": 21628,
+      "name": "execa"
+    },
+    {
+      "dependent_count": 21349,
+      "name": "color-name"
+    },
+    {
+      "dependent_count": 21328,
+      "name": "winston"
+    },
+    {
+      "dependent_count": 21265,
+      "name": "combined-stream"
+    },
+    {
+      "dependent_count": 21245,
+      "name": "color-convert"
+    },
+    {
+      "dependent_count": 21238,
+      "name": "react-router-dom"
+    },
+    {
+      "dependent_count": 21138,
+      "name": "@testing-library/jest-dom"
+    },
+    {
+      "dependent_count": 20998,
+      "name": "jquery"
+    },
+    {
+      "dependent_count": 20695,
+      "name": "teanager"
+    },
+    {
+      "dependent_count": 20676,
+      "name": "@testing-library/user-event"
+    },
+    {
+      "dependent_count": 20582,
+      "name": "has-flag"
+    },
+    {
+      "dependent_count": 20492,
+      "name": "on-finished"
+    },
+    {
+      "dependent_count": 20439,
+      "name": "iconv-lite"
+    },
+    {
+      "dependent_count": 20416,
+      "name": "@aws-sdk/middleware-serde"
+    },
+    {
+      "dependent_count": 20291,
+      "name": "through2"
+    },
+    {
+      "dependent_count": 20271,
+      "name": "acertea"
+    },
+    {
+      "dependent_count": 20265,
+      "name": "rylie"
+    },
+    {
+      "dependent_count": 20212,
+      "name": "source-map"
+    },
+    {
+      "dependent_count": 20155,
+      "name": "base64-js"
+    },
+    {
+      "dependent_count": 20147,
+      "name": "date-fns"
+    },
+    {
+      "dependent_count": 20111,
+      "name": "process-nextick-args"
+    },
+    {
+      "dependent_count": 20104,
+      "name": "@aws-sdk/node-http-handler"
+    },
+    {
+      "dependent_count": 20072,
+      "name": "anakjalanan"
+    },
+    {
+      "dependent_count": 20010,
+      "name": "fast-xml-parser"
+    },
+    {
+      "dependent_count": 19871,
+      "name": "http-errors"
+    },
+    {
+      "dependent_count": 19869,
+      "name": "statuses"
+    },
+    {
+      "dependent_count": 19828,
+      "name": "@aws-sdk/fetch-http-handler"
+    },
+    {
+      "dependent_count": 19737,
+      "name": "depd"
+    },
+    {
+      "dependent_count": 19717,
+      "name": "chokidar"
+    },
+    {
+      "dependent_count": 19669,
+      "name": "babel-loader"
+    },
+    {
+      "dependent_count": 19651,
+      "name": "cheerio"
+    },
+    {
+      "dependent_count": 19563,
+      "name": "nitroteh"
+    },
+    {
+      "dependent_count": 19442,
+      "name": "@smithy/is-array-buffer"
+    },
+    {
+      "dependent_count": 19271,
+      "name": "eslint-plugin-import"
+    },
+    {
+      "dependent_count": 19190,
+      "name": "events"
+    },
+    {
+      "dependent_count": 19119,
+      "name": "cors"
+    },
+    {
+      "dependent_count": 19034,
+      "name": "@aws-sdk/middleware-content-length"
+    },
+    {
+      "dependent_count": 18933,
+      "name": "querystring"
+    },
+    {
+      "dependent_count": 18873,
+      "name": "@aws-sdk/hash-node"
+    },
+    {
+      "dependent_count": 18855,
+      "name": "@aws-sdk/util-body-length-browser"
+    },
+    {
+      "dependent_count": 18855,
+      "name": "@aws-sdk/util-body-length-node"
+    },
+    {
+      "dependent_count": 18822,
+      "name": "@babel/types"
+    },
+    {
+      "dependent_count": 18816,
+      "name": "@aws-sdk/smithy-client"
+    },
+    {
+      "dependent_count": 18693,
+      "name": "@aws-sdk/middleware-retry"
+    },
+    {
+      "dependent_count": 18677,
+      "name": "web-vitals"
+    },
+    {
+      "dependent_count": 18667,
+      "name": "@aws-sdk/invalid-dependency"
+    },
+    {
+      "dependent_count": 18631,
+      "name": "xml2js"
+    },
+    {
+      "dependent_count": 18405,
+      "name": "encodeurl"
+    },
+    {
+      "dependent_count": 18390,
+      "name": "mime-db"
+    },
+    {
+      "dependent_count": 18188,
+      "name": "hoek"
+    },
+    {
+      "dependent_count": 18111,
+      "name": "assert-plus"
+    },
+    {
+      "dependent_count": 18087,
+      "name": "resolve"
+    },
+    {
+      "dependent_count": 17924,
+      "name": "safer-buffer"
+    },
+    {
+      "dependent_count": 17894,
+      "name": "open"
+    },
+    {
+      "dependent_count": 17812,
+      "name": "fs.realpath"
+    },
+    {
+      "dependent_count": 17767,
+      "name": "@aws-sdk/credential-provider-env"
+    },
+    {
+      "dependent_count": 17701,
+      "name": "minipass"
+    },
+    {
+      "dependent_count": 17687,
+      "name": "@aws-sdk/credential-provider-web-identity"
+    },
+    {
+      "dependent_count": 17657,
+      "name": "@aws-sdk/credential-provider-sso"
+    },
+    {
+      "dependent_count": 17607,
+      "name": "has"
+    },
+    {
+      "dependent_count": 17509,
+      "name": "eslint-plugin-react"
+    },
+    {
+      "dependent_count": 17469,
+      "name": "css-loader"
+    },
+    {
+      "dependent_count": 17445,
+      "name": "@smithy/credential-provider-imds"
+    },
+    {
+      "dependent_count": 17426,
+      "name": "which"
+    },
+    {
+      "dependent_count": 17268,
+      "name": "graphql"
+    },
+    {
+      "dependent_count": 17246,
+      "name": "@smithy/util-stream"
+    },
+    {
+      "dependent_count": 17196,
+      "name": "jsonfile"
+    },
+    {
+      "dependent_count": 17034,
+      "name": "@angular/core"
+    },
+    {
+      "dependent_count": 17017,
+      "name": "lodash-es"
+    },
+    {
+      "dependent_count": 16972,
+      "name": "@babel/preset-env"
+    },
+    {
+      "dependent_count": 16966,
+      "name": "@aws-sdk/shared-ini-file-loader"
+    },
+    {
+      "dependent_count": 16954,
+      "name": "extend"
+    },
+    {
+      "dependent_count": 16922,
+      "name": "escape-string-regexp"
+    },
+    {
+      "dependent_count": 16751,
+      "name": "bowser"
+    },
+    {
+      "dependent_count": 16577,
+      "name": "signal-exit"
+    },
+    {
+      "dependent_count": 16506,
+      "name": "handlebars"
+    },
+    {
+      "dependent_count": 16445,
+      "name": "@aws-sdk/credential-provider-process"
+    },
+    {
+      "dependent_count": 16439,
+      "name": "parseurl"
+    },
+    {
+      "dependent_count": 16370,
+      "name": "cross-spawn"
+    },
+    {
+      "dependent_count": 16296,
+      "name": "@types/express"
+    },
+    {
+      "dependent_count": 16248,
+      "name": "fast-deep-equal"
+    },
+    {
+      "dependent_count": 16223,
+      "name": "mime"
+    },
+    {
+      "dependent_count": 16164,
+      "name": "babel-types"
+    },
+    {
+      "dependent_count": 16118,
+      "name": "ts-node"
+    },
+    {
+      "dependent_count": 15983,
+      "name": "babel-core"
+    },
+    {
+      "dependent_count": 15948,
+      "name": "ieee754"
+    },
+    {
+      "dependent_count": 15946,
+      "name": "nanoid"
+    },
+    {
+      "dependent_count": 15927,
+      "name": "@angular/common"
+    },
+    {
+      "dependent_count": 15926,
+      "name": "@smithy/util-hex-encoding"
+    },
+    {
+      "dependent_count": 15664,
+      "name": "style-loader"
+    },
+    {
+      "dependent_count": 15638,
+      "name": "@aws-sdk/util-base64"
+    },
+    {
+      "dependent_count": 15487,
+      "name": "@aws-sdk/util-defaults-mode-browser"
+    },
+    {
+      "dependent_count": 15487,
+      "name": "@aws-sdk/util-defaults-mode-node"
+    },
+    {
+      "dependent_count": 15472,
+      "name": "loose-envify"
+    },
+    {
+      "dependent_count": 15448,
+      "name": "aws-sdk"
+    },
+    {
+      "dependent_count": 15445,
+      "name": "@typescript-eslint/parser"
+    },
+    {
+      "dependent_count": 15337,
+      "name": "constructs"
+    },
+    {
+      "dependent_count": 15313,
+      "name": "sax"
+    },
+    {
+      "dependent_count": 15308,
+      "name": "zone.js"
+    },
+    {
+      "dependent_count": 15286,
+      "name": "yaml"
+    },
+    {
+      "dependent_count": 15263,
+      "name": "@types/react-dom"
+    },
+    {
+      "dependent_count": 15177,
+      "name": "emoji-regex"
+    },
+    {
+      "dependent_count": 15139,
+      "name": "path"
+    },
+    {
+      "dependent_count": 14992,
+      "name": "ejs"
+    },
+    {
+      "dependent_count": 14874,
+      "name": "crypto-js"
+    },
+    {
+      "dependent_count": 14830,
+      "name": "ethers"
+    },
+    {
+      "dependent_count": 14764,
+      "name": "mongoose"
+    },
+    {
+      "dependent_count": 14698,
+      "name": "@angular/platform-browser"
+    },
+    {
+      "dependent_count": 14697,
+      "name": "es-define-property"
+    },
+    {
+      "dependent_count": 14650,
+      "name": "@aws-cdk/core"
+    },
+    {
+      "dependent_count": 14612,
+      "name": "@typescript-eslint/eslint-plugin"
+    },
+    {
+      "dependent_count": 14573,
+      "name": "@azure/abort-controller"
+    },
+    {
+      "dependent_count": 14542,
+      "name": "object-inspect"
+    },
+    {
+      "dependent_count": 14449,
+      "name": "esprima"
+    },
+    {
+      "dependent_count": 14410,
+      "name": "jest"
+    },
+    {
+      "dependent_count": 14341,
+      "name": "@angular/compiler"
+    },
+    {
+      "dependent_count": 14339,
+      "name": "@babel/helper-plugin-utils"
+    },
+    {
+      "dependent_count": 14247,
+      "name": "end-of-stream"
+    },
+    {
+      "dependent_count": 14081,
+      "name": "redux"
+    },
+    {
+      "dependent_count": 14071,
+      "name": "@angular/forms"
+    },
+    {
+      "dependent_count": 14026,
+      "name": "tar"
+    },
+    {
+      "dependent_count": 13980,
+      "name": "deepmerge"
+    },
+    {
+      "dependent_count": 13950,
+      "name": "react-redux"
+    },
+    {
+      "dependent_count": 13861,
+      "name": "xtend"
+    },
+    {
+      "dependent_count": 13815,
+      "name": "node-sass"
+    },
+    {
+      "dependent_count": 13811,
+      "name": "vuex"
+    },
+    {
+      "dependent_count": 13807,
+      "name": "@emotion/styled"
+    },
+    {
+      "dependent_count": 13791,
+      "name": "figlet"
+    },
+    {
+      "dependent_count": 13765,
+      "name": "@aws-sdk/util-utf8-node"
+    },
+    {
+      "dependent_count": 13757,
+      "name": "wrap-ansi"
+    },
+    {
+      "dependent_count": 13734,
+      "name": "@emotion/react"
+    },
+    {
+      "dependent_count": 13725,
+      "name": "@angular/platform-browser-dynamic"
+    },
+    {
+      "dependent_count": 13638,
+      "name": "@smithy/querystring-builder"
+    },
+    {
+      "dependent_count": 13518,
+      "name": "bootstrap"
+    },
+    {
+      "dependent_count": 13477,
+      "name": "fs"
+    },
+    {
+      "dependent_count": 13451,
+      "name": "autoprefixer"
+    },
+    {
+      "dependent_count": 13414,
+      "name": "@aws-sdk/util-retry"
+    },
+    {
+      "dependent_count": 13396,
+      "name": "antd"
+    },
+    {
+      "dependent_count": 13388,
+      "name": "kind-of"
+    },
+    {
+      "dependent_count": 13359,
+      "name": "q"
+    },
+    {
+      "dependent_count": 13301,
+      "name": "acorn"
+    },
+    {
+      "dependent_count": 13281,
+      "name": "@angular/router"
+    },
+    {
+      "dependent_count": 13209,
+      "name": "@smithy/util-config-provider"
+    },
+    {
+      "dependent_count": 13188,
+      "name": "argparse"
+    },
+    {
+      "dependent_count": 13164,
+      "name": "hasown"
+    },
+    {
+      "dependent_count": 13124,
+      "name": "concat-stream"
+    },
+    {
+      "dependent_count": 13000,
+      "name": "tailwind-merge"
+    },
+    {
+      "dependent_count": 12995,
+      "name": "define-properties"
+    },
+    {
+      "dependent_count": 12992,
+      "name": "asynckit"
+    },
+    {
+      "dependent_count": 12858,
+      "name": "delayed-stream"
+    },
+    {
+      "dependent_count": 12818,
+      "name": "@aws-sdk/middleware-endpoint"
+    },
+    {
+      "dependent_count": 12795,
+      "name": "yeoman-generator"
+    },
+    {
+      "dependent_count": 12779,
+      "name": "eslint-config-prettier"
+    },
+    {
+      "dependent_count": 12684,
+      "name": "html-webpack-plugin"
+    },
+    {
+      "dependent_count": 12663,
+      "name": "prompts"
+    },
+    {
+      "dependent_count": 12659,
+      "name": "url"
+    },
+    {
+      "dependent_count": 12603,
+      "name": "diff"
+    },
+    {
+      "dependent_count": 12561,
+      "name": "punycode"
+    },
+    {
+      "dependent_count": 12550,
+      "name": "file-loader"
+    },
+    {
+      "dependent_count": 12490,
+      "name": "sass-loader"
+    },
+    {
+      "dependent_count": 12485,
+      "name": "sass"
+    },
+    {
+      "dependent_count": 12436,
+      "name": "jsbn"
+    },
+    {
+      "dependent_count": 12429,
+      "name": "camelcase"
+    },
+    {
+      "dependent_count": 12401,
+      "name": "babel-eslint"
+    },
+    {
+      "dependent_count": 12397,
+      "name": "marked"
+    },
+    {
+      "dependent_count": 12379,
+      "name": "normalize-path"
+    },
+    {
+      "dependent_count": 12378,
+      "name": "rarerteat"
+    },
+    {
+      "dependent_count": 12372,
+      "name": "@aws-sdk/util-utf8"
+    },
+    {
+      "dependent_count": 12359,
+      "name": "@types/jest"
+    },
+    {
+      "dependent_count": 12298,
+      "name": "ini"
+    },
+    {
+      "dependent_count": 12290,
+      "name": "unpipe"
+    },
+    {
+      "dependent_count": 12193,
+      "name": "tehtehteh"
+    },
+    {
+      "dependent_count": 12151,
+      "name": "no-case"
+    },
+    {
+      "dependent_count": 12151,
+      "name": "socket.io-client"
+    },
+    {
+      "dependent_count": 12110,
+      "name": "webpack-dev-server"
+    },
+    {
+      "dependent_count": 12079,
+      "name": "element-ui"
+    },
+    {
+      "dependent_count": 12063,
+      "name": "is-glob"
+    },
+    {
+      "dependent_count": 12031,
+      "name": "fresh"
+    },
+    {
+      "dependent_count": 12011,
+      "name": "undici-types"
+    },
+    {
+      "dependent_count": 11933,
+      "name": "js-tokens"
+    },
+    {
+      "dependent_count": 11865,
+      "name": "picocolors"
+    },
+    {
+      "dependent_count": 11856,
+      "name": "@smithy/service-error-classification"
+    },
+    {
+      "dependent_count": 11835,
+      "name": "util"
+    },
+    {
+      "dependent_count": 11810,
+      "name": "path-to-regexp"
+    },
+    {
+      "dependent_count": 11778,
+      "name": "etag"
+    },
+    {
+      "dependent_count": 11723,
+      "name": "fast-glob"
+    },
+    {
+      "dependent_count": 11691,
+      "name": "@types/lodash"
+    },
+    {
+      "dependent_count": 11673,
+      "name": "range-parser"
+    },
+    {
+      "dependent_count": 11634,
+      "name": "express-validator"
+    },
+    {
+      "dependent_count": 11607,
+      "name": "@types/jsonwebtoken"
+    },
+    {
+      "dependent_count": 11598,
+      "name": "@angular/animations"
+    },
+    {
+      "dependent_count": 11556,
+      "name": "mongodb"
+    },
+    {
+      "dependent_count": 11488,
+      "name": "https-proxy-agent"
+    },
+    {
+      "dependent_count": 11478,
+      "name": "is-callable"
+    },
+    {
+      "dependent_count": 11461,
+      "name": "send"
+    },
+    {
+      "dependent_count": 11454,
+      "name": "@azure/logger"
+    },
+    {
+      "dependent_count": 11395,
+      "name": "mocha"
+    },
+    {
+      "dependent_count": 11383,
+      "name": "@smithy/signature-v4"
+    },
+    {
+      "dependent_count": 11356,
+      "name": "@smithy/util-uri-escape"
+    },
+    {
+      "dependent_count": 11331,
+      "name": "ramda"
+    },
+    {
+      "dependent_count": 11315,
+      "name": "bytes"
+    },
+    {
+      "dependent_count": 11241,
+      "name": "agent-base"
+    },
+    {
+      "dependent_count": 11238,
+      "name": "tweetnacl"
+    },
+    {
+      "dependent_count": 11235,
+      "name": "eslint-plugin-jsx-a11y"
+    },
+    {
+      "dependent_count": 11202,
+      "name": "sprintf-js"
+    },
+    {
+      "dependent_count": 11102,
+      "name": "rollup"
+    },
+    {
+      "dependent_count": 11056,
+      "name": "content-type"
+    },
+    {
+      "dependent_count": 11048,
+      "name": "@aws-sdk/util-locate-window"
+    },
+    {
+      "dependent_count": 11043,
+      "name": "@aws-crypto/supports-web-crypto"
+    },
+    {
+      "dependent_count": 11043,
+      "name": "lucide-react"
+    },
+    {
+      "dependent_count": 11016,
+      "name": "loader-utils"
+    },
+    {
+      "dependent_count": 10986,
+      "name": "@aws-cdk/aws-iam"
+    },
+    {
+      "dependent_count": 10942,
+      "name": "globby"
+    },
+    {
+      "dependent_count": 10919,
+      "name": "has-property-descriptors"
+    },
+    {
+      "dependent_count": 10890,
+      "name": "@aws-sdk/util-buffer-from"
+    },
+    {
+      "dependent_count": 10870,
+      "name": "chai"
+    },
+    {
+      "dependent_count": 10859,
+      "name": "postcss-loader"
+    },
+    {
+      "dependent_count": 10850,
+      "name": "caseless"
+    },
+    {
+      "dependent_count": 10802,
+      "name": "socket.io"
+    },
+    {
+      "dependent_count": 10777,
+      "name": "boom"
+    },
+    {
+      "dependent_count": 10705,
+      "name": "bn.js"
+    },
+    {
+      "dependent_count": 10615,
+      "name": "pg"
+    },
+    {
+      "dependent_count": 10607,
+      "name": "es5-ext"
+    },
+    {
+      "dependent_count": 10536,
+      "name": "type-fest"
+    },
+    {
+      "dependent_count": 10531,
+      "name": "find-up"
+    },
+    {
+      "dependent_count": 10530,
+      "name": "cookie-session"
+    },
+    {
+      "dependent_count": 10518,
+      "name": "@smithy/util-waiter"
+    },
+    {
+      "dependent_count": 10481,
+      "name": "@aws-sdk/signature-v4"
+    },
+    {
+      "dependent_count": 10455,
+      "name": "url-loader"
+    },
+    {
+      "dependent_count": 10416,
+      "name": "less"
+    },
+    {
+      "dependent_count": 10398,
+      "name": "npmlog"
+    },
+    {
+      "dependent_count": 10388,
+      "name": "@aws-sdk/util-middleware"
+    },
+    {
+      "dependent_count": 10371,
+      "name": "@babel/preset-react"
+    },
+    {
+      "dependent_count": 10367,
+      "name": "@alifd/next"
+    },
+    {
+      "dependent_count": 10318,
+      "name": "setprototypeof"
+    },
+    {
+      "dependent_count": 10303,
+      "name": "@smithy/abort-controller"
+    },
+    {
+      "dependent_count": 10302,
+      "name": "is-buffer"
+    },
+    {
+      "dependent_count": 10256,
+      "name": "json-schema-traverse"
+    },
+    {
+      "dependent_count": 10227,
+      "name": "is-stream"
+    },
+    {
+      "dependent_count": 10218,
+      "name": "download-git-repo"
+    },
+    {
+      "dependent_count": 10185,
+      "name": "promise"
+    },
+    {
+      "dependent_count": 10179,
+      "name": "cookie"
+    },
+    {
+      "dependent_count": 10167,
+      "name": "which-typed-array"
+    },
+    {
+      "dependent_count": 10161,
+      "name": "regenerator-runtime"
+    },
+    {
+      "dependent_count": 10139,
+      "name": "eslint-plugin-react-hooks"
+    },
+    {
+      "dependent_count": 10124,
+      "name": "micromatch"
+    },
+    {
+      "dependent_count": 10078,
+      "name": "gulp"
+    },
+    {
+      "dependent_count": 10041,
+      "name": "md5"
+    },
+    {
+      "dependent_count": 9936,
+      "name": "cliui"
+    },
+    {
+      "dependent_count": 9932,
+      "name": "y18n"
+    },
+    {
+      "dependent_count": 9906,
+      "name": "@babel/parser"
+    },
+    {
+      "dependent_count": 9895,
+      "name": "tailwindcss"
+    },
+    {
+      "dependent_count": 9848,
+      "name": "yargs-parser"
+    },
+    {
+      "dependent_count": 9847,
+      "name": "puppeteer"
+    },
+    {
+      "dependent_count": 9818,
+      "name": "fstream"
+    },
+    {
+      "dependent_count": 9799,
+      "name": "p-limit"
+    },
+    {
+      "dependent_count": 9779,
+      "name": "joi"
+    },
+    {
+      "dependent_count": 9774,
+      "name": "openai"
+    },
+    {
+      "dependent_count": 9727,
+      "name": "got"
+    },
+    {
+      "dependent_count": 9695,
+      "name": "tiny-invariant"
+    },
+    {
+      "dependent_count": 9635,
+      "name": "type-is"
+    },
+    {
+      "dependent_count": 9634,
+      "name": "@types/cookie-session"
+    },
+    {
+      "dependent_count": 9615,
+      "name": "nan"
+    },
+    {
+      "dependent_count": 9611,
+      "name": "postcss-value-parser"
+    },
+    {
+      "dependent_count": 9579,
+      "name": "pify"
+    },
+    {
+      "dependent_count": 9567,
+      "name": "class-variance-authority"
+    },
+    {
+      "dependent_count": 9567,
+      "name": "meow"
+    },
+    {
+      "dependent_count": 9562,
+      "name": "is-typed-array"
+    },
+    {
+      "dependent_count": 9544,
+      "name": "jsdom"
+    },
+    {
+      "dependent_count": 9536,
+      "name": "@azure/core-util"
+    },
+    {
+      "dependent_count": 9521,
+      "name": "path-exists"
+    },
+    {
+      "dependent_count": 9509,
+      "name": "esutils"
+    },
+    {
+      "dependent_count": 9493,
+      "name": "eslint-plugin-prettier"
+    },
+    {
+      "dependent_count": 9441,
+      "name": "npm-package-arg"
+    },
+    {
+      "dependent_count": 9403,
+      "name": "object-keys"
+    },
+    {
+      "dependent_count": 9403,
+      "name": "through"
+    },
+    {
+      "dependent_count": 9398,
+      "name": "available-typed-arrays"
+    },
+    {
+      "dependent_count": 9368,
+      "name": "@aws-sdk/credential-provider-ini"
+    },
+    {
+      "dependent_count": 9354,
+      "name": "@aws-sdk/client-sso-oidc"
+    },
+    {
+      "dependent_count": 9292,
+      "name": "console-control-strings"
+    },
+    {
+      "dependent_count": 9292,
+      "name": "gulp-util"
+    },
+    {
+      "dependent_count": 9290,
+      "name": "@oozcitak/util"
+    },
+    {
+      "dependent_count": 9252,
+      "name": "eventemitter3"
+    },
+    {
+      "dependent_count": 9247,
+      "name": "react-icons"
+    },
+    {
+      "dependent_count": 9172,
+      "name": "extsprintf"
+    },
+    {
+      "dependent_count": 9172,
+      "name": "pump"
+    },
+    {
+      "dependent_count": 9157,
+      "name": "babel-preset-es2015"
+    },
+    {
+      "dependent_count": 9112,
+      "name": "@mui/material"
+    },
+    {
+      "dependent_count": 9017,
+      "name": "@babel/polyfill"
+    },
+    {
+      "dependent_count": 8997,
+      "name": "source-map-support"
+    },
+    {
+      "dependent_count": 8990,
+      "name": "side-channel"
+    },
+    {
+      "dependent_count": 8937,
+      "name": "http-response-object"
+    },
+    {
+      "dependent_count": 8933,
+      "name": "require-directory"
+    },
+    {
+      "dependent_count": 8914,
+      "name": "bignumber.js"
+    },
+    {
+      "dependent_count": 8877,
+      "name": "has-proto"
+    },
+    {
+      "dependent_count": 8862,
+      "name": "isobject"
+    },
+    {
+      "dependent_count": 8853,
+      "name": "isexe"
+    },
+    {
+      "dependent_count": 8840,
+      "name": "babel-polyfill"
+    },
+    {
+      "dependent_count": 8788,
+      "name": "redis"
+    },
+    {
+      "dependent_count": 8787,
+      "name": "es-abstract"
+    },
+    {
+      "dependent_count": 8752,
+      "name": "superagent"
+    },
+    {
+      "dependent_count": 8734,
+      "name": "for-each"
+    },
+    {
+      "dependent_count": 8729,
+      "name": "abbrev"
+    },
+    {
+      "dependent_count": 8718,
+      "name": "hosted-git-info"
+    },
+    {
+      "dependent_count": 8715,
+      "name": "get-caller-file"
+    },
+    {
+      "dependent_count": 8693,
+      "name": "path-key"
+    },
+    {
+      "dependent_count": 8672,
+      "name": "react-is"
+    },
+    {
+      "dependent_count": 8653,
+      "name": "aproba"
+    },
+    {
+      "dependent_count": 8646,
+      "name": "@aws-sdk/util-base64-browser"
+    },
+    {
+      "dependent_count": 8640,
+      "name": "react-router"
+    },
+    {
+      "dependent_count": 8637,
+      "name": "@aws-sdk/client-sso"
+    },
+    {
+      "dependent_count": 8593,
+      "name": "esbuild"
+    },
+    {
+      "dependent_count": 8585,
+      "name": "tough-cookie"
+    },
+    {
+      "dependent_count": 8535,
+      "name": "is-extglob"
+    },
+    {
+      "dependent_count": 8510,
+      "name": "destroy"
+    },
+    {
+      "dependent_count": 8482,
+      "name": "json5"
+    },
+    {
+      "dependent_count": 8442,
+      "name": "webpack-cli"
+    },
+    {
+      "dependent_count": 8422,
+      "name": "lodash.merge"
+    },
+    {
+      "dependent_count": 8422,
+      "name": "pino"
+    },
+    {
+      "dependent_count": 8376,
+      "name": "uri-js"
+    },
+    {
+      "dependent_count": 8366,
+      "name": "@azure/core-tracing"
+    },
+    {
+      "dependent_count": 8315,
+      "name": "normalize-package-data"
+    },
+    {
+      "dependent_count": 8300,
+      "name": "mini-css-extract-plugin"
+    },
+    {
+      "dependent_count": 8275,
+      "name": "morgan"
+    },
+    {
+      "dependent_count": 8263,
+      "name": "domelementtype"
+    },
+    {
+      "dependent_count": 8261,
+      "name": "@azure/core-auth"
+    },
+    {
+      "dependent_count": 8254,
+      "name": "get-stream"
+    },
+    {
+      "dependent_count": 8248,
+      "name": "buffer-from"
+    },
+    {
+      "dependent_count": 8243,
+      "name": "babel-jest"
+    },
+    {
+      "dependent_count": 8239,
+      "name": "boxen"
+    },
+    {
+      "dependent_count": 8202,
+      "name": "pinkie-promise"
+    },
+    {
+      "dependent_count": 8178,
+      "name": "@aws-sdk/credential-provider-imds"
+    },
+    {
+      "dependent_count": 8159,
+      "name": "js-cookie"
+    },
+    {
+      "dependent_count": 8112,
+      "name": "@nestjs/common"
+    },
+    {
+      "dependent_count": 8102,
+      "name": "serve-static"
+    },
+    {
+      "dependent_count": 8077,
+      "name": "nodemailer"
+    },
+    {
+      "dependent_count": 8052,
+      "name": "tiny-warning"
+    },
+    {
+      "dependent_count": 8048,
+      "name": "@material-ui/core"
+    },
+    {
+      "dependent_count": 8048,
+      "name": "co"
+    },
+    {
+      "dependent_count": 7999,
+      "name": "cookie-parser"
+    },
+    {
+      "dependent_count": 7998,
+      "name": "@radix-ui/react-slot"
+    },
+    {
+      "dependent_count": 7995,
+      "name": "babel-template"
+    },
+    {
+      "dependent_count": 7983,
+      "name": "@aws-sdk/credential-provider-http"
+    },
+    {
+      "dependent_count": 7977,
+      "name": "sharp"
+    },
+    {
+      "dependent_count": 7888,
+      "name": "is-number"
+    },
+    {
+      "dependent_count": 7862,
+      "name": "escalade"
+    },
+    {
+      "dependent_count": 7793,
+      "name": "vite"
+    },
+    {
+      "dependent_count": 7779,
+      "name": "@babel/traverse"
+    },
+    {
+      "dependent_count": 7742,
+      "name": "@aws-sdk/nested-clients"
+    },
+    {
+      "dependent_count": 7730,
+      "name": "lit"
+    },
+    {
+      "dependent_count": 7729,
+      "name": "strip-json-comments"
+    }
+  ],
+  "refreshed_at": "2026-04-23T04:28:56Z",
+  "source": "deps.dev Dependents (System=NPM, MinimumDepth=1)"
+}
