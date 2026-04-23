@@ -2,11 +2,11 @@ name: Weekly snapshot
 
 on:
   schedule:
-    - cron: "0 6 * * 1"  # Mondays 06:00 UTC — after reporting-window boundary.
+    - cron: "0 6 * * 1" # Mondays 06:00 UTC — after reporting-window boundary.
   workflow_dispatch:
 
 permissions:
-  contents: write   # commit refreshed public-data/ bundle
+  contents: write # commit refreshed public-data/ bundle
   pages: write
   id-token: write
 
@@ -15,7 +15,8 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  BQ_MAX_BYTES_BILLED: "10000000000"  # 10 GB per query cost guardrail
+  BQ_MAX_BYTES_BILLED: "10000000000" # 10 GB per query cost guardrail
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   run-pipeline:
@@ -26,7 +27,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: astral-sh/setup-uv@v3
+      - uses: astral-sh/setup-uv@v4
         with:
           enable-cache: true
       - run: uv python install
