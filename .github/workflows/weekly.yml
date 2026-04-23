@@ -65,8 +65,8 @@ jobs:
         run: |
           set +e
           bruin run -e ci_live_bq \
-            --var source_mode=live \
-            --var warehouse=bigquery \
+            --var 'source_mode="live"' \
+            --var 'warehouse="bigquery"' \
             pipeline/pipeline.yml
           rc=$?
           set -e
