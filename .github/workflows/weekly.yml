@@ -51,7 +51,7 @@ jobs:
           GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
           INGEST_TOKEN: ${{ secrets.INGEST_TOKEN }}
         run: |
-          bruin run -e ci_live_bq \
+          bruin run --workers=1 -e ci_live_bq \
             --var 'source_mode="live"' \
             --var 'warehouse="bigquery"' \
             pipeline/pipeline.yml
