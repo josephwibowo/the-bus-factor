@@ -2,7 +2,7 @@
 
 **Which widely depended-on open-source packages show structural fragility signals this week — and what's the evidence?**
 
-A Bruin-powered weekly data product that scores the top 500 npm and PyPI packages on **importance × continuity fragility**, publishes a static leaderboard, and lets you interrogate the dataset with AI.
+A Bruin-powered weekly data product that scores the **250 most-depended-on npm packages** (ranked by distinct direct dependents via `bigquery-public-data.deps_dev_v1`) and the **250 most-downloaded PyPI packages** (ranked by 90-day downloads via [hugovk/top-pypi-packages](https://github.com/hugovk/top-pypi-packages)) on **importance × continuity fragility**, publishes a static leaderboard, and lets you interrogate the dataset with AI.
 
 **[Live demo →](https://josephwibowo.github.io/the-bus-factor)** · **[Analysis gallery →](https://josephwibowo.github.io/the-bus-factor/analysis)** · **[Weekly report →](https://josephwibowo.github.io/the-bus-factor/weekly/)**
 
