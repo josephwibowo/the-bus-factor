@@ -1,57 +1,57 @@
 {
   "findings": [
     {
-      "ecosystem": "pypi",
-      "package_name": "legacy-pyforge",
-      "primary_finding": "948 days since latest release.",
+      "ecosystem": "npm",
+      "package_name": "tslib",
+      "primary_finding": "0 releases in the last 365 days vs 4 in the prior 365 days.",
       "rank": 1,
-      "risk_score": 86.9492,
-      "severity_tier": "Critical",
-      "slug": "pypi-legacy-pyforge"
+      "risk_score": 38.6308,
+      "severity_tier": "High",
+      "slug": "npm-tslib"
     },
     {
       "ecosystem": "npm",
-      "package_name": "legacy-forge",
-      "primary_finding": "948 days since latest release.",
+      "package_name": "inherits",
+      "primary_finding": "2497 days since latest release.",
       "rank": 2,
-      "risk_score": 85.7742,
-      "severity_tier": "Critical",
-      "slug": "npm-legacy-forge"
+      "risk_score": 34.1011,
+      "severity_tier": "High",
+      "slug": "npm-inherits"
     },
     {
       "ecosystem": "npm",
-      "package_name": "neglected-stream",
-      "primary_finding": "1015 days since latest release.",
+      "package_name": "graceful-fs",
+      "primary_finding": "1131 days since latest release.",
       "rank": 3,
-      "risk_score": 83.0537,
-      "severity_tier": "Critical",
-      "slug": "npm-neglected-stream"
-    },
-    {
-      "ecosystem": "pypi",
-      "package_name": "neglected-pystream",
-      "primary_finding": "1015 days since latest release.",
-      "rank": 4,
-      "risk_score": 83.0537,
-      "severity_tier": "Critical",
-      "slug": "pypi-neglected-pystream"
+      "risk_score": 32.369,
+      "severity_tier": "High",
+      "slug": "npm-graceful-fs"
     },
     {
       "ecosystem": "npm",
-      "package_name": "stale-bundle",
-      "primary_finding": "898 days since latest release.",
+      "package_name": "once",
+      "primary_finding": "3513 days since latest release.",
+      "rank": 4,
+      "risk_score": 31.2114,
+      "severity_tier": "High",
+      "slug": "npm-once"
+    },
+    {
+      "ecosystem": "npm",
+      "package_name": "readable-stream",
+      "primary_finding": "0 releases in the last 365 days vs 2 in the prior 365 days.",
       "rank": 5,
-      "risk_score": 72.5565,
-      "severity_tier": "Critical",
-      "slug": "npm-stale-bundle"
+      "risk_score": 30.7311,
+      "severity_tier": "High",
+      "slug": "npm-readable-stream"
     }
   ],
   "headline": {
     "ecosystem_breakdown": {
-      "npm": 4,
-      "pypi": 4
+      "npm": 5,
+      "pypi": 0
     },
-    "headline": "8 packages flagged for continuity risk in 2026-W17.",
+    "headline": "5 packages flagged for continuity risk in 2026-W17.",
     "methodology_version": "v0.1.0",
     "snapshot_week": "2026-04-20",
     "summary": "Flagged packages combine high downstream reach with at least two independent fragility signals. Repositories and maintainer identities are never referenced in the viral surfaces."
