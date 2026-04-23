@@ -10,7 +10,7 @@
 #
 # Safety env vars honored by pipeline/lib/bq.py:
 #   BQ_MAX_BYTES_BILLED   - cap (bytes) set on every BigQuery job; default 10 GB
-#   GITHUB_INGEST_TOKEN   - optional PAT for GitHub REST/GraphQL (raises rate limits)
+#   INGEST_TOKEN          - optional PAT for GitHub REST/GraphQL (raises rate limits)
 
 default_environment: fixture
 
@@ -60,5 +60,5 @@ environments:
         - name: duckdb_default
           path: ./data/ci_live_bq.duckdb
       generic:
-        - name: github_token
-          value: "${GITHUB_INGEST_TOKEN}"
+         - name: github_token
+           value: "${INGEST_TOKEN}"

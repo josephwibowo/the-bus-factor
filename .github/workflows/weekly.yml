@@ -40,7 +40,7 @@ jobs:
         env:
           GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
           GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-          GITHUB_INGEST_TOKEN: ${{ secrets.GITHUB_INGEST_TOKEN }}
+          INGEST_TOKEN: ${{ secrets.INGEST_TOKEN }}
         run: |
           envsubst < .bruin.yml.example > .bruin.yml || cp .bruin.yml.example .bruin.yml
 
@@ -51,7 +51,7 @@ jobs:
         env:
           GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
           GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-          GITHUB_INGEST_TOKEN: ${{ secrets.GITHUB_INGEST_TOKEN }}
+          INGEST_TOKEN: ${{ secrets.INGEST_TOKEN }}
         run: |
           bruin run -e ci_live_bq \
             --var 'source_mode="live"' \
