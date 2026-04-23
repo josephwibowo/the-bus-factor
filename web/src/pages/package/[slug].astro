@@ -30,6 +30,12 @@ const signalLabel: Record<string, string> = {
 const badges: string[] = [];
 if (entry.flagged) badges.push("Flagged");
 if (entry.exclusion_reason) badges.push(entry.exclusion_reason.replaceAll("_", " "));
+
+const withBase = (path: string): string => {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+  const normalized = path === "/" ? "/" : path.startsWith("/") ? path : `/${path}`;
+  return `${base}${normalized}`;
+};
 ---
 
 <Base
@@ -40,7 +46,7 @@ if (entry.exclusion_reason) badges.push(entry.exclusion_reason.replaceAll("_", "
   activeNav="home"
 >
   <nav aria-label="Breadcrumb" class="breadcrumb">
-    <a href="/">Leaderboard</a> / <span>{entry.ecosystem}</span> /
+    <a href={withBase("/")}>Leaderboard</a> / <span>{entry.ecosystem}</span> /
     <strong>{entry.package_name}</strong>
   </nav>
 

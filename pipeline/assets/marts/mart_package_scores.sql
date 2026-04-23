@@ -112,7 +112,7 @@ custom_checks:
     description: Every flagged package must expose at least two fragility signals >= 40.
     query: |
       SELECT COUNT(*) FROM mart.package_scores
-      WHERE flagged AND signals_above_threshold < 2
+      WHERE flagged AND signals_above_threshold < {{ var.flagged_min_independent_fragility_signals }}
 
   - name: flagged_has_non_paired_signal
     description: release_recency alone cannot flag a package (paired_signal_only).
@@ -124,13 +124,14 @@ custom_checks:
     description: Flagged packages must meet the configured risk_score minimum.
     query: |
       SELECT COUNT(*) FROM mart.package_scores
-      WHERE flagged AND risk_score < 30
+      WHERE flagged AND risk_score < {{ var.flagged_risk_score_min }}
 
   - name: flagged_in_top_quantile
     description: Flagged packages must be in the top 25% importance within their ecosystem.
     query: |
       SELECT COUNT(*) FROM mart.package_scores
-      WHERE flagged AND importance_percentile_within_eligible < 75
+      WHERE flagged AND importance_percentile_within_eligible
+          < (1.0 - {{ var.flagged_importance_top_quantile }}) * 100.0
 
   - name: scores_within_bounds
     description: importance/fragility/risk must stay in [0, 100].
@@ -222,9 +223,9 @@ scored AS (
         i.ecosystem,
         i.package_name,
         (
-            0.60 * i.pct_dependency_reach
-            + 0.25 * i.pct_download_volume
-            + 0.15 * i.pct_security_exposure
+            {{ var.importance_weight_dependency_reach }} * i.pct_dependency_reach
+            + {{ var.importance_weight_download_volume }} * i.pct_download_volume
+            + {{ var.importance_weight_security_exposure }} * i.pct_security_exposure
         ) AS importance_score,
         f.fragility_score,
         f.release_recency,
@@ -250,26 +251,26 @@ with_tier AS (
     SELECT
         *,
         CASE
-            WHEN risk_score < 15 THEN 'Stable'
-            WHEN risk_score < 25 THEN 'Watch'
-            WHEN risk_score < 30 THEN 'Elevated'
-            WHEN risk_score < 50 THEN 'High'
+            WHEN risk_score <= {{ var.severity_stable_max }} THEN 'Stable'
+            WHEN risk_score <= {{ var.severity_watch_max }} THEN 'Watch'
+            WHEN risk_score <= {{ var.severity_elevated_max }} THEN 'Elevated'
+            WHEN risk_score <= {{ var.severity_high_max }} THEN 'High'
             ELSE 'Critical'
         END AS severity_tier,
         (
-            CASE WHEN release_recency >= 40 THEN 1 ELSE 0 END
-            + CASE WHEN commit_recency >= 40 THEN 1 ELSE 0 END
-            + CASE WHEN release_cadence_decay >= 40 THEN 1 ELSE 0 END
-            + CASE WHEN issue_responsiveness >= 40 THEN 1 ELSE 0 END
-            + CASE WHEN contributor_bus_factor >= 40 THEN 1 ELSE 0 END
-            + CASE WHEN openssf_scorecard >= 40 THEN 1 ELSE 0 END
+            CASE WHEN release_recency >= {{ var.flagged_signal_contribution_threshold }} THEN 1 ELSE 0 END
+            + CASE WHEN commit_recency >= {{ var.flagged_signal_contribution_threshold }} THEN 1 ELSE 0 END
+            + CASE WHEN release_cadence_decay >= {{ var.flagged_signal_contribution_threshold }} THEN 1 ELSE 0 END
+            + CASE WHEN issue_responsiveness >= {{ var.flagged_signal_contribution_threshold }} THEN 1 ELSE 0 END
+            + CASE WHEN contributor_bus_factor >= {{ var.flagged_signal_contribution_threshold }} THEN 1 ELSE 0 END
+            + CASE WHEN openssf_scorecard >= {{ var.flagged_signal_contribution_threshold }} THEN 1 ELSE 0 END
         ) AS signals_above_threshold,
         (
-            CASE WHEN commit_recency >= 40 THEN 1 ELSE 0 END
-            + CASE WHEN release_cadence_decay >= 40 THEN 1 ELSE 0 END
-            + CASE WHEN issue_responsiveness >= 40 THEN 1 ELSE 0 END
-            + CASE WHEN contributor_bus_factor >= 40 THEN 1 ELSE 0 END
-            + CASE WHEN openssf_scorecard >= 40 THEN 1 ELSE 0 END
+            CASE WHEN commit_recency >= {{ var.flagged_signal_contribution_threshold }} THEN 1 ELSE 0 END
+            + CASE WHEN release_cadence_decay >= {{ var.flagged_signal_contribution_threshold }} THEN 1 ELSE 0 END
+            + CASE WHEN issue_responsiveness >= {{ var.flagged_signal_contribution_threshold }} THEN 1 ELSE 0 END
+            + CASE WHEN contributor_bus_factor >= {{ var.flagged_signal_contribution_threshold }} THEN 1 ELSE 0 END
+            + CASE WHEN openssf_scorecard >= {{ var.flagged_signal_contribution_threshold }} THEN 1 ELSE 0 END
         ) AS non_paired_signals_above_threshold
     FROM with_risk
 ),
@@ -300,11 +301,13 @@ flagged_decision AS (
         *,
         (
             severity_tier IN ('High', 'Critical')
-            AND risk_score >= 30
+            AND risk_score >= {{ var.flagged_risk_score_min }}
             AND confidence IN ('medium', 'high')
-            AND signals_above_threshold >= 2
+            AND signals_above_threshold >= {{ var.flagged_min_independent_fragility_signals }}
             AND non_paired_signals_above_threshold >= 1
-            AND importance_percentile_within_eligible >= 75.0
+            AND importance_percentile_within_eligible >= (
+                (1.0 - {{ var.flagged_importance_top_quantile }}) * 100.0
+            )
         ) AS flagged
     FROM with_rank
 )

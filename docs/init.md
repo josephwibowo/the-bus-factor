@@ -755,18 +755,18 @@ Low-confidence packages may be displayed in detail/search views but must not be 
 
 | Tier | Score range | Public meaning |
 | --- | ---: | --- |
-| Stable | 0–39 | No concerning combination of importance and fragility in the current snapshot. |
-| Watch | 40–59 | Some weak signals worth monitoring, but not enough evidence to flag. |
-| Elevated | 60–74 | Meaningful fragility signals on an important package; visible in detail/search but not treated as headline flagged risk. |
-| High | 75–89 | Flagged. Important package with multiple current fragility signals and sufficient evidence quality. |
-| Critical | 90–100 | Flagged. Highest ecosystem-relative risk with strong evidence across importance and fragility signals. |
+| Stable | 0–14 | No concerning combination of importance and fragility in the current snapshot. |
+| Watch | 15–24 | Some weak signals worth monitoring, but not enough evidence to flag. |
+| Elevated | 25–29 | Meaningful fragility signals on an important package; visible in detail/search but not treated as headline flagged risk. |
+| High | 30–49 | Flagged. Important package with multiple current fragility signals and sufficient evidence quality. |
+| Critical | 50–100 | Flagged. Highest ecosystem-relative risk with strong evidence across importance and fragility signals. |
 
 ### Flagged definition
 
 A package is `flagged = true` in v1 only when all of the following are true:
 
 1. The package is eligible for ranking.
-2. `risk_score >= 75`.
+2. `risk_score >= 30`.
 3. `severity_tier` is `High` or `Critical`.
 4. `confidence` is `medium` or `high`.
 5. At least two independent fragility signals contribute to the explanation.
@@ -1219,7 +1219,7 @@ This architecture should be expressed conceptually in the spec and visually in t
 ### Final v1 decisions
 
 1. Severity tiers are `Stable`, `Watch`, `Elevated`, `High`, and `Critical`.
-2. `flagged = true` requires eligibility, `risk_score >= 75`, `High` or `Critical` tier, medium/high confidence, at least two independent fragility signals, and top-quartile ecosystem importance.
+2. `flagged = true` requires eligibility, `risk_score >= 30`, `High` or `Critical` tier, medium/high confidence, at least two independent fragility signals, and top-quartile ecosystem importance.
 3. The canonical Bruin AI Data Analyst gallery uses the eight prompts listed in “Canonical Bruin AI Data Analyst questions.”
 4. The weekly card shows up to five flagged packages and does not pad with non-flagged packages.
 5. DuckDB-Wasm is deferred for v1; the showcase remains purely precomputed and static.

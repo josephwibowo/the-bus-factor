@@ -1,98 +1,66 @@
 {
-  "data_license": "Public data aggregated under each source's terms: npm + PyPI registry, deps.dev (Apache 2.0), GitHub Public REST/GraphQL, OSV.dev (CC-BY 4.0), OpenSSF Scorecard (Apache 2.0).",
+  "data_license": "Synthetic fixture data for The Bus Factor competition entry.",
   "ecosystems_covered": [
     "npm",
     "pypi"
   ],
-  "generated_at": "2026-04-23T15:36:10.267481Z",
-  "methodology_version": "v0.1.0",
+  "generated_at": "2026-04-23T15:51:09.863104Z",
+  "methodology_version": "v0.2.0",
   "notes": [
-    "Live ingestion: top-N packages resolved from public registries.",
-    "Scores derive from npm/PyPI registry, deps.dev, GitHub, OSV, and OpenSSF Scorecard."
+    "Fixture data: deterministic snapshot shipped with the repository.",
+    "Live ingestion (Cycle 2) replaces raw_* assets with external APIs."
   ],
   "package_counts": {
-    "npm": 250,
-    "pypi": 250
+    "npm": 24,
+    "pypi": 24
   },
   "snapshot_week": "2026-04-20",
   "snapshot_week_label": "2026-W17",
   "sources": [
     {
-      "failure_count": 1,
-      "last_success_at": null,
-      "note": "no telemetry emitted by ingestion asset this run",
+      "failure_count": 0,
+      "last_success_at": "2026-04-19T18:10:00",
+      "note": "Fixture run; synthetic success.",
       "source_name": "deps_dev",
-      "stale": true,
-      "status": "failed"
-    },
-    {
-      "failure_count": 1,
-      "last_success_at": null,
-      "note": "no telemetry emitted by ingestion asset this run",
-      "source_name": "github_commits",
-      "stale": true,
-      "status": "failed"
-    },
-    {
-      "failure_count": 1,
-      "last_success_at": null,
-      "note": "no telemetry emitted by ingestion asset this run",
-      "source_name": "github_contributors",
-      "stale": true,
-      "status": "failed"
-    },
-    {
-      "failure_count": 1,
-      "last_success_at": null,
-      "note": "no telemetry emitted by ingestion asset this run",
-      "source_name": "github_issues",
-      "stale": true,
-      "status": "failed"
-    },
-    {
-      "failure_count": 1,
-      "last_success_at": null,
-      "note": "no telemetry emitted by ingestion asset this run",
-      "source_name": "github_releases",
-      "stale": true,
-      "status": "failed"
-    },
-    {
-      "failure_count": 1,
-      "last_success_at": null,
-      "note": "no telemetry emitted by ingestion asset this run",
-      "source_name": "github_repos",
-      "stale": true,
-      "status": "failed"
+      "stale": false,
+      "status": "ok"
     },
     {
       "failure_count": 0,
-      "last_success_at": "2026-04-23T15:15:04",
-      "note": "",
+      "last_success_at": "2026-04-19T18:18:00",
+      "note": "Fixture run; synthetic success.",
+      "source_name": "github_api",
+      "stale": false,
+      "status": "ok"
+    },
+    {
+      "failure_count": 0,
+      "last_success_at": "2026-04-19T18:05:00",
+      "note": "Fixture run; synthetic success.",
       "source_name": "npm_registry",
       "stale": false,
       "status": "ok"
     },
     {
-      "failure_count": 1,
-      "last_success_at": null,
-      "note": "no telemetry emitted by ingestion asset this run",
+      "failure_count": 0,
+      "last_success_at": "2026-04-19T18:22:00",
+      "note": "Fixture run; synthetic success.",
       "source_name": "openssf_scorecard",
-      "stale": true,
-      "status": "failed"
-    },
-    {
-      "failure_count": 1,
-      "last_success_at": null,
-      "note": "no telemetry emitted by ingestion asset this run",
-      "source_name": "osv",
-      "stale": true,
-      "status": "failed"
+      "stale": false,
+      "status": "ok"
     },
     {
       "failure_count": 0,
-      "last_success_at": "2026-04-23T15:16:13",
-      "note": "",
+      "last_success_at": "2026-04-19T18:20:00",
+      "note": "Fixture run; synthetic success.",
+      "source_name": "osv",
+      "stale": false,
+      "status": "ok"
+    },
+    {
+      "failure_count": 0,
+      "last_success_at": "2026-04-19T18:07:00",
+      "note": "Fixture run; synthetic success.",
       "source_name": "pypi_registry",
       "stale": false,
       "status": "ok"

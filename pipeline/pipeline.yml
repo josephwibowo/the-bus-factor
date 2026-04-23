@@ -28,5 +28,125 @@ variables:
     type: integer
     default: 250
     description: "Top-N PyPI packages to ingest."
+  min_source_success_ratio:
+    type: string
+    default: "0.90"
+    description: "Minimum successful-row ratio per source before marking source health degraded."
+  methodology_version:
+    type: string
+    default: "v0.2.0"
+    description: "Scoring methodology version stamped onto every snapshot row."
+  importance_weight_dependency_reach:
+    type: string
+    default: "0.60"
+    description: "importance.weights.dependency_reach from config/scoring.yml"
+  importance_weight_download_volume:
+    type: string
+    default: "0.25"
+    description: "importance.weights.download_volume from config/scoring.yml"
+  importance_weight_security_exposure:
+    type: string
+    default: "0.15"
+    description: "importance.weights.security_exposure from config/scoring.yml"
+  fragility_weight_release_recency:
+    type: string
+    default: "0.25"
+    description: "fragility.weights.release_recency from config/scoring.yml"
+  fragility_weight_commit_recency:
+    type: string
+    default: "0.25"
+    description: "fragility.weights.commit_recency from config/scoring.yml"
+  fragility_weight_release_cadence_decay:
+    type: string
+    default: "0.15"
+    description: "fragility.weights.release_cadence_decay from config/scoring.yml"
+  fragility_weight_issue_responsiveness:
+    type: string
+    default: "0.15"
+    description: "fragility.weights.issue_responsiveness from config/scoring.yml"
+  fragility_weight_contributor_bus_factor:
+    type: string
+    default: "0.10"
+    description: "fragility.weights.contributor_bus_factor from config/scoring.yml"
+  fragility_weight_openssf_scorecard:
+    type: string
+    default: "0.10"
+    description: "fragility.weights.openssf_scorecard from config/scoring.yml"
+  threshold_release_recency_floor_days:
+    type: integer
+    default: 90
+    description: "fragility.thresholds.release_recency.floor_days from config/scoring.yml"
+  threshold_release_recency_cap_days:
+    type: integer
+    default: 540
+    description: "fragility.thresholds.release_recency.cap_days from config/scoring.yml"
+  threshold_commit_recency_floor_days:
+    type: integer
+    default: 30
+    description: "fragility.thresholds.commit_recency.floor_days from config/scoring.yml"
+  threshold_commit_recency_cap_days:
+    type: integer
+    default: 365
+    description: "fragility.thresholds.commit_recency.cap_days from config/scoring.yml"
+  threshold_release_cadence_min_prior_releases:
+    type: integer
+    default: 2
+    description: "fragility.thresholds.release_cadence_decay.min_prior_year_releases from config/scoring.yml"
+  threshold_issue_min_eligible_issues:
+    type: integer
+    default: 5
+    description: "fragility.thresholds.issue_responsiveness.min_eligible_issues from config/scoring.yml"
+  threshold_issue_floor_days:
+    type: integer
+    default: 7
+    description: "fragility.thresholds.issue_responsiveness.floor_days from config/scoring.yml"
+  threshold_issue_cap_days:
+    type: integer
+    default: 90
+    description: "fragility.thresholds.issue_responsiveness.cap_days from config/scoring.yml"
+  threshold_contributor_share_floor:
+    type: string
+    default: "0.30"
+    description: "fragility.thresholds.contributor_bus_factor.share_floor from config/scoring.yml"
+  threshold_contributor_share_cap:
+    type: string
+    default: "0.90"
+    description: "fragility.thresholds.contributor_bus_factor.share_cap from config/scoring.yml"
+  threshold_scorecard_scale:
+    type: string
+    default: "10"
+    description: "fragility.thresholds.openssf_scorecard.scale from config/scoring.yml"
+  flagged_risk_score_min:
+    type: integer
+    default: 30
+    description: "flagged.risk_score_min from config/scoring.yml"
+  flagged_signal_contribution_threshold:
+    type: integer
+    default: 40
+    description: "flagged.signal_contribution_threshold from config/scoring.yml"
+  flagged_min_independent_fragility_signals:
+    type: integer
+    default: 2
+    description: "flagged.min_independent_fragility_signals from config/scoring.yml"
+  flagged_importance_top_quantile:
+    type: string
+    default: "0.25"
+    description: "flagged.importance_top_quantile from config/scoring.yml"
+  severity_stable_max:
+    type: integer
+    default: 14
+    description: "severity_tiers Stable max from config/scoring.yml"
+  severity_watch_max:
+    type: integer
+    default: 24
+    description: "severity_tiers Watch max from config/scoring.yml"
+  severity_elevated_max:
+    type: integer
+    default: 29
+    description: "severity_tiers Elevated max from config/scoring.yml"
+  severity_high_max:
+    type: integer
+    default: 49
+    description: "severity_tiers High max from config/scoring.yml"
 
 retries: 2

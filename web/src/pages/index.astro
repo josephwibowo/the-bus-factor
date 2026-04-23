@@ -12,6 +12,11 @@ const entriesByEcosystem = (ecosystem: (typeof ecosystems)[number]) =>
 
 const totalEntries = leaderboard?.entries.length ?? 0;
 const flaggedCount = (leaderboard?.entries ?? []).filter((e) => e.flagged).length;
+const withBase = (path: string): string => {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+  const normalized = path === "/" ? "/" : path.startsWith("/") ? path : `/${path}`;
+  return `${base}${normalized}`;
+};
 ---
 
 <Base
@@ -106,7 +111,7 @@ const flaggedCount = (leaderboard?.entries ?? []).filter((e) => e.flagged).lengt
                   <tr data-row="lb" data-name={entry.package_name.toLowerCase()} data-severity={entry.severity_tier.toLowerCase()}>
                     <td>#{entry.rank_within_ecosystem}</td>
                     <td>
-                      <a href={`/package/${entry.slug}/`}>{entry.package_name}</a>
+                      <a href={withBase(`/package/${entry.slug}/`)}>{entry.package_name}</a>
                       {entry.flagged && <span class="pill pill--flagged">flagged</span>}
                     </td>
                     <td>

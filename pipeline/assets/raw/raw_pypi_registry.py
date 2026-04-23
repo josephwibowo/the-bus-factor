@@ -168,7 +168,7 @@ async def _fetch_downloads(pkg: str, client: HttpClient) -> int:
     return 0
 
 
-async def _ingest(window: str, packages: list[str]) -> list[dict[str, Any]]:
+async def _ingest(window: str, packages: list[str]) -> tuple[list[dict[str, Any]], int]:
     async with HttpClient(window=window) as client:
         metas = await asyncio.gather(
             *[_fetch_meta(pkg, client) for pkg in packages], return_exceptions=True
@@ -176,6 +176,8 @@ async def _ingest(window: str, packages: list[str]) -> list[dict[str, Any]]:
         downloads = await asyncio.gather(
             *[_fetch_downloads(pkg, client) for pkg in packages], return_exceptions=True
         )
+    meta_errors = sum(1 for meta in metas if isinstance(meta, BaseException))
+    download_errors = sum(1 for dl in downloads if isinstance(dl, BaseException))
     rows: list[dict[str, Any]] = []
     for _pkg, meta, dl in zip(packages, metas, downloads, strict=True):
         if isinstance(meta, BaseException) or meta is None:
@@ -184,17 +186,28 @@ async def _ingest(window: str, packages: list[str]) -> list[dict[str, Any]]:
         row = dict(meta)
         row["downloads_90d"] = dl_val
         rows.append(row)
-    return rows
+    return rows, (meta_errors + download_errors)
 
 
 def _live() -> pd.DataFrame:
     window = live.resolve_window()
     with live.tracker("pypi_registry") as t:
         packages = list(live.resolve_universe("pypi", window=window))
-        rows = asyncio.run(_ingest(window, packages))
+        rows, exception_count = asyncio.run(_ingest(window, packages))
+        attempted = len(packages)
         t.row_count = len(rows)
-        if not rows:
+        if attempted == 0:
+            t.mark_failed("no PyPI packages resolved for ingestion")
+        elif not rows:
             t.mark_failed("no PyPI rows ingested")
+        else:
+            live.mark_degraded_if_low_success(
+                tracker=t,
+                source_name="pypi_registry",
+                attempted=attempted,
+                succeeded=len(rows),
+                exception_count=exception_count,
+            )
     if rows:
         df = pd.DataFrame(rows)
     else:

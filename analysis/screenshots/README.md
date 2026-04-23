@@ -24,7 +24,7 @@ directory, replacing the placeholders one-for-one by file name.
 The matching `web/public/screenshots/*.png` copies are served by the Astro
 site; keep the two directories in sync on every screenshot refresh.
 
-## Canonical prompts (v0.1.0)
+## Canonical prompts (v0.2.0)
 
 | File | Prompt summary |
 | --- | --- |

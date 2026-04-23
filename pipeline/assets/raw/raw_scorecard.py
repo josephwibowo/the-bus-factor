@@ -92,17 +92,18 @@ async def _fetch_repo(url: str, client: HttpClient) -> dict[str, Any] | None:
     }
 
 
-async def _ingest(window: str, urls: list[str]) -> list[dict[str, Any]]:
+async def _ingest(window: str, urls: list[str]) -> tuple[list[dict[str, Any]], int]:
     async with HttpClient(window=window, concurrency=8) as client:
         results = await asyncio.gather(
             *[_fetch_repo(u, client) for u in urls], return_exceptions=True
         )
     rows: list[dict[str, Any]] = []
+    exception_count = sum(1 for res in results if isinstance(res, BaseException))
     for res in results:
         if isinstance(res, BaseException) or res is None:
             continue
         rows.append(res)
-    return rows
+    return rows, exception_count
 
 
 def _live() -> pd.DataFrame:
@@ -113,10 +114,24 @@ def _live() -> pd.DataFrame:
             for u in live.repo_urls_from_duckdb(live.duckdb_path())
             if u.startswith("https://github.com/")
         ]
-        rows = asyncio.run(_ingest(window, urls)) if urls else []
+        if urls:
+            rows, exception_count = asyncio.run(_ingest(window, urls))
+        else:
+            rows, exception_count = [], 0
+        attempted = len(urls)
         t.row_count = len(rows)
-        if not rows:
+        if attempted == 0:
+            t.mark_failed("no openssf_scorecard repo urls resolved")
+        elif not rows:
             t.mark_failed("no scorecard rows ingested")
+        else:
+            live.mark_degraded_if_low_success(
+                tracker=t,
+                source_name="openssf_scorecard",
+                attempted=attempted,
+                succeeded=len(rows),
+                exception_count=exception_count,
+            )
     df = (
         pd.DataFrame(rows)
         if rows

@@ -20,6 +20,21 @@ const statusBadge = (status: string): string => {
       return "badge badge--watch";
   }
 };
+
+const statusLabel = (status: string): string => {
+  switch (status) {
+    case "ok":
+      return "complete";
+    case "degraded":
+      return "partial";
+    case "failed":
+      return "missing";
+    default:
+      return status;
+  }
+};
+
+const freshnessLabel = (stale: boolean): string => (stale ? "needs review" : "fresh");
 ---
 
 <Base
@@ -69,7 +84,7 @@ const statusBadge = (status: string): string => {
   <section aria-labelledby="flagged-heading">
     <h2 id="flagged-heading">Flagged definition</h2>
     <ol>
-      <li>Risk score ≥ 75 (risk = importance × fragility ÷ 100)</li>
+      <li>Risk score ≥ 30 (risk = importance × fragility ÷ 100)</li>
       <li>Severity tier in (<em>High</em>, <em>Critical</em>)</li>
       <li>Confidence in (<em>medium</em>, <em>high</em>)</li>
       <li>At least 2 independent fragility signals ≥ 40, at least one not release_recency</li>
@@ -130,14 +145,20 @@ const statusBadge = (status: string): string => {
   {
     sources && (
       <section aria-labelledby="sources-heading">
-        <h2 id="sources-heading">Source health</h2>
+        <h2 id="sources-heading">Ingestion telemetry</h2>
+        <p class="muted">
+          This table shows whether each ingestion asset completed cleanly for the current snapshot.
+          It is pipeline-run telemetry, not a verdict on every downstream package score. A
+          <strong> partial</strong> or <strong> missing</strong> row means the asset had coverage
+          gaps, failed, or emitted no usable telemetry for this run.
+        </p>
         <table>
           <thead>
             <tr>
-              <th scope="col">Source</th>
-              <th scope="col">Status</th>
-              <th scope="col">Last success</th>
-              <th scope="col">Stale</th>
+              <th scope="col">Asset</th>
+              <th scope="col">Run status</th>
+              <th scope="col">Last full success</th>
+              <th scope="col">Freshness</th>
               <th scope="col">Notes</th>
             </tr>
           </thead>
@@ -146,10 +167,10 @@ const statusBadge = (status: string): string => {
               <tr>
                 <td>{s.source_name}</td>
                 <td>
-                  <span class={statusBadge(s.status)}>{s.status}</span>
+                  <span class={statusBadge(s.status)}>{statusLabel(s.status)}</span>
                 </td>
                 <td>{s.last_success_at ?? "—"}</td>
-                <td>{s.stale ? "yes" : "no"}</td>
+                <td>{freshnessLabel(s.stale)}</td>
                 <td class="muted">{s.note ?? "—"}</td>
               </tr>
             ))}

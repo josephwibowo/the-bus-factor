@@ -4,6 +4,11 @@ import { loadWeekly, severityBadgeClass } from "../lib/data";
 
 const weekly = await loadWeekly();
 const hasFindings = (weekly?.findings?.length ?? 0) > 0;
+const withBase = (path: string): string => {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+  const normalized = path === "/" ? "/" : path.startsWith("/") ? path : `/${path}`;
+  return `${base}${normalized}`;
+};
 ---
 
 <Base
@@ -28,7 +33,7 @@ const hasFindings = (weekly?.findings?.length ?? 0) > 0;
 
         <section class="card share">
           <img
-            src="/weekly/latest.png"
+            src={withBase("/weekly/latest.png")}
             alt="Weekly share card summarising the top findings."
             width="1200"
             height="630"
@@ -57,7 +62,7 @@ const hasFindings = (weekly?.findings?.length ?? 0) > 0;
                   <tr>
                     <td>#{f.rank}</td>
                     <td>
-                      <a href={`/package/${f.slug}/`}>
+                      <a href={withBase(`/package/${f.slug}/`)}>
                         {f.ecosystem} · {f.package_name}
                       </a>
                     </td>

@@ -142,3 +142,32 @@ def test_github_contributors_frame_preserves_all_null_share_column() -> None:
     ]
     assert str(df["top_contributor_share_365d"].dtype) == "float64"
     assert pd.isna(df.loc[0, "top_contributor_share_365d"])
+
+
+def test_mark_degraded_if_low_success_marks_tracker_degraded(tmp_path: Path) -> None:
+    with sources_lib.SourceHealthTracker("github_repos", window="w", root=tmp_path) as t:
+        live.mark_degraded_if_low_success(
+            tracker=t,
+            source_name="github_repos",
+            attempted=100,
+            succeeded=80,
+            exception_count=0,
+        )
+
+    rows = sources_lib.read_buffer("w", root=tmp_path)
+    assert rows[0].status == "degraded"
+    assert "success_ratio=0.800" in rows[0].note
+
+
+def test_mark_degraded_if_low_success_keeps_ok_when_above_threshold(tmp_path: Path) -> None:
+    with sources_lib.SourceHealthTracker("github_repos", window="w", root=tmp_path) as t:
+        live.mark_degraded_if_low_success(
+            tracker=t,
+            source_name="github_repos",
+            attempted=100,
+            succeeded=95,
+            exception_count=2,
+        )
+
+    rows = sources_lib.read_buffer("w", root=tmp_path)
+    assert rows[0].status == "ok"

@@ -3,6 +3,11 @@ import Base from "../layouts/Base.astro";
 import { loadAnalysis } from "../lib/data";
 
 const analysis = await loadAnalysis();
+const withBase = (path: string): string => {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+  const normalized = path === "/" ? "/" : path.startsWith("/") ? path : `/${path}`;
+  return `${base}${normalized}`;
+};
 ---
 
 <Base
@@ -33,7 +38,9 @@ const analysis = await loadAnalysis();
             <p>{entry.answer_summary}</p>
             <figure>
               <img
-                src={entry.screenshot_path.startsWith("http") ? entry.screenshot_path : `/${entry.screenshot_path.replace(/^\//, "")}`}
+                src={entry.screenshot_path.startsWith("http")
+                  ? entry.screenshot_path
+                  : withBase(`/${entry.screenshot_path.replace(/^\//, "")}`)}
                 alt={`AI analyst screenshot for ${entry.example_id}`}
                 loading="lazy"
                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"

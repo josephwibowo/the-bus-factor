@@ -4,7 +4,8 @@ import { defineConfig } from "astro/config";
 // The site consumes precomputed JSON from ../public-data/.
 export default defineConfig({
   output: "static",
-  site: "https://the-bus-factor.github.io",
+  site: "https://josephwibowo.github.io",
+  base: "/the-bus-factor",
   trailingSlash: "ignore",
   build: {
     format: "directory",

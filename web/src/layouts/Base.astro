@@ -15,6 +15,12 @@ const {
   activeNav = "home",
 } = Astro.props;
 
+const withBase = (path: string): string => {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+  const normalized = path === "/" ? "/" : path.startsWith("/") ? path : `/${path}`;
+  return `${base}${normalized}`;
+};
+
 const nav = [
   { id: "home", href: "/", label: "Leaderboard" },
   { id: "weekly", href: "/weekly/", label: "Weekly" },
@@ -32,15 +38,15 @@ const nav = [
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:image" content={withBase("/og-image.png")} />
     <title>{title}</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to main content</a>
     <header class="site-header">
       <div class="container site-header__inner">
-        <a class="brand" href="/">
+        <a class="brand" href={withBase("/")}>
           <span class="brand__title">The Bus Factor</span>
           <span class="brand__sub">
             Weekly continuity risk in npm + PyPI
@@ -52,7 +58,7 @@ const nav = [
               nav.map((item) => (
                 <li>
                   <a
-                    href={item.href}
+                    href={withBase(item.href)}
                     class:list={["nav__link", { "nav__link--active": item.id === activeNav }]}
                   >
                     {item.label}
@@ -87,8 +93,8 @@ const nav = [
         </p>
         <p class="muted">
           Source: <a href="https://github.com/the-bus-factor/the_bus_factor">GitHub</a>
-          {" "}· Methodology: <a href="/methodology/">explained</a>
-          {" "}· Positioning: <a href="/positioning/">vs. SCA tools</a>
+          {" "}· Methodology: <a href={withBase("/methodology/")}>explained</a>
+          {" "}· Positioning: <a href={withBase("/positioning/")}>vs. SCA tools</a>
         </p>
       </div>
     </footer>

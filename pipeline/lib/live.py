@@ -144,6 +144,47 @@ def resolve_limit(env_var: str, default: int = 250) -> int:
     return max(1, limit)
 
 
+def resolve_source_success_ratio(default: float = 0.90) -> float:
+    """Return the minimum acceptable ingestion success ratio (0.0 - 1.0)."""
+
+    raw = _var("min_source_success_ratio", str(default))
+    try:
+        ratio = float(raw)
+    except (TypeError, ValueError):
+        return default
+    return max(0.0, min(1.0, ratio))
+
+
+def mark_degraded_if_low_success(
+    *,
+    tracker: sources.SourceHealthTracker,
+    source_name: str,
+    attempted: int,
+    succeeded: int,
+    exception_count: int,
+) -> None:
+    """Mark source health as degraded when coverage falls below threshold.
+
+    ``attempted`` is the number of requested targets (packages/repos).
+    ``succeeded`` is the number of rows produced for those targets.
+    ``exception_count`` is the number of worker exceptions observed.
+    """
+
+    if attempted <= 0:
+        return
+
+    min_ratio = resolve_source_success_ratio()
+    success_ratio = succeeded / attempted
+    exception_ratio = exception_count / attempted
+
+    if success_ratio < min_ratio or exception_ratio > (1.0 - min_ratio):
+        tracker.mark_degraded(
+            f"partial ingestion for {source_name}: success_ratio={success_ratio:.3f} "
+            f"(min={min_ratio:.3f}), attempted={attempted}, succeeded={succeeded}, "
+            f"exceptions={exception_count}"
+        )
+
+
 def resolve_universe(ecosystem: str, *, window: str) -> tuple[str, ...]:
     """Read the committed universe seed (hot path, zero external cost).
 

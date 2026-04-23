@@ -106,27 +106,39 @@ async def _fetch_commits(url: str, client: HttpClient) -> dict[str, Any] | None:
     }
 
 
-async def _ingest(window: str, urls: list[str]) -> list[dict[str, Any]]:
+async def _ingest(window: str, urls: list[str]) -> tuple[list[dict[str, Any]], int]:
     async with HttpClient(window=window, concurrency=8) as client:
         results = await asyncio.gather(
             *[_fetch_commits(url, client) for url in urls], return_exceptions=True
         )
     rows: list[dict[str, Any]] = []
+    exception_count = sum(1 for res in results if isinstance(res, BaseException))
     for res in results:
         if isinstance(res, BaseException) or res is None:
             continue
         rows.append(res)
-    return rows
+    return rows, exception_count
 
 
 def _live() -> pd.DataFrame:
     window = live.resolve_window()
     with live.tracker("github_commits") as t:
         urls = live.repo_urls_from_duckdb(live.duckdb_path())
-        rows = asyncio.run(_ingest(window, urls))
+        rows, exception_count = asyncio.run(_ingest(window, urls))
+        attempted = len(urls)
         t.row_count = len(rows)
-        if not rows:
+        if attempted == 0:
+            t.mark_failed("no github_commits repo urls resolved")
+        elif not rows:
             t.mark_failed("no github_commits rows ingested")
+        else:
+            live.mark_degraded_if_low_success(
+                tracker=t,
+                source_name="github_commits",
+                attempted=attempted,
+                succeeded=len(rows),
+                exception_count=exception_count,
+            )
     df = (
         pd.DataFrame(rows)
         if rows

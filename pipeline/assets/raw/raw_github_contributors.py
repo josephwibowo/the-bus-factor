@@ -51,7 +51,7 @@ from pipeline.lib.http import _auth_headers
 
 FIXTURE_ROOT = Path(__file__).resolve().parents[2] / "fixtures"
 GITHUB_REST = "https://api.github.com/repos"
-STATS_POLL_MAX = 2
+STATS_POLL_MAX = 4
 STATS_POLL_WAIT_SECONDS = 3.0
 STATS_REQUEST_TIMEOUT_SECONDS = 20.0
 logger = logging.getLogger(__name__)
@@ -184,7 +184,7 @@ async def _fetch_repo(url: str, client: httpx.AsyncClient) -> dict[str, Any] | N
     }
 
 
-async def _ingest(urls: list[str]) -> list[dict[str, Any]]:
+async def _ingest(urls: list[str]) -> tuple[list[dict[str, Any]], int]:
     # The /stats endpoint is polling-heavy, so we skip the HttpClient disk
     # cache for this asset and talk straight to httpx with bounded concurrency.
     sem = asyncio.Semaphore(4)
@@ -198,11 +198,12 @@ async def _ingest(urls: list[str]) -> list[dict[str, Any]]:
     ) as client:
         results = await asyncio.gather(*[_worker(u, client) for u in urls], return_exceptions=True)
     rows: list[dict[str, Any]] = []
+    exception_count = sum(1 for res in results if isinstance(res, BaseException))
     for res in results:
         if isinstance(res, BaseException) or res is None:
             continue
         rows.append(res)
-    return rows
+    return rows, exception_count
 
 
 def _rows_to_frame(rows: list[dict[str, Any]]) -> pd.DataFrame:
@@ -223,10 +224,21 @@ def _rows_to_frame(rows: list[dict[str, Any]]) -> pd.DataFrame:
 def _live() -> pd.DataFrame:
     with live.tracker("github_contributors") as t:
         urls = live.repo_urls_from_duckdb(live.duckdb_path())
-        rows = asyncio.run(_ingest(urls))
+        rows, exception_count = asyncio.run(_ingest(urls))
+        attempted = len(urls)
         t.row_count = len(rows)
-        if not rows:
+        if attempted == 0:
+            t.mark_failed("no github_contributors repo urls resolved")
+        elif not rows:
             t.mark_failed("no github_contributors rows ingested")
+        else:
+            live.mark_degraded_if_low_success(
+                tracker=t,
+                source_name="github_contributors",
+                attempted=attempted,
+                succeeded=len(rows),
+                exception_count=exception_count,
+            )
     df = _rows_to_frame(rows)
     df["ingested_at"] = pd.Timestamp.utcnow()
     return df

@@ -30,7 +30,7 @@ columns:
       - name: not_null
   - name: methodology_version
     type: varchar
-    description: Hard-coded to match scoring.yml. Bump whenever any weight changes.
+    description: Injected via `var.methodology_version`; defaults should mirror scoring.yml.
     checks:
       - name: not_null
 
@@ -50,5 +50,5 @@ SELECT
     CAST(EXTRACT(YEAR FROM snapshot_week) AS VARCHAR)
         || '-W'
         || LPAD(CAST(EXTRACT(WEEK FROM snapshot_week) AS VARCHAR), 2, '0') AS snapshot_week_label,
-    'v0.1.0' AS methodology_version
+    '{{ var.methodology_version }}' AS methodology_version
 FROM anchor

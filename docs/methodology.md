@@ -6,7 +6,7 @@
 
 1. For each tracked package we compute an **importance score** (dependency reach + downloads + security exposure) and a **fragility score** (release recency, commit recency, release cadence decay, issue responsiveness, contributor concentration, Scorecard health).
 2. `risk_score = round(importance × fragility / 100)`, both normalized to 0–100 **within ecosystem** (npm and PyPI ranked independently).
-3. A package is **flagged** only when it clears *all* of: `risk_score ≥ 75`, `High` or `Critical` tier, medium or high confidence, ≥2 independent fragility signals each contributing ≥40, and top-quartile ecosystem importance.
+3. A package is **flagged** only when it clears *all* of: `risk_score ≥ 30`, `High` or `Critical` tier, medium or high confidence, ≥2 independent fragility signals each contributing ≥40, and top-quartile ecosystem importance.
 4. Weekly cadence. Monday 00:00 UTC → Monday 00:00 UTC reporting window.
 5. False positives cost more than false negatives — thresholds are deliberately conservative.
 

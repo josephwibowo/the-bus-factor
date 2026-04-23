@@ -410,7 +410,7 @@ def _build_weekly(conn: duckdb.DuckDBPyConnection, flagged_counts: dict[str, int
     if total_flagged == 0:
         headline_text = "No packages crossed the flag threshold this week."
         summary = (
-            "Zero packages met the flagged criteria (risk >= 75 with >= 2 independent "
+            "Zero packages met the flagged criteria (risk >= 30 with >= 2 independent "
             "fragility signals and medium+ confidence) for "
             f"{anchor['snapshot_week_label']}. Continuity signals are healthy across the "
             "tracked set."
