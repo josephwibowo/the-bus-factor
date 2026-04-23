@@ -152,6 +152,10 @@ SELECT ecosystem, package_name, 'issue_responsiveness',
     CASE
         WHEN issues_opened_last_180d IS NULL OR issues_opened_last_180d < 5
             THEN 'Fewer than 5 eligible issues in the last 180 days; signal skipped.'
+        WHEN median_time_to_first_response_days IS NULL
+            THEN 'Median first maintainer response unavailable on '
+                 || CAST(issues_opened_last_180d AS STRING)
+                 || ' issues.'
         ELSE 'Median first maintainer response: '
              || CAST(ROUND(median_time_to_first_response_days, 1) AS STRING)
              || ' days on '
