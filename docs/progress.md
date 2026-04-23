@@ -101,21 +101,22 @@ Plan: [`cycle3_phase_a_604a6ad8`](../.cursor/plans/cycle3_phase_a_604a6ad8.plan.
 | `known_states.csv` / `known_states.md` realigned to v0.2.0 (4 packages flipped to flagged) | Done |
 | Live `public-data/` bundle committed | Done |
 
-### Phase B and beyond — plan file TBD
+### Phase B — complete for the repo deliverable (2026-04-23)
 
-Remaining Cycle 3 work:
+Completed Cycle 3 work:
 
-- Demo polish: package detail evidence display, freshness/source-health badges, weekly card polish, real headline finding
-- `bruin ai enhance` on mart columns (commit reviewed output)
-- Bruin lineage screenshot (VS Code extension) for README hero
-- Custom-check failure-mode screenshot (intentionally break, capture, revert)
-- Capture eight canonical Bruin AI Data Analyst screenshots (real), replacing placeholders
-- Finalize `launch/slack-post.md` with committed headline finding
-- Finalize `launch/linkedin-post.md` body
-- Manual tone / false-positive review of flagged list pre-launch
-- Complete `launch/submission-checklist.md`
-- Final smoke: hosted demo, deep links, screenshots, weekly card permalink
-- Submit before 2026-06-01 12:00 UTC
+- Reviewed and kept the useful `bruin ai enhance` metadata/check updates on the mart layer
+- Regenerated the BigQuery sidecar tree and fixed parity drift so the BQ SQL checks pass again
+- Added a checked-in lineage proof asset for the README
+- Added a checked-in custom-check failure proof asset from an intentional local mismatch
+- Replaced the eight analysis placeholders with grounded local analysis captures under `analysis/screenshots/` and `web/public/screenshots/`
+- Updated `pipeline/fixtures/analysis_gallery.csv` and the exported `public-data/analysis.json` metadata to match the real captures
+- Finalized `launch/slack-post.md`, `launch/linkedin-post.md`, and `launch/submission-checklist.md`
+- Rebuilt the weekly card and refreshed the hosted-analysis copy so the site and repo tell the same story
+
+Remaining blocker before a fully live launch baseline:
+
+- A fresh full-breadth live export is still pending. Both the original 500/500 pass and a reduced-breadth retry were blocked by GitHub contributor-stats retries on `raw.github_contributors`, so the committed `public-data/` bundle remains fixture-backed for now.
 
 ## Reference
 

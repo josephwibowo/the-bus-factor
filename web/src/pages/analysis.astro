@@ -12,16 +12,16 @@ const withBase = (path: string): string => {
 
 <Base
   title="AI analyst gallery | The Bus Factor"
-  description="Canonical Bruin AI Data Analyst prompts, answers, and screenshot evidence."
+  description="Canonical Bruin analysis prompts, answers, and screenshot evidence."
   snapshotWeek={analysis?.snapshot_week}
   activeNav="analysis"
 >
   <header>
-    <h1>Bruin AI Data Analyst — canonical prompts</h1>
+    <h1>Bruin analysis gallery — canonical prompts</h1>
     <p class="muted">
-      Every prompt below is run against the Bruin AI Data Analyst; screenshots are captured from
-      that surface unedited. This is the only analysis interface — the site never ships a custom
-      natural-language layer.
+      Every prompt below is answered from the checked-in Bruin marts and rendered as a local
+      analysis capture. The site only displays exported results; it never adds a live
+      natural-language layer of its own.
     </p>
   </header>
 
@@ -46,7 +46,7 @@ const withBase = (path: string): string => {
                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"
               />
               <p class="empty-screenshot muted">
-                Screenshot placeholder — captured in Cycle 3 from the live AI Data Analyst.
+                Screenshot unavailable for this entry.
               </p>
               <figcaption class="muted">
                 Captured {entry.capture_date} from {entry.capture_source} · dataset{" "}

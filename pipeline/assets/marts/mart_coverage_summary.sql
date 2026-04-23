@@ -2,11 +2,14 @@
 
 name: mart.coverage_summary
 type: duckdb.sql
-
 description: |
   Per-ecosystem totals used by the methodology page and the README status
   badge. Tracks tracked / eligible / flagged counts and exclusions split
   by reason.
+tags:
+  - dialect:duckdb
+  - layer:mart
+  - domain:coverage
 
 materialization:
   type: table
@@ -16,52 +19,49 @@ depends:
   - mart.packages_current
   - mart.package_scores
 
-tags:
-  - dialect:duckdb
-  - layer:mart
-  - domain:coverage
-
 columns:
   - name: snapshot_week
-    type: date
+    type: DATE
     checks:
       - name: not_null
   - name: methodology_version
-    type: varchar
+    type: VARCHAR
     checks:
       - name: not_null
   - name: ecosystem
-    type: varchar
+    type: VARCHAR
     checks:
       - name: not_null
       - name: accepted_values
-        value: [npm, pypi]
+        value:
+          - npm
+          - pypi
   - name: tracked
-    type: integer
+    type: INTEGER
     checks:
       - name: non_negative
   - name: eligible
-    type: integer
+    type: INTEGER
     checks:
       - name: non_negative
   - name: flagged
-    type: integer
+    type: INTEGER
     checks:
       - name: non_negative
   - name: excluded_unmappable
-    type: integer
+    type: INTEGER
     checks:
       - name: non_negative
   - name: excluded_archived
-    type: integer
+    type: INTEGER
     checks:
       - name: non_negative
   - name: excluded_too_new
-    type: integer
+    type: INTEGER
     checks:
       - name: non_negative
   - name: excluded_stub_types
-    type: integer
+    type: INTEGER
     checks:
       - name: non_negative
 
@@ -85,11 +85,11 @@ ecosystem_counts AS (
         p.methodology_version,
         p.ecosystem,
         COUNT(*) AS tracked,
-        COUNT(*) FILTER (WHERE p.is_eligible) AS eligible,
-        COUNT(*) FILTER (WHERE p.exclusion_reason = 'unmappable') AS excluded_unmappable,
-        COUNT(*) FILTER (WHERE p.exclusion_reason = 'archived_deprecated') AS excluded_archived,
-        COUNT(*) FILTER (WHERE p.exclusion_reason = 'too_new') AS excluded_too_new,
-        COUNT(*) FILTER (WHERE p.exclusion_reason = 'stub_types') AS excluded_stub_types
+        SUM(CASE WHEN p.is_eligible THEN 1 ELSE 0 END) AS eligible,
+        SUM(CASE WHEN p.exclusion_reason = 'unmappable' THEN 1 ELSE 0 END) AS excluded_unmappable,
+        SUM(CASE WHEN p.exclusion_reason = 'archived_deprecated' THEN 1 ELSE 0 END) AS excluded_archived,
+        SUM(CASE WHEN p.exclusion_reason = 'too_new' THEN 1 ELSE 0 END) AS excluded_too_new,
+        SUM(CASE WHEN p.exclusion_reason = 'stub_types' THEN 1 ELSE 0 END) AS excluded_stub_types
     FROM packages p
     GROUP BY 1, 2, 3
 ),

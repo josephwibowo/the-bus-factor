@@ -6,8 +6,9 @@ type: duckdb.sql
 description: |
   Analysis gallery rows used by the `/analysis` page. Carries the AI Data
   Analyst prompts, answer summaries, and screenshot references. Populated
-  from the checked-in `seed.analysis_gallery` fixture; real screenshots
-  are captured in Cycle 3.
+  from the checked-in `seed.analysis_gallery` fixture; the canonical
+  screenshot files live under `analysis/screenshots/` and
+  `web/public/screenshots/`.
 
 materialization:
   type: table

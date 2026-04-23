@@ -189,19 +189,14 @@ SELECT
         WHEN (CASE WHEN r.is_monorepo AND r.mapping_points >= 70 THEN 69 ELSE r.mapping_points END) >= 40 THEN 'medium'
         ELSE 'low'
     END AS mapping_bucket,
-    ARRAY_TO_STRING(ARRAY(
-        SELECT reason
-        FROM UNNEST([
-            CASE WHEN r.pt_registry_resolves > 0 THEN 'registry_repo_url_resolves(+40)' END,
-            CASE WHEN r.pt_homepage_match > 0 THEN 'homepage_resolves_same_repo(+10)' END,
-            CASE WHEN r.pt_manifest_match > 0 THEN 'repo_manifest_matches_package(+30)' END,
-            CASE WHEN r.pt_deps_dev_match > 0 THEN 'deps_dev_source_repo_match(+20)' END,
-            CASE WHEN r.pt_scorecard_present > 0 THEN 'openssf_scorecard_present(+10)' END,
-            CASE WHEN r.pt_owner_publisher_match > 0 THEN 'repo_owner_matches_publisher(+10)' END,
-            CASE WHEN r.is_monorepo THEN 'monorepo_cap_applied(medium_max)' END
-        ]) AS reason
-        WHERE reason IS NOT NULL
-    ), ', '
-    ) AS mapping_rationale,
+    TRIM(BOTH ', ' FROM CONCAT(
+        CASE WHEN r.pt_registry_resolves > 0 THEN ', registry_repo_url_resolves(+40)' ELSE '' END,
+        CASE WHEN r.pt_homepage_match > 0 THEN ', homepage_resolves_same_repo(+10)' ELSE '' END,
+        CASE WHEN r.pt_manifest_match > 0 THEN ', repo_manifest_matches_package(+30)' ELSE '' END,
+        CASE WHEN r.pt_deps_dev_match > 0 THEN ', deps_dev_source_repo_match(+20)' ELSE '' END,
+        CASE WHEN r.pt_scorecard_present > 0 THEN ', openssf_scorecard_present(+10)' ELSE '' END,
+        CASE WHEN r.pt_owner_publisher_match > 0 THEN ', repo_owner_matches_publisher(+10)' ELSE '' END,
+        CASE WHEN r.is_monorepo THEN ', monorepo_cap_applied(medium_max)' ELSE '' END
+    )) AS mapping_rationale,
     r.is_monorepo
 FROM rolled r

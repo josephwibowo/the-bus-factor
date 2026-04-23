@@ -2,12 +2,15 @@
 
 name: mart.package_evidence
 type: duckdb.sql
-
 description: |
   Long-form fragility evidence: one row per (package, signal) pair for the
   six fragility components. Feeds the package detail page and the weekly
   card. The `evidence` column is a short human-readable phrase summarising
   the underlying measurement (e.g. "468 days since last release").
+tags:
+  - dialect:duckdb
+  - layer:mart
+  - domain:evidence
 
 materialization:
   type: table
@@ -23,24 +26,21 @@ depends:
   - int.repo_mapping
   - int.eligibility
 
-tags:
-  - dialect:duckdb
-  - layer:mart
-  - domain:evidence
-
 columns:
   - name: ecosystem
-    type: varchar
+    type: VARCHAR
     checks:
       - name: not_null
       - name: accepted_values
-        value: [npm, pypi]
+        value:
+          - npm
+          - pypi
   - name: package_name
-    type: varchar
+    type: VARCHAR
     checks:
       - name: not_null
   - name: signal_name
-    type: varchar
+    type: VARCHAR
     checks:
       - name: not_null
       - name: accepted_values
@@ -52,23 +52,24 @@ columns:
           - contributor_bus_factor
           - openssf_scorecard
   - name: contribution
-    type: double
+    type: DOUBLE
     description: Per-signal 0-100 contribution before applying weights.
     checks:
       - name: non_negative
   - name: evidence
-    type: varchar
+    type: VARCHAR
     description: Short human-readable summary of the measurement.
     checks:
       - name: not_null
   - name: snapshot_week
-    type: date
+    type: DATE
     checks:
       - name: not_null
 
 custom_checks:
   - name: exactly_six_signals_per_package
     description: Every package in the long-form table must expose all six fragility signals.
+    value: 0
     query: |
       SELECT COUNT(*) FROM (
           SELECT ecosystem, package_name, COUNT(DISTINCT signal_name) AS c
@@ -76,10 +77,10 @@ custom_checks:
           GROUP BY ecosystem, package_name
       ) t
       WHERE c != 6
-
   - name: contributions_within_bounds
     description: Each signal contribution must be in [0, 100].
-    query: |
+    value: 0
+    query: |-
       SELECT COUNT(*) FROM mart.package_evidence
       WHERE contribution < 0 OR contribution > 100
 

@@ -44,5 +44,5 @@ SELECT
     releases_last_365d,
     releases_prior_365d,
     latest_release_tag,
-    latest_release_date
+    CAST(latest_release_date AS DATE) AS latest_release_date
 FROM raw.github_releases

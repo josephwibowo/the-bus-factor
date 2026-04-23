@@ -2,12 +2,15 @@
 
 name: mart.weekly_findings
 type: bq.sql
-
 description: |
   Top findings for the weekly share card and the `/weekly` page. Selects
   up to five flagged packages ordered by risk_score, interleaving npm and
   pypi so no ecosystem dominates. When zero packages are flagged we keep
   the mart empty and let the export layer substitute the fallback copy.
+tags:
+  - dialect:bigquery
+  - layer:mart
+  - domain:weekly
 
 materialization:
   type: table
@@ -20,60 +23,60 @@ depends:
   - mart.packages_current
   - mart.package_evidence
 
-tags:
-  - dialect:bigquery
-  - layer:mart
-  - domain:weekly
-
 columns:
   - name: snapshot_week
-    type: date
+    type: DATE
     checks:
       - name: not_null
   - name: rank
-    type: integer
+    type: INTEGER
     checks:
       - name: not_null
       - name: positive
   - name: ecosystem
-    type: varchar
+    type: VARCHAR
     checks:
       - name: not_null
       - name: accepted_values
-        value: [npm, pypi]
+        value:
+          - npm
+          - pypi
   - name: package_name
-    type: varchar
+    type: VARCHAR
     checks:
       - name: not_null
   - name: slug
-    type: varchar
+    type: VARCHAR
     checks:
       - name: not_null
   - name: severity_tier
-    type: varchar
+    type: VARCHAR
     checks:
       - name: not_null
       - name: accepted_values
-        value: [High, Critical]
+        value:
+          - High
+          - Critical
   - name: risk_score
-    type: double
+    type: DOUBLE
     checks:
       - name: non_negative
   - name: primary_finding
-    type: varchar
+    type: VARCHAR
     checks:
       - name: not_null
 
 custom_checks:
   - name: at_most_five_findings
     description: The weekly card honours the up-to-5 rule regardless of flagged volume.
+    value: 0
     query: |
       SELECT CASE WHEN COUNT(*) > 5 THEN 1 ELSE 0 END
       FROM mart.weekly_findings
-
   - name: ranks_are_sequential
     description: Ranks are 1..N without gaps.
-    query: |
+    value: 0
+    query: |-
       SELECT COUNT(*) FROM (
           SELECT rank, ROW_NUMBER() OVER (ORDER BY rank) AS rn
           FROM mart.weekly_findings

@@ -70,3 +70,5 @@ tmp/
 
 logs/runs
 logs/*.log
+
+logs/queries

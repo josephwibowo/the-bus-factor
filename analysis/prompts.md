@@ -1,6 +1,6 @@
 # Canonical Bruin AI Data Analyst prompts
 
-Every screenshot in `screenshots/` must use one of the prompts below **verbatim**, and record (prompt, answer, `dataset_version`, `methodology_version`, `capture_date`, and whether the capture came from local Bruin MCP or Bruin Cloud) in `mart_analysis_examples`.
+Every screenshot in `screenshots/` must use one of the prompts below **verbatim**, and record (prompt, answer, `dataset_version`, `methodology_version`, `capture_date`, and whether the capture came from Bruin AI Data Analyst or the local grounded-analysis render path) in `mart_analysis_examples`.
 
 The gallery must avoid open-ended prompts that ask the analyst to infer maintainer intent, burnout, or motivation. Acceptable prompt types are: ranking, filtering, grouping, comparison, and explaining displayed evidence.
 
@@ -25,8 +25,8 @@ C. Which source coverage gaps most affect confidence in this week's snapshot?
 
 1. Run the pipeline (fixture or live).
 2. Note the `methodology_version` and `snapshot_week` from `public-data/metadata.json`.
-3. Open Bruin MCP in your AI coding tool (or Bruin Cloud AI Data Analyst, if available).
-4. Paste the prompt verbatim.
+3. Run the prompt through the local Bruin analysis workflow.
+4. Preferred capture path: Bruin MCP in your AI coding tool (or Bruin Cloud AI Data Analyst, if available). Fallback capture path: a local grounded render backed by the same marts.
 5. Screenshot the full response (prompt + answer + enough table context to prove grounding).
 6. Save as `screenshots/<prompt-slug>__<methodology_version>__<YYYY-MM-DD>.png`.
 7. Append a row to `mart_analysis_examples` via the export asset.

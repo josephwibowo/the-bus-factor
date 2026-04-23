@@ -72,7 +72,7 @@ SELECT
     manifest_paths,
     CASE
         WHEN NULLIF(TRIM(manifest_paths), '') IS NULL THEN 0
-        ELSE ARRAY_LENGTH(STRING_SPLIT(manifest_paths, ';'))
+        ELSE 1 + LENGTH(manifest_paths) - LENGTH(REPLACE(manifest_paths, ';', ''))
     END AS manifest_count,
     LOWER(TRIM(owner_login)) AS owner_login
 FROM raw.github_repos

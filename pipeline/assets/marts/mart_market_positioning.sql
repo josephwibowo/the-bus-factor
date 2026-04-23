@@ -2,10 +2,13 @@
 
 name: mart.market_positioning
 type: duckdb.sql
-
 description: |
   Market positioning table (`/positioning` page). Sourced from the
   `seed.market_positioning` fixture; always manually curated.
+tags:
+  - dialect:duckdb
+  - layer:mart
+  - domain:positioning
 
 materialization:
   type: table
@@ -14,36 +17,31 @@ depends:
   - int.snapshot
   - seed.market_positioning
 
-tags:
-  - dialect:duckdb
-  - layer:mart
-  - domain:positioning
-
 columns:
   - name: snapshot_week
-    type: date
+    type: DATE
     checks:
       - name: not_null
   - name: row_order
-    type: integer
+    type: INTEGER
     checks:
       - name: not_null
       - name: positive
       - name: unique
   - name: category
-    type: varchar
+    type: VARCHAR
     checks:
       - name: not_null
   - name: example_products
-    type: varchar
+    type: VARCHAR
     checks:
       - name: not_null
   - name: primary_question_answered
-    type: varchar
+    type: VARCHAR
     checks:
       - name: not_null
   - name: relationship_to_bus_factor
-    type: varchar
+    type: VARCHAR
     checks:
       - name: not_null
 

@@ -81,21 +81,22 @@ SELECT
     CASE
         WHEN NULLIF(TRIM(repository_url), '') IS NULL THEN NULL
         WHEN REGEXP_EXTRACT(
-            CONCAT(LOWER(TRIM(repository_url)), '/'),
-            r'github\.com[/:]([a-z0-9_.-]+?)/[a-z0-9_.-]+?(?:\.git)?(?:$|[/#?])'
-        ) IS NULL THEN NULL
-        ELSE CONCAT(
-            'https://github.com/',
-            REGEXP_EXTRACT(
-                CONCAT(LOWER(TRIM(repository_url)), '/'),
-                r'github\.com[/:]([a-z0-9_.-]+?)/[a-z0-9_.-]+?(?:\.git)?(?:$|[/#?])'
-            ),
-            '/',
-            REGEXP_EXTRACT(
-                CONCAT(LOWER(TRIM(repository_url)), '/'),
-                r'github\.com[/:][a-z0-9_.-]+?/([a-z0-9_.-]+?)(?:\.git)?(?:$|[/#?])'
+            LOWER(TRIM(repository_url)) || '/',
+            'github\.com[/:]([a-z0-9_.-]+?)/([a-z0-9_.-]+?)(\.git)?($|[/#?])',
+            1
+        ) = '' THEN NULL
+        ELSE 'https://github.com/'
+            || REGEXP_EXTRACT(
+                LOWER(TRIM(repository_url)) || '/',
+                'github\.com[/:]([a-z0-9_.-]+?)/([a-z0-9_.-]+?)(\.git)?($|[/#?])',
+                1
             )
-        )
+            || '/'
+            || REGEXP_EXTRACT(
+                LOWER(TRIM(repository_url)) || '/',
+                'github\.com[/:]([a-z0-9_.-]+?)/([a-z0-9_.-]+?)(\.git)?($|[/#?])',
+                2
+            )
     END AS repository_url_clean,
     is_deprecated,
     is_archived,

@@ -13,7 +13,9 @@ description: |
     commit_recency          : linear 30-365 days since last commit
     release_cadence_decay   : 100 * (1 - last/prior) if prior >= 2
     issue_responsiveness    : linear 7-90 days on median response, gated by
-                              issues_opened_last_180d >= 10
+                              issues_opened_last_180d >= min_eligible_issues
+                              (see scoring.yml; currently 5 in v0.2.0,
+                              was 10 in v0.1.0)
     contributor_bus_factor  : linear 0.30-0.90 on top-1 contributor share
     openssf_scorecard       : 100 - (score * 10), clamped 0-100
 

@@ -2,12 +2,15 @@
 
 name: mart.source_health
 type: bq.sql
-
 description: |
   Ingestion-source status table consumed by the `/sources` page and the
   metadata bundle. Reads from stg.source_health, which in fixture mode
   mirrors the committed CSV and in live mode drains per-asset telemetry
   buffered via pipeline/lib/sources.py.
+tags:
+  - dialect:bigquery
+  - layer:mart
+  - domain:health
 
 materialization:
   type: table
@@ -18,47 +21,45 @@ depends:
   - int.snapshot
   - stg.source_health
 
-tags:
-  - dialect:bigquery
-  - layer:mart
-  - domain:health
-
 columns:
   - name: snapshot_week
-    type: date
+    type: DATE
     checks:
       - name: not_null
   - name: source_name
-    type: varchar
+    type: VARCHAR
     checks:
       - name: not_null
       - name: unique
   - name: source_category
-    type: varchar
+    type: VARCHAR
     checks:
       - name: not_null
   - name: status
-    type: varchar
+    type: VARCHAR
     checks:
       - name: not_null
       - name: accepted_values
-        value: [ok, degraded, failed]
+        value:
+          - ok
+          - degraded
+          - failed
   - name: last_success_at
-    type: timestamp
+    type: TIMESTAMP
   - name: stale
-    type: boolean
+    type: BOOLEAN
     checks:
       - name: not_null
   - name: failure_count
-    type: integer
+    type: INTEGER
     checks:
       - name: non_negative
   - name: latency_ms
-    type: double
+    type: DOUBLE
   - name: row_count
-    type: bigint
+    type: BIGINT
   - name: note
-    type: varchar
+    type: VARCHAR
 
 @bruin */
 

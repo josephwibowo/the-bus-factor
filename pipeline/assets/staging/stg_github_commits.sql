@@ -43,6 +43,6 @@ columns:
 
 SELECT
     LOWER(TRIM(repo_url)) AS repo_url,
-    last_commit_date,
+    CAST(last_commit_date AS DATE) AS last_commit_date,
     commits_last_365d
 FROM raw.github_commits

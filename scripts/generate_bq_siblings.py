@@ -23,8 +23,8 @@ Translations applied (all non-speculative, safe rewrites):
 
 BigQuery already supports ``||`` as a string-concatenation operator, so we
 do *not* rewrite it to ``CONCAT``.  Marts additionally receive
-``partition_by: snapshot_week`` + ``cluster_by: [ecosystem, package_name]``
-frontmatter for cost pruning and clustering.
+``partition_by: snapshot_week`` + a valid ``cluster_by`` list derived from
+the output columns for cost pruning and clustering.
 """
 
 from __future__ import annotations
@@ -81,8 +81,33 @@ def translate(sql: str) -> str:
 
     sql = re.sub(r"CAST\((.+?)\s+AS\s+VARCHAR\)", lambda m: f"CAST({m.group(1)} AS STRING)", sql)
     sql = re.sub(r"CAST\((.+?)\s+AS\s+DOUBLE\)", lambda m: f"CAST({m.group(1)} AS FLOAT64)", sql)
+    sql = re.sub(r"\bSTRING_SPLIT\(", "SPLIT(", sql)
 
     return sql
+
+
+def _frontmatter_columns(text: str) -> list[str]:
+    return [
+        match.group(1)
+        for match in re.finditer(r"^\s*-\s+name:\s*([A-Za-z0-9_]+)\s*$", text, flags=re.MULTILINE)
+    ]
+
+
+def _cluster_columns(text: str) -> list[str]:
+    output_cols = _frontmatter_columns(text)
+    preferred = [
+        ["ecosystem", "package_name"],
+        ["ecosystem", "methodology_version"],
+        ["ecosystem", "rank"],
+        ["source_name", "source_category"],
+        ["example_id"],
+        ["row_order", "category"],
+    ]
+    for candidate in preferred:
+        if all(col in output_cols for col in candidate):
+            return candidate
+    fallback = [col for col in output_cols if col != "snapshot_week"][:2]
+    return fallback or ["snapshot_week"]
 
 
 def ensure_dialect_tag(text: str, dialect: str) -> str:
@@ -125,12 +150,13 @@ def process_file(duckdb_path: Path) -> Path | None:
         and "materialization:" in new_text
         and "partition_by" not in new_text
     ):
+        cluster_cols = ", ".join(_cluster_columns(new_text))
         new_text = re.sub(
             r"materialization:\s*\n\s*type:\s*table",
             (
                 "materialization:\n  type: table\n"
                 "  partition_by: snapshot_week\n"
-                "  cluster_by: [ecosystem, package_name]"
+                f"  cluster_by: [{cluster_cols}]"
             ),
             new_text,
             count=1,

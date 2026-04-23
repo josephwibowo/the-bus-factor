@@ -1,9 +1,9 @@
 {
   "entries": [
     {
-      "answer_summary": "Returns the ordered npm flagged cohort with per-package findings drawn from mart.weekly_findings.",
-      "capture_date": "2026-04-20",
-      "capture_source": "local-mcp",
+      "answer_summary": "Orders the current npm flagged cohort and surfaces the top release and commit continuity findings for each package.",
+      "capture_date": "2026-04-23",
+      "capture_source": "local-analysis",
       "dataset_version": "2026-W17",
       "example_id": "Q1",
       "methodology_version": "v0.2.0",
@@ -11,9 +11,9 @@
       "screenshot_path": "/screenshots/Q1_flagged_npm.png"
     },
     {
-      "answer_summary": "Returns the ordered PyPI flagged cohort with per-package findings.",
-      "capture_date": "2026-04-20",
-      "capture_source": "local-mcp",
+      "answer_summary": "Orders the current PyPI flagged cohort and surfaces the top release and commit continuity findings for each package.",
+      "capture_date": "2026-04-23",
+      "capture_source": "local-analysis",
       "dataset_version": "2026-W17",
       "example_id": "Q2",
       "methodology_version": "v0.2.0",
@@ -21,9 +21,9 @@
       "screenshot_path": "/screenshots/Q2_flagged_pypi.png"
     },
     {
-      "answer_summary": "Cross-tab of flagged packages by ecosystem and severity_tier.",
-      "capture_date": "2026-04-20",
-      "capture_source": "local-mcp",
+      "answer_summary": "Shows the ecosystem-by-tier split for the current flagged cohort; all eight flagged rows are Critical in the committed snapshot.",
+      "capture_date": "2026-04-23",
+      "capture_source": "local-analysis",
       "dataset_version": "2026-W17",
       "example_id": "Q3",
       "methodology_version": "v0.2.0",
@@ -31,9 +31,9 @@
       "screenshot_path": "/screenshots/Q3_grouped.png"
     },
     {
-      "answer_summary": "Identifies packages with fragility signals that miss the flagged gate (below top-quartile importance, single-signal, or confidence < medium).",
-      "capture_date": "2026-04-20",
-      "capture_source": "local-mcp",
+      "answer_summary": "Highlights fragile packages kept below the flag gate by the top-quartile importance threshold or the 30-point risk floor.",
+      "capture_date": "2026-04-23",
+      "capture_source": "local-analysis",
       "dataset_version": "2026-W17",
       "example_id": "Q4",
       "methodology_version": "v0.2.0",
@@ -41,9 +41,9 @@
       "screenshot_path": "/screenshots/Q4_elevated_not_flagged.png"
     },
     {
-      "answer_summary": "Lists archived/deprecated packages from mart.coverage_summary with exclusion rationale.",
-      "capture_date": "2026-04-20",
-      "capture_source": "local-mcp",
+      "answer_summary": "Shows the archived/deprecated-bucket exclusions; this snapshot has archived packages in that bucket and no deprecated-only exclusions.",
+      "capture_date": "2026-04-23",
+      "capture_source": "local-analysis",
       "dataset_version": "2026-W17",
       "example_id": "Q5",
       "methodology_version": "v0.2.0",
@@ -51,9 +51,9 @@
       "screenshot_path": "/screenshots/Q5_archived.png"
     },
     {
-      "answer_summary": "Lists unmappable packages with mapping-confidence points breakdown.",
-      "capture_date": "2026-04-20",
-      "capture_source": "local-mcp",
+      "answer_summary": "Shows the unmappable packages excluded with low mapping confidence and zero mapping points.",
+      "capture_date": "2026-04-23",
+      "capture_source": "local-analysis",
       "dataset_version": "2026-W17",
       "example_id": "Q6",
       "methodology_version": "v0.2.0",
@@ -61,9 +61,9 @@
       "screenshot_path": "/screenshots/Q6_unmappable.png"
     },
     {
-      "answer_summary": "Side-by-side comparison of top flagged packages across both ecosystems.",
-      "capture_date": "2026-04-20",
-      "capture_source": "local-mcp",
+      "answer_summary": "Compares the top four flagged npm and PyPI rows side by side across scores confidence and primary findings.",
+      "capture_date": "2026-04-23",
+      "capture_source": "local-analysis",
       "dataset_version": "2026-W17",
       "example_id": "Q7",
       "methodology_version": "v0.2.0",
@@ -71,9 +71,9 @@
       "screenshot_path": "/screenshots/Q7_cross_ecosystem.png"
     },
     {
-      "answer_summary": "Empty in v0.2.0 (first snapshot); structure ready for cross-week comparisons once methodology stabilizes.",
-      "capture_date": "2026-04-20",
-      "capture_source": "local-mcp",
+      "answer_summary": "Shows the honest empty-state answer: there is no prior v0.2.0 snapshot yet so no methodology-compatible tier changes can be reported.",
+      "capture_date": "2026-04-23",
+      "capture_source": "local-analysis",
       "dataset_version": "2026-W17",
       "example_id": "Q8",
       "methodology_version": "v0.2.0",

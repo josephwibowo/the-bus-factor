@@ -2,7 +2,6 @@
 
 name: mart.package_scores
 type: bq.sql
-
 description: |
   One row per ELIGIBLE package with importance, fragility, and risk scores
   plus severity tier, confidence band, and the flagged decision. Percentile
@@ -16,6 +15,10 @@ description: |
     * >= 2 independent fragility signals >= 40, and at least one of them
       is NOT release_recency (release_recency is paired_signal_only)
     * importance percentile >= top_quantile gate (75 for quantile 0.25)
+tags:
+  - dialect:bigquery
+  - layer:mart
+  - domain:scores
 
 materialization:
   type: table
@@ -29,142 +32,148 @@ depends:
   - int.fragility_inputs
   - int.repo_mapping
 
-tags:
-  - dialect:bigquery
-  - layer:mart
-  - domain:scores
-
 columns:
   - name: ecosystem
-    type: varchar
+    type: VARCHAR
     checks:
       - name: not_null
       - name: accepted_values
-        value: [npm, pypi]
+        value:
+          - npm
+          - pypi
   - name: package_name
-    type: varchar
+    type: VARCHAR
     checks:
       - name: not_null
   - name: snapshot_week
-    type: date
+    type: DATE
     checks:
       - name: not_null
   - name: methodology_version
-    type: varchar
+    type: VARCHAR
     checks:
       - name: not_null
   - name: importance_score
-    type: double
+    type: DOUBLE
     description: 0-100, weighted sum of three log-percentile components over the eligible ecosystem.
     checks:
       - name: non_negative
   - name: fragility_score
-    type: double
+    type: DOUBLE
     checks:
       - name: non_negative
   - name: risk_score
-    type: double
+    type: DOUBLE
     description: (importance_score * fragility_score) / 100, clamped 0-100.
     checks:
       - name: non_negative
   - name: severity_tier
-    type: varchar
+    type: VARCHAR
     checks:
       - name: not_null
       - name: accepted_values
-        value: [Stable, Watch, Elevated, High, Critical]
+        value:
+          - Stable
+          - Watch
+          - Elevated
+          - High
+          - Critical
   - name: flagged
-    type: boolean
+    type: BOOLEAN
     checks:
       - name: not_null
   - name: confidence
-    type: varchar
+    type: VARCHAR
     checks:
       - name: not_null
       - name: accepted_values
-        value: [low, medium, high]
+        value:
+          - low
+          - medium
+          - high
   - name: importance_rank_within_ecosystem
-    type: integer
+    type: INTEGER
     description: Dense rank by risk_score within each ecosystem (1 = highest risk).
     checks:
       - name: not_null
       - name: positive
   - name: importance_percentile_within_eligible
-    type: double
+    type: DOUBLE
     description: 0-100, higher = more important within the ecosystem's eligible set.
     checks:
       - name: non_negative
   - name: signals_above_threshold
-    type: integer
+    type: INTEGER
     checks:
       - name: non_negative
   - name: non_paired_signals_above_threshold
-    type: integer
+    type: INTEGER
     checks:
       - name: non_negative
 
 custom_checks:
   - name: no_flagged_low_confidence
     description: Flagged packages must have medium or high confidence (scoring.yml).
+    value: 0
     query: |
       SELECT COUNT(*) FROM mart.package_scores
       WHERE flagged AND confidence = 'low'
-
   - name: flagged_has_two_independent_signals
     description: Every flagged package must expose at least two fragility signals >= 40.
+    value: 0
     query: |
       SELECT COUNT(*) FROM mart.package_scores
       WHERE flagged AND signals_above_threshold < {{ var.flagged_min_independent_fragility_signals }}
-
   - name: flagged_has_non_paired_signal
     description: release_recency alone cannot flag a package (paired_signal_only).
+    value: 0
     query: |
       SELECT COUNT(*) FROM mart.package_scores
       WHERE flagged AND non_paired_signals_above_threshold < 1
-
   - name: flagged_risk_at_or_above_min
     description: Flagged packages must meet the configured risk_score minimum.
+    value: 0
     query: |
       SELECT COUNT(*) FROM mart.package_scores
       WHERE flagged AND risk_score < {{ var.flagged_risk_score_min }}
-
   - name: flagged_in_top_quantile
     description: Flagged packages must be in the top 25% importance within their ecosystem.
+    value: 0
     query: |
       SELECT COUNT(*) FROM mart.package_scores
       WHERE flagged AND importance_percentile_within_eligible
           < (1.0 - {{ var.flagged_importance_top_quantile }}) * 100.0
-
   - name: scores_within_bounds
     description: importance/fragility/risk must stay in [0, 100].
+    value: 0
     query: |
       SELECT COUNT(*) FROM mart.package_scores
       WHERE importance_score < 0 OR importance_score > 100
          OR fragility_score < 0 OR fragility_score > 100
          OR risk_score < 0 OR risk_score > 100
-
   - name: methodology_version_present
     description: Every row must carry the methodology version for audit traceability.
+    value: 0
     query: |
       SELECT COUNT(*) FROM mart.package_scores
       WHERE methodology_version IS NULL OR methodology_version = ''
-
   - name: snapshot_week_present
     description: Every row must carry the snapshot week anchor.
+    value: 0
     query: SELECT COUNT(*) FROM mart.package_scores WHERE snapshot_week IS NULL
-
   - name: flagged_packages_are_eligible
     description: Flagged packages must be eligible (never archived / unmappable / too_new / stub_types).
+    value: 0
     query: |
       SELECT COUNT(*) FROM mart.package_scores s
       INNER JOIN mart.packages_current p
           ON s.ecosystem = p.ecosystem AND s.package_name = p.package_name
       WHERE s.flagged AND (p.is_eligible = FALSE OR p.exclusion_reason IS NOT NULL)
-
   - name: known_state_agreement_flagged
     description: |
       Every package listed in known_states with expected_flagged=true must be
       flagged by the pipeline (and vice versa). Drift breaks the run.
+    value: 0
     query: |
       SELECT COUNT(*)
       FROM seed.known_states k
@@ -173,12 +182,12 @@ custom_checks:
       WHERE '{{ var.source_mode }}' = 'fixture'
         AND k.expected_flagged IS NOT NULL
         AND k.expected_flagged <> COALESCE(s.flagged, FALSE)
-
   - name: known_state_agreement_state
     description: |
       Every package listed in known_states must land in the expected exclusion /
       eligibility bucket reported by mart.packages_current.
-    query: |
+    value: 0
+    query: |-
       SELECT COUNT(*)
       FROM seed.known_states k
       LEFT JOIN mart.packages_current p

@@ -160,7 +160,12 @@ def _draw_footer(draw: ImageDraw.ImageDraw) -> None:
         font=footer_font,
         fill=TEXT_MUTED,
     )
-    draw.text((CARD_W - 260, CARD_H - 32), "thebusfactor.dev", font=url_font, fill=ACCENT)
+    draw.text(
+        (CARD_W - 450, CARD_H - 32),
+        "josephwibowo.github.io/the-bus-factor",
+        font=url_font,
+        fill=ACCENT,
+    )
 
 
 def render(weekly: dict[str, Any]) -> Image.Image:

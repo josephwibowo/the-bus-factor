@@ -4,7 +4,7 @@
     "npm",
     "pypi"
   ],
-  "generated_at": "2026-04-23T15:51:09.863104Z",
+  "generated_at": "2026-04-23T16:50:52.192864Z",
   "methodology_version": "v0.2.0",
   "notes": [
     "Fixture data: deterministic snapshot shipped with the repository.",

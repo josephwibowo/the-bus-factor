@@ -73,8 +73,8 @@ SELECT
     'pypi' AS ecosystem,
     LOWER(REGEXP_REPLACE(TRIM(package_name), '[-_.]+', '-', 'g')) AS package_name,
     latest_version,
-    first_release_date,
-    latest_release_date,
+    CAST(first_release_date AS DATE) AS first_release_date,
+    CAST(latest_release_date AS DATE) AS latest_release_date,
     NULLIF(TRIM(homepage_url), '') AS homepage_url_clean,
     CASE
         WHEN NULLIF(TRIM(repository_url), '') IS NULL THEN NULL

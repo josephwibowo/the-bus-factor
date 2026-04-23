@@ -3,23 +3,23 @@
   "rows": [
     {
       "ecosystem": "npm",
-      "eligible": 218,
-      "excluded_archived": 27,
-      "excluded_stub_types": 5,
-      "excluded_too_new": 0,
-      "excluded_unmappable": 0,
-      "flagged": 5,
-      "tracked": 250
+      "eligible": 20,
+      "excluded_archived": 1,
+      "excluded_stub_types": 1,
+      "excluded_too_new": 1,
+      "excluded_unmappable": 1,
+      "flagged": 4,
+      "tracked": 24
     },
     {
       "ecosystem": "pypi",
-      "eligible": 229,
-      "excluded_archived": 7,
+      "eligible": 20,
+      "excluded_archived": 1,
       "excluded_stub_types": 1,
       "excluded_too_new": 1,
-      "excluded_unmappable": 12,
-      "flagged": 0,
-      "tracked": 250
+      "excluded_unmappable": 1,
+      "flagged": 4,
+      "tracked": 24
     }
   ],
   "snapshot_week": "2026-04-20"
