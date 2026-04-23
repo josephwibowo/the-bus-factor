@@ -29,7 +29,7 @@ export const metadataSchema = z
     data_license: z.string(),
     notes: z.array(z.string()),
   })
-  .strict();
+  .passthrough();
 export type Metadata = z.infer<typeof metadataSchema>;
 
 export const leaderboardEntrySchema = z
