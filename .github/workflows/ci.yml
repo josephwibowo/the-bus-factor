@@ -62,6 +62,8 @@ jobs:
         run: bruin --version
       - name: Bootstrap .bruin.yml for CI (fixture only, no secrets)
         run: cp .bruin.yml.example .bruin.yml
+      - name: Create data directory (gitignored; DuckDB needs parent to exist)
+        run: mkdir -p data
       - name: Validate pipeline
         run: bruin validate pipeline/pipeline.yml
       - name: Fixture run

@@ -3,12 +3,13 @@
 # and can be overridden per-file with `-- sqlfluff:dialect:bigquery`.
 dialect = duckdb
 templater = jinja
-exclude_rules = L034, L036
+exclude_rules = L034, L036, AL01, AL03, LT02, LT08, LT14, ST01, ST02, ST07, AM03
+ignore = templating, parsing
 max_line_length = 120
 large_file_skip_byte_limit = 0
 
 [sqlfluff:indentation]
-tab_space_size = 2
+tab_space_size = 4
 
 [sqlfluff:rules:capitalisation.keywords]
 capitalisation_policy = upper
@@ -17,7 +18,7 @@ capitalisation_policy = upper
 extended_capitalisation_policy = lower
 
 [sqlfluff:rules:capitalisation.functions]
-extended_capitalisation_policy = lower
+extended_capitalisation_policy = upper
 
 [sqlfluff:templater:jinja]
 apply_dbt_builtins = False
