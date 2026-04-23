@@ -1,0 +1,109 @@
+{
+  "$defs": {
+    "LeaderboardEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "confidence": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "title": "Confidence",
+          "type": "string"
+        },
+        "ecosystem": {
+          "enum": [
+            "npm",
+            "pypi"
+          ],
+          "title": "Ecosystem",
+          "type": "string"
+        },
+        "flagged": {
+          "title": "Flagged",
+          "type": "boolean"
+        },
+        "fragility_score": {
+          "title": "Fragility Score",
+          "type": "number"
+        },
+        "importance_score": {
+          "title": "Importance Score",
+          "type": "number"
+        },
+        "package_name": {
+          "title": "Package Name",
+          "type": "string"
+        },
+        "primary_finding": {
+          "title": "Primary Finding",
+          "type": "string"
+        },
+        "rank_within_ecosystem": {
+          "title": "Rank Within Ecosystem",
+          "type": "integer"
+        },
+        "risk_score": {
+          "title": "Risk Score",
+          "type": "number"
+        },
+        "severity_tier": {
+          "enum": [
+            "Stable",
+            "Watch",
+            "Elevated",
+            "High",
+            "Critical"
+          ],
+          "title": "Severity Tier",
+          "type": "string"
+        },
+        "slug": {
+          "title": "Slug",
+          "type": "string"
+        }
+      },
+      "required": [
+        "ecosystem",
+        "package_name",
+        "slug",
+        "rank_within_ecosystem",
+        "risk_score",
+        "severity_tier",
+        "flagged",
+        "importance_score",
+        "fragility_score",
+        "confidence",
+        "primary_finding"
+      ],
+      "title": "LeaderboardEntry",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "entries": {
+      "items": {
+        "$ref": "#/$defs/LeaderboardEntry"
+      },
+      "title": "Entries",
+      "type": "array"
+    },
+    "methodology_version": {
+      "title": "Methodology Version",
+      "type": "string"
+    },
+    "snapshot_week": {
+      "title": "Snapshot Week",
+      "type": "string"
+    }
+  },
+  "required": [
+    "snapshot_week",
+    "methodology_version",
+    "entries"
+  ],
+  "title": "Leaderboard",
+  "type": "object"
+}

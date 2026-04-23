@@ -1,0 +1,41 @@
+name: seed.source_health
+type: duckdb.seed
+description: |
+  Per-source ingestion health snapshot. In live mode this is emitted by the
+  ingestion assets themselves; in fixture mode it is a committed CSV.
+
+parameters:
+  path: ../../fixtures/source_health.csv
+
+tags:
+  - fixture
+  - layer:seed
+
+columns:
+  - name: source_name
+    type: varchar
+    checks:
+      - name: not_null
+      - name: unique
+  - name: last_success_at
+    type: timestamp
+    checks:
+      - name: not_null
+  - name: status
+    type: varchar
+    checks:
+      - name: accepted_values
+        value:
+          - ok
+          - degraded
+          - failed
+  - name: stale
+    type: boolean
+    checks:
+      - name: not_null
+  - name: failure_count
+    type: bigint
+    checks:
+      - name: non_negative
+  - name: note
+    type: varchar

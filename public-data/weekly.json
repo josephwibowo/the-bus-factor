@@ -1,0 +1,51 @@
+{
+  "findings": [
+    {
+      "ecosystem": "pypi",
+      "package_name": "legacy-pyforge",
+      "primary_finding": "948 days since latest release.",
+      "rank": 1,
+      "risk_score": 86.9492,
+      "severity_tier": "High",
+      "slug": "pypi-legacy-pyforge"
+    },
+    {
+      "ecosystem": "npm",
+      "package_name": "legacy-forge",
+      "primary_finding": "948 days since latest release.",
+      "rank": 2,
+      "risk_score": 85.7742,
+      "severity_tier": "High",
+      "slug": "npm-legacy-forge"
+    },
+    {
+      "ecosystem": "npm",
+      "package_name": "neglected-stream",
+      "primary_finding": "1015 days since latest release.",
+      "rank": 3,
+      "risk_score": 83.0537,
+      "severity_tier": "High",
+      "slug": "npm-neglected-stream"
+    },
+    {
+      "ecosystem": "pypi",
+      "package_name": "neglected-pystream",
+      "primary_finding": "1015 days since latest release.",
+      "rank": 4,
+      "risk_score": 83.0537,
+      "severity_tier": "High",
+      "slug": "pypi-neglected-pystream"
+    }
+  ],
+  "headline": {
+    "ecosystem_breakdown": {
+      "npm": 2,
+      "pypi": 2
+    },
+    "headline": "4 packages flagged for continuity risk in 2026-W17.",
+    "methodology_version": "v0.1.0",
+    "snapshot_week": "2026-04-20",
+    "summary": "Flagged packages combine high downstream reach with at least two independent fragility signals. Repositories and maintainer identities are never referenced in the viral surfaces."
+  },
+  "zero_flagged_fallback_copy": null
+}

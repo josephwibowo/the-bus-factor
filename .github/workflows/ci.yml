@@ -1,0 +1,161 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      run_live_smoke:
+        description: "Also run the BigQuery live-smoke job (5 npm + 5 PyPI packages)"
+        type: boolean
+        required: false
+        default: false
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python:
+    name: Python lint + type + test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+      - run: uv python install
+      - run: uv sync --locked
+      - run: uv run ruff format --check .
+      - run: uv run ruff check .
+      - run: uv run mypy pipeline
+      - run: uv run pytest
+
+  sql:
+    name: SQL lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+      - run: uv sync --locked
+      - name: SQLFluff lint
+        run: uv run sqlfluff lint --dialect duckdb pipeline/assets/staging pipeline/assets/intermediate pipeline/assets/marts
+
+  bruin:
+    name: Bruin validate + fixture run
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+      - run: uv python install
+      - run: uv sync --locked
+      - name: Install Bruin CLI
+        run: |
+          curl -LsSf https://getbruin.com/install/cli | sh
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+      - name: Bruin version
+        run: bruin --version
+      - name: Bootstrap .bruin.yml for CI (fixture only, no secrets)
+        run: cp .bruin.yml.example .bruin.yml
+      - name: Validate pipeline
+        run: bruin validate pipeline/pipeline.yml
+      - name: Fixture run
+        run: bruin run --workers=1 --full-refresh -e ci_fixture pipeline/pipeline.yml
+      - name: Validate public-data bundle against Pydantic schemas
+        run: uv run pytest tests/test_schemas.py -q
+      - name: Size-cap public-data (<25MB)
+        run: |
+          size=$(du -sb public-data | awk '{print $1}')
+          echo "public-data size = $size bytes"
+          if [ "$size" -ge 26214400 ]; then
+            echo "public-data exceeds 25MB (hard cap)"
+            exit 1
+          fi
+      - name: Upload public-data artefacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-data-${{ github.sha }}
+          path: |
+            public-data/
+            reports/cards/
+
+  live-smoke:
+    name: BigQuery live smoke (manual)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.run_live_smoke == 'true'
+    needs: python
+    env:
+      GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      GITHUB_INGEST_TOKEN: ${{ secrets.GITHUB_INGEST_TOKEN }}
+      BQ_MAX_BYTES_BILLED: "10000000000"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+      - run: uv python install
+      - run: uv sync --locked
+      - name: Install Bruin CLI
+        run: |
+          curl -LsSf https://getbruin.com/install/cli | sh
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+      - name: Bootstrap .bruin.yml (reads secrets via env)
+        run: cp .bruin.yml.example .bruin.yml
+      - name: "Guard: service account present"
+        run: |
+          if [ -z "${GCP_SERVICE_ACCOUNT_JSON:-}" ] || [ -z "${GCP_PROJECT_ID:-}" ]; then
+            echo "::error::GCP_SERVICE_ACCOUNT_JSON / GCP_PROJECT_ID repo secrets are required for live smoke"
+            exit 1
+          fi
+      - name: Live smoke (5 npm + 5 PyPI, real APIs)
+        run: |
+          bruin run --workers=1 --full-refresh -e ci_live_bq \
+            --var 'source_mode="live"' \
+            --var 'warehouse="bigquery"' \
+            --var npm_package_limit=5 \
+            --var pypi_package_limit=5 \
+            pipeline/pipeline.yml
+      - name: BigQuery SQL smoke (prefixed datasets)
+        run: |
+          uv run python scripts/run_bigquery_smoke.py \
+            --duckdb-path data/ci_live_bq.duckdb \
+            --project-id "${GCP_PROJECT_ID}" \
+            --location US \
+            --dataset-prefix bf_smoke
+      - name: Show BigQuery mart.source_health
+        if: always()
+        run: |
+          echo "Last bf_smoke_mart.source_health snapshot (if it reached BigQuery):"
+          bruin query -e ci_live_bq --connection bigquery_default \
+            --query "SELECT source_name, status, stale, failure_count FROM \`${{ secrets.GCP_PROJECT_ID }}.bf_smoke_mart.source_health\` ORDER BY source_name" \
+            || echo "(skipped - bf_smoke_mart.source_health unavailable)"
+
+  frontend:
+    name: Frontend lint + typecheck + build + smoke
+    runs-on: ubuntu-latest
+    needs: bruin
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - uses: pnpm/action-setup@v4
+      - name: Download public-data artefacts
+        uses: actions/download-artifact@v4
+        with:
+          name: public-data-${{ github.sha }}
+          path: .
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter ./web lint
+      - run: pnpm --filter ./web typecheck
+      - run: pnpm --filter ./web build
+      - name: Install Playwright browsers
+        run: pnpm --filter ./web exec playwright install --with-deps chromium
+      - name: Smoke test (Playwright)
+        run: pnpm --filter ./web exec playwright test --config=../playwright.config.ts --reporter=line

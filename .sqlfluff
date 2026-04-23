@@ -1,0 +1,23 @@
+[sqlfluff]
+# Bruin SQL assets use Jinja for variables; default dialect is DuckDB for the fixture path
+# and can be overridden per-file with `-- sqlfluff:dialect:bigquery`.
+dialect = duckdb
+templater = jinja
+exclude_rules = L034, L036
+max_line_length = 120
+large_file_skip_byte_limit = 0
+
+[sqlfluff:indentation]
+tab_space_size = 2
+
+[sqlfluff:rules:capitalisation.keywords]
+capitalisation_policy = upper
+
+[sqlfluff:rules:capitalisation.identifiers]
+extended_capitalisation_policy = lower
+
+[sqlfluff:rules:capitalisation.functions]
+extended_capitalisation_policy = lower
+
+[sqlfluff:templater:jinja]
+apply_dbt_builtins = False

@@ -1,0 +1,7 @@
+source_name,last_success_at,status,stale,failure_count,note
+npm_registry,2026-04-20T01:05:00Z,ok,false,0,Fixture run; synthetic success.
+pypi_registry,2026-04-20T01:07:00Z,ok,false,0,Fixture run; synthetic success.
+deps_dev,2026-04-20T01:10:00Z,ok,false,0,Fixture run; synthetic success.
+github_api,2026-04-20T01:18:00Z,ok,false,0,Fixture run; synthetic success.
+osv,2026-04-20T01:20:00Z,ok,false,0,Fixture run; synthetic success.
+openssf_scorecard,2026-04-20T01:22:00Z,ok,false,0,Fixture run; synthetic success.

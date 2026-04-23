@@ -1,0 +1,36 @@
+name: seed.market_positioning
+type: duckdb.seed
+description: |
+  Competitive positioning rows shown on the /positioning page. Curated by
+  the project (not external data); mirrors docs/init.md "Competitive positioning".
+
+parameters:
+  path: ../../fixtures/market_positioning.csv
+
+tags:
+  - fixture
+  - layer:seed
+  - surface:positioning
+
+columns:
+  - name: row_order
+    type: integer
+    checks:
+      - name: not_null
+      - name: unique
+  - name: category
+    type: varchar
+    checks:
+      - name: not_null
+  - name: example_products
+    type: varchar
+    checks:
+      - name: not_null
+  - name: primary_question_answered
+    type: varchar
+    checks:
+      - name: not_null
+  - name: relationship_to_bus_factor
+    type: varchar
+    checks:
+      - name: not_null

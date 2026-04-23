@@ -1,0 +1,17 @@
+ecosystem,package_name,direct_vuln_count,highest_severity
+npm,legacy-forge,3,HIGH
+npm,neglected-stream,2,MODERATE
+npm,stale-bundle,2,MODERATE
+npm,old-validator,3,HIGH
+npm,frozen-format,1,LOW
+npm,aged-template,2,MODERATE
+npm,robust-cache,1,LOW
+npm,quiet-daemon,1,MODERATE
+pypi,legacy-pyforge,3,HIGH
+pypi,neglected-pystream,2,MODERATE
+pypi,stale-pybundle,2,MODERATE
+pypi,old-pyvalidator,3,HIGH
+pypi,frozen-pyformat,1,LOW
+pypi,aged-pytemplate,2,MODERATE
+pypi,robust-pycache,1,LOW
+pypi,quiet-pydaemon,1,MODERATE

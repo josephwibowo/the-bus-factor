@@ -1,0 +1,63 @@
+/* @bruin
+
+name: mart.market_positioning
+type: bq.sql
+
+description: |
+  Market positioning table (`/positioning` page). Sourced from the
+  `seed.market_positioning` fixture; always manually curated.
+
+materialization:
+  type: table
+  partition_by: snapshot_week
+  cluster_by: [category]
+
+depends:
+  - int.snapshot
+  - seed.market_positioning
+
+tags:
+  - dialect:bigquery
+  - layer:mart
+  - domain:positioning
+
+columns:
+  - name: snapshot_week
+    type: date
+    checks:
+      - name: not_null
+  - name: row_order
+    type: integer
+    checks:
+      - name: not_null
+      - name: positive
+      - name: unique
+  - name: category
+    type: varchar
+    checks:
+      - name: not_null
+  - name: example_products
+    type: varchar
+    checks:
+      - name: not_null
+  - name: primary_question_answered
+    type: varchar
+    checks:
+      - name: not_null
+  - name: relationship_to_bus_factor
+    type: varchar
+    checks:
+      - name: not_null
+
+@bruin */
+
+WITH snap AS (SELECT snapshot_week FROM int.snapshot)
+SELECT
+    s.snapshot_week,
+    CAST(p.row_order AS INTEGER) AS row_order,
+    p.category,
+    p.example_products,
+    p.primary_question_answered,
+    p.relationship_to_bus_factor
+FROM seed.market_positioning p
+CROSS JOIN snap s

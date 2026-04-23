@@ -1,0 +1,89 @@
+{
+  "$defs": {
+    "CoverageEcosystemRow": {
+      "additionalProperties": false,
+      "properties": {
+        "ecosystem": {
+          "enum": [
+            "npm",
+            "pypi"
+          ],
+          "title": "Ecosystem",
+          "type": "string"
+        },
+        "eligible": {
+          "minimum": 0,
+          "title": "Eligible",
+          "type": "integer"
+        },
+        "excluded_archived": {
+          "minimum": 0,
+          "title": "Excluded Archived",
+          "type": "integer"
+        },
+        "excluded_stub_types": {
+          "minimum": 0,
+          "title": "Excluded Stub Types",
+          "type": "integer"
+        },
+        "excluded_too_new": {
+          "minimum": 0,
+          "title": "Excluded Too New",
+          "type": "integer"
+        },
+        "excluded_unmappable": {
+          "minimum": 0,
+          "title": "Excluded Unmappable",
+          "type": "integer"
+        },
+        "flagged": {
+          "minimum": 0,
+          "title": "Flagged",
+          "type": "integer"
+        },
+        "tracked": {
+          "minimum": 0,
+          "title": "Tracked",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "ecosystem",
+        "tracked",
+        "eligible",
+        "flagged",
+        "excluded_unmappable",
+        "excluded_archived",
+        "excluded_too_new",
+        "excluded_stub_types"
+      ],
+      "title": "CoverageEcosystemRow",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "methodology_version": {
+      "title": "Methodology Version",
+      "type": "string"
+    },
+    "rows": {
+      "items": {
+        "$ref": "#/$defs/CoverageEcosystemRow"
+      },
+      "title": "Rows",
+      "type": "array"
+    },
+    "snapshot_week": {
+      "title": "Snapshot Week",
+      "type": "string"
+    }
+  },
+  "required": [
+    "snapshot_week",
+    "methodology_version",
+    "rows"
+  ],
+  "title": "Coverage",
+  "type": "object"
+}

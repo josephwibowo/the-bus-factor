@@ -1,0 +1,24 @@
+{
+  "name": "the-bus-factor",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Bruin-powered weekly snapshot of open-source package continuity fragility.",
+  "packageManager": "pnpm@10.0.0",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "lint": "pnpm -r --if-present lint",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "build": "pnpm -r --if-present build",
+    "dev": "pnpm --filter ./web dev",
+    "preview": "pnpm --filter ./web preview",
+    "test:smoke": "pnpm --filter ./web test:smoke",
+    "format": "prettier --check \"**/*.{ts,tsx,astro,md,json,yml,yaml}\"",
+    "format:fix": "prettier --write \"**/*.{ts,tsx,astro,md,json,yml,yaml}\""
+  },
+  "devDependencies": {
+    "prettier": "^3.3.3",
+    "prettier-plugin-astro": "^0.14.1"
+  }
+}

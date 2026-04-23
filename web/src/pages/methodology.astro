@@ -1,0 +1,169 @@
+---
+import Base from "../layouts/Base.astro";
+import { loadCoverage, loadMetadata, loadSources } from "../lib/data";
+
+const [coverage, metadata, sources] = await Promise.all([
+  loadCoverage(),
+  loadMetadata(),
+  loadSources(),
+]);
+
+const statusBadge = (status: string): string => {
+  switch (status) {
+    case "ok":
+      return "badge badge--stable";
+    case "degraded":
+      return "badge badge--elevated";
+    case "failed":
+      return "badge badge--critical";
+    default:
+      return "badge badge--watch";
+  }
+};
+---
+
+<Base
+  title="Methodology | The Bus Factor"
+  description="Weights, thresholds, eligibility rules, and coverage for the current snapshot."
+  snapshotWeek={coverage?.snapshot_week ?? metadata?.snapshot_week}
+  methodologyVersion={coverage?.methodology_version ?? metadata?.methodology_version}
+  activeNav="methodology"
+>
+  <h1>Methodology</h1>
+  <p class="muted">
+    The scoring model is fully declarative: weights, thresholds, and exclusion rules live in
+    <a href="https://github.com/the-bus-factor/the_bus_factor/blob/main/pipeline/config/scoring.yml">
+      <code>pipeline/config/scoring.yml</code>
+    </a>
+    and every change bumps <code>methodology_version</code>. The pipeline regenerates the
+    <code>public-data/</code> bundle consumed by this site on every run.
+  </p>
+
+  <section aria-labelledby="pillars-heading">
+    <h2 id="pillars-heading">Two pillars</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Importance (0-100)</h3>
+        <p class="muted">Ecosystem-relative log percentile of three signals.</p>
+        <ul>
+          <li><strong>Dependency reach</strong> (0.60 weight) — downstream dependents via deps.dev</li>
+          <li><strong>Download volume</strong> (0.25 weight) — registry 90-day downloads</li>
+          <li><strong>Security exposure</strong> (0.15 weight) — OSV + transitive vuln counts</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Fragility (0-100)</h3>
+        <p class="muted">Six signals blended by weight; each 0-100.</p>
+        <ul>
+          <li>Release recency (0.25) — 90-540 day ramp, paired-signal only</li>
+          <li>Commit recency (0.25) — 30-365 day ramp</li>
+          <li>Release cadence decay (0.15)</li>
+          <li>Issue responsiveness (0.15) — median first response</li>
+          <li>Contributor bus factor (0.10) — top-1 share 0.30-0.90 ramp</li>
+          <li>OpenSSF Scorecard aggregate (0.10)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="flagged-heading">
+    <h2 id="flagged-heading">Flagged definition</h2>
+    <ol>
+      <li>Risk score ≥ 75 (risk = importance × fragility ÷ 100)</li>
+      <li>Severity tier in (<em>High</em>, <em>Critical</em>)</li>
+      <li>Confidence in (<em>medium</em>, <em>high</em>)</li>
+      <li>At least 2 independent fragility signals ≥ 40, at least one not release_recency</li>
+      <li>Top 25% importance within the ecosystem</li>
+    </ol>
+    <p>
+      If any condition is false, the package is ranked but not flagged. The pipeline enforces
+      these rules via custom SQL checks on every run, not just in the UI.
+    </p>
+  </section>
+
+  <section aria-labelledby="exclusions-heading">
+    <h2 id="exclusions-heading">Exclusions</h2>
+    <ul>
+      <li><strong>stub_types</strong> — <code>@types/*</code>, <code>*-stubs</code>, <code>types-*</code></li>
+      <li><strong>too_new</strong> — first release less than 12 months ago</li>
+      <li><strong>archived_deprecated</strong> — registry or GitHub archival flag</li>
+      <li><strong>unmappable</strong> — repository mapping confidence below medium bucket</li>
+    </ul>
+  </section>
+
+  {
+    coverage && (
+      <section aria-labelledby="coverage-heading">
+        <h2 id="coverage-heading">Coverage this snapshot</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Ecosystem</th>
+              <th scope="col">Tracked</th>
+              <th scope="col">Eligible</th>
+              <th scope="col">Flagged</th>
+              <th scope="col">Unmappable</th>
+              <th scope="col">Archived</th>
+              <th scope="col">Too new</th>
+              <th scope="col">Stub types</th>
+            </tr>
+          </thead>
+          <tbody>
+            {coverage.rows.map((row) => (
+              <tr>
+                <td>{row.ecosystem}</td>
+                <td>{row.tracked}</td>
+                <td>{row.eligible}</td>
+                <td>{row.flagged}</td>
+                <td>{row.excluded_unmappable}</td>
+                <td>{row.excluded_archived}</td>
+                <td>{row.excluded_too_new}</td>
+                <td>{row.excluded_stub_types}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+    )
+  }
+
+  {
+    sources && (
+      <section aria-labelledby="sources-heading">
+        <h2 id="sources-heading">Source health</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Source</th>
+              <th scope="col">Status</th>
+              <th scope="col">Last success</th>
+              <th scope="col">Stale</th>
+              <th scope="col">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sources.sources.map((s) => (
+              <tr>
+                <td>{s.source_name}</td>
+                <td>
+                  <span class={statusBadge(s.status)}>{s.status}</span>
+                </td>
+                <td>{s.last_success_at ?? "—"}</td>
+                <td>{s.stale ? "yes" : "no"}</td>
+                <td class="muted">{s.note ?? "—"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+    )
+  }
+</Base>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+</style>

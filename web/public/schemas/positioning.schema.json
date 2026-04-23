@@ -1,0 +1,58 @@
+{
+  "$defs": {
+    "PositioningRow": {
+      "additionalProperties": false,
+      "properties": {
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "example_products": {
+          "title": "Example Products",
+          "type": "string"
+        },
+        "primary_question_answered": {
+          "title": "Primary Question Answered",
+          "type": "string"
+        },
+        "relationship_to_bus_factor": {
+          "title": "Relationship To Bus Factor",
+          "type": "string"
+        },
+        "row_order": {
+          "title": "Row Order",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "row_order",
+        "category",
+        "example_products",
+        "primary_question_answered",
+        "relationship_to_bus_factor"
+      ],
+      "title": "PositioningRow",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "rows": {
+      "items": {
+        "$ref": "#/$defs/PositioningRow"
+      },
+      "title": "Rows",
+      "type": "array"
+    },
+    "snapshot_week": {
+      "title": "Snapshot Week",
+      "type": "string"
+    }
+  },
+  "required": [
+    "snapshot_week",
+    "rows"
+  ],
+  "title": "Positioning",
+  "type": "object"
+}

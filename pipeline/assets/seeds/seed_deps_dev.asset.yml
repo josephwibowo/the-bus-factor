@@ -1,0 +1,41 @@
+name: seed.deps_dev
+type: duckdb.seed
+description: |
+  Fixture snapshot of deps.dev signals: downstream dependent counts,
+  SOURCE_REPO mappings, and transitive vulnerability counts per package.
+
+parameters:
+  path: ../../fixtures/deps_dev.csv
+
+tags:
+  - fixture
+  - layer:seed
+  - source:deps_dev
+
+columns:
+  - name: ecosystem
+    type: varchar
+    description: npm or pypi.
+    checks:
+      - name: not_null
+      - name: accepted_values
+        value:
+          - npm
+          - pypi
+  - name: package_name
+    type: varchar
+    checks:
+      - name: not_null
+  - name: dependent_count
+    type: bigint
+    description: Number of downstream dependents per deps.dev.
+    checks:
+      - name: non_negative
+  - name: source_repo_url
+    type: varchar
+    description: SOURCE_REPO link from deps.dev (may be null).
+  - name: transitive_vuln_count
+    type: bigint
+    description: Transitive vulnerability count via deps.dev advisory links.
+    checks:
+      - name: non_negative

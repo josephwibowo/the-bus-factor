@@ -1,0 +1,69 @@
+{
+  "data_license": "Synthetic fixture data for The Bus Factor competition entry.",
+  "ecosystems_covered": [
+    "npm",
+    "pypi"
+  ],
+  "generated_at": "2026-04-23T03:33:26.089156Z",
+  "methodology_version": "v0.1.0",
+  "notes": [
+    "Fixture data: deterministic snapshot shipped with the repository.",
+    "Live ingestion (Cycle 2) replaces raw_* assets with external APIs."
+  ],
+  "package_counts": {
+    "npm": 24,
+    "pypi": 24
+  },
+  "snapshot_week": "2026-04-20",
+  "snapshot_week_label": "2026-W17",
+  "sources": [
+    {
+      "failure_count": 0,
+      "last_success_at": "2026-04-19T18:10:00",
+      "note": "Fixture run; synthetic success.",
+      "source_name": "deps_dev",
+      "stale": false,
+      "status": "ok"
+    },
+    {
+      "failure_count": 0,
+      "last_success_at": "2026-04-19T18:18:00",
+      "note": "Fixture run; synthetic success.",
+      "source_name": "github_api",
+      "stale": false,
+      "status": "ok"
+    },
+    {
+      "failure_count": 0,
+      "last_success_at": "2026-04-19T18:05:00",
+      "note": "Fixture run; synthetic success.",
+      "source_name": "npm_registry",
+      "stale": false,
+      "status": "ok"
+    },
+    {
+      "failure_count": 0,
+      "last_success_at": "2026-04-19T18:22:00",
+      "note": "Fixture run; synthetic success.",
+      "source_name": "openssf_scorecard",
+      "stale": false,
+      "status": "ok"
+    },
+    {
+      "failure_count": 0,
+      "last_success_at": "2026-04-19T18:20:00",
+      "note": "Fixture run; synthetic success.",
+      "source_name": "osv",
+      "stale": false,
+      "status": "ok"
+    },
+    {
+      "failure_count": 0,
+      "last_success_at": "2026-04-19T18:07:00",
+      "note": "Fixture run; synthetic success.",
+      "source_name": "pypi_registry",
+      "stale": false,
+      "status": "ok"
+    }
+  ]
+}

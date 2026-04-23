@@ -1,0 +1,34 @@
+name: seed.github_releases
+type: duckdb.seed
+description: |
+  Aggregated per-repo release counts for the reporting window. Drives
+  release_cadence_decay fragility input.
+
+parameters:
+  path: ../../fixtures/github_releases.csv
+
+tags:
+  - fixture
+  - layer:seed
+  - source:github
+
+columns:
+  - name: repo_url
+    type: varchar
+    checks:
+      - name: not_null
+      - name: unique
+  - name: releases_last_365d
+    type: bigint
+    checks:
+      - name: non_negative
+  - name: releases_prior_365d
+    type: bigint
+    checks:
+      - name: non_negative
+  - name: latest_release_tag
+    type: varchar
+  - name: latest_release_date
+    type: date
+    checks:
+      - name: not_null

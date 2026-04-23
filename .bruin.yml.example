@@ -1,0 +1,64 @@
+# Copy to .bruin.yml and fill in real values. NEVER commit .bruin.yml.
+# The fixture environment MUST work without any external credentials.
+#
+# Live environments target GCP project `bus-factor-494119`.
+# Local dev uses Application Default Credentials (ADC):
+#   gcloud auth application-default login --account josephwibowo@gmail.com
+#   gcloud config set project bus-factor-494119
+# CI uses a service-account JSON exposed via GitHub Actions secrets
+# GCP_SERVICE_ACCOUNT_JSON and GCP_PROJECT_ID.
+#
+# Safety env vars honored by pipeline/lib/bq.py:
+#   BQ_MAX_BYTES_BILLED   - cap (bytes) set on every BigQuery job; default 10 GB
+#   GITHUB_INGEST_TOKEN   - optional PAT for GitHub REST/GraphQL (raises rate limits)
+
+default_environment: fixture
+
+environments:
+  # ---- Fixture: reviewer + CI path, no external access ----
+  fixture:
+    connections:
+      duckdb:
+        - name: duckdb_default
+          path: ./data/fixture.duckdb
+
+  # ---- CI fixture: same as fixture but uses a CI workspace-local DuckDB file ----
+  ci_fixture:
+    connections:
+      duckdb:
+        - name: duckdb_default
+          path: ./data/ci_fixture.duckdb
+
+  # ---- Local live run against BigQuery free tier (ADC) ----
+  # `use_application_default_credentials: true` lets Bruin fall back to the
+  # `gcloud auth application-default login` identity on the host shell.  Swap
+  # to `service_account_file:` if you prefer per-project isolation.
+  local_live_bq:
+    connections:
+      google_cloud_platform:
+        - name: bigquery_default
+          project_id: "bus-factor-494119"
+          location: "US"
+          use_application_default_credentials: true
+          # service_account_file: "~/.config/bruin/bus-factor-sa.json"
+      duckdb:
+        - name: duckdb_default
+          path: ./data/local_live_bq.duckdb
+      generic:
+        - name: github_token
+          value: "ghp_REPLACE_ME_OR_UNSET"
+
+  # ---- Scheduled CI live run (reads creds from GitHub Actions secrets) ----
+  ci_live_bq:
+    connections:
+      google_cloud_platform:
+        - name: bigquery_default
+          service_account_json: "${GCP_SERVICE_ACCOUNT_JSON}"
+          project_id: "${GCP_PROJECT_ID}"
+          location: "US"
+      duckdb:
+        - name: duckdb_default
+          path: ./data/ci_live_bq.duckdb
+      generic:
+        - name: github_token
+          value: "${GITHUB_INGEST_TOKEN}"

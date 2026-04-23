@@ -1,0 +1,86 @@
+---
+import Base from "../layouts/Base.astro";
+import { loadAnalysis } from "../lib/data";
+
+const analysis = await loadAnalysis();
+---
+
+<Base
+  title="AI analyst gallery | The Bus Factor"
+  description="Canonical Bruin AI Data Analyst prompts, answers, and screenshot evidence."
+  snapshotWeek={analysis?.snapshot_week}
+  activeNav="analysis"
+>
+  <header>
+    <h1>Bruin AI Data Analyst — canonical prompts</h1>
+    <p class="muted">
+      Every prompt below is run against the Bruin AI Data Analyst; screenshots are captured from
+      that surface unedited. This is the only analysis interface — the site never ships a custom
+      natural-language layer.
+    </p>
+  </header>
+
+  {
+    !analysis || analysis.entries.length === 0 ? (
+      <div class="empty-state">
+        <p>Analysis gallery will populate once the pipeline exports the canonical prompt set.</p>
+      </div>
+    ) : (
+      <div class="grid">
+        {analysis.entries.map((entry) => (
+          <article class="card">
+            <h2>{entry.prompt}</h2>
+            <p>{entry.answer_summary}</p>
+            <figure>
+              <img
+                src={entry.screenshot_path.startsWith("http") ? entry.screenshot_path : `/${entry.screenshot_path.replace(/^\//, "")}`}
+                alt={`AI analyst screenshot for ${entry.example_id}`}
+                loading="lazy"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"
+              />
+              <p class="empty-screenshot muted">
+                Screenshot placeholder — captured in Cycle 3 from the live AI Data Analyst.
+              </p>
+              <figcaption class="muted">
+                Captured {entry.capture_date} from {entry.capture_source} · dataset{" "}
+                {entry.dataset_version} · methodology {entry.methodology_version}
+              </figcaption>
+            </figure>
+          </article>
+        ))}
+      </div>
+    )
+  }
+</Base>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+  }
+  .card h2 {
+    margin-top: 0;
+    font-size: 18px;
+  }
+  figure {
+    margin: 12px 0 0;
+  }
+  figure img {
+    max-width: 100%;
+    border-radius: 8px;
+    background: var(--surface-2);
+  }
+  .empty-screenshot {
+    display: none;
+    padding: 20px;
+    background: var(--surface-2);
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+  }
+  figcaption {
+    font-size: 12px;
+    margin-top: 8px;
+  }
+</style>

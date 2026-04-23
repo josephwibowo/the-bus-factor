@@ -1,0 +1,32 @@
+name: seed.scorecard
+type: duckdb.seed
+description: |
+  OpenSSF Scorecard aggregate results per repository URL.
+
+parameters:
+  path: ../../fixtures/scorecard.csv
+
+tags:
+  - fixture
+  - layer:seed
+  - source:scorecard
+
+columns:
+  - name: repo_url
+    type: varchar
+    checks:
+      - name: not_null
+      - name: unique
+  - name: aggregate_score
+    type: double
+    description: Scorecard aggregate in [0, 10].
+    checks:
+      - name: non_negative
+  - name: check_count
+    type: bigint
+    checks:
+      - name: non_negative
+  - name: scorecard_date
+    type: date
+    checks:
+      - name: not_null

@@ -1,0 +1,61 @@
+name: seed.npm_registry
+type: duckdb.seed
+description: |
+  Fixture snapshot of npm registry metadata for the tracked universe.
+  In live mode this data comes from the npm registry JSON API; in fixture
+  mode it is loaded verbatim from the committed CSV.
+
+parameters:
+  path: ../../fixtures/npm_registry.csv
+
+tags:
+  - fixture
+  - layer:seed
+  - source:npm
+
+columns:
+  - name: package_name
+    type: varchar
+    description: Canonical npm package name (may include @scope/name).
+    checks:
+      - name: not_null
+      - name: unique
+  - name: latest_version
+    type: varchar
+    description: Most recent published version string.
+    checks:
+      - name: not_null
+  - name: first_release_date
+    type: date
+    description: Date of the first published release.
+    checks:
+      - name: not_null
+  - name: latest_release_date
+    type: date
+    description: Date of the most recent published release.
+    checks:
+      - name: not_null
+  - name: homepage_url
+    type: varchar
+    description: Registry-declared homepage URL (may be null).
+  - name: repository_url
+    type: varchar
+    description: Registry-declared repository URL (may be null - drives unmappable exclusion).
+  - name: is_deprecated
+    type: boolean
+    description: Whether the package has been deprecated by its publisher.
+    checks:
+      - name: not_null
+  - name: is_archived
+    type: boolean
+    description: Whether the source repository is archived (mirrored from GitHub).
+    checks:
+      - name: not_null
+  - name: publisher
+    type: varchar
+    description: Publisher account or organization name.
+  - name: downloads_90d
+    type: bigint
+    description: Rolling 90-day download count.
+    checks:
+      - name: non_negative

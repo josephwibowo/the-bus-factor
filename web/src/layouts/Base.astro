@@ -1,0 +1,331 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+  snapshotWeek?: string;
+  methodologyVersion?: string;
+  activeNav?: "home" | "weekly" | "analysis" | "methodology" | "positioning";
+}
+
+const {
+  title,
+  description = "A Bruin-powered weekly snapshot of open-source package continuity fragility for npm and PyPI.",
+  snapshotWeek,
+  methodologyVersion,
+  activeNav = "home",
+} = Astro.props;
+
+const nav = [
+  { id: "home", href: "/", label: "Leaderboard" },
+  { id: "weekly", href: "/weekly/", label: "Weekly" },
+  { id: "analysis", href: "/analysis/", label: "Analysis" },
+  { id: "methodology", href: "/methodology/", label: "Methodology" },
+  { id: "positioning", href: "/positioning/", label: "Positioning" },
+] as const;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/og-image.png" />
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <header class="site-header">
+      <div class="container site-header__inner">
+        <a class="brand" href="/">
+          <span class="brand__title">The Bus Factor</span>
+          <span class="brand__sub">
+            Weekly continuity risk in npm + PyPI
+          </span>
+        </a>
+        <nav aria-label="Primary">
+          <ul class="nav">
+            {
+              nav.map((item) => (
+                <li>
+                  <a
+                    href={item.href}
+                    class:list={["nav__link", { "nav__link--active": item.id === activeNav }]}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+      {
+        snapshotWeek ? (
+          <div class="container meta-bar">
+            <span>Snapshot: <strong>{snapshotWeek}</strong></span>
+            {methodologyVersion && (
+              <span>Methodology: <strong>{methodologyVersion}</strong></span>
+            )}
+          </div>
+        ) : null
+      }
+    </header>
+
+    <main id="main" class="container">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          Scores are ecosystem-relative. "Flagged" is a conservative, evidence-based signal, not a
+          verdict about any maintainer or organization.
+        </p>
+        <p class="muted">
+          Source: <a href="https://github.com/the-bus-factor/the_bus_factor">GitHub</a>
+          {" "}· Methodology: <a href="/methodology/">explained</a>
+          {" "}· Positioning: <a href="/positioning/">vs. SCA tools</a>
+        </p>
+      </div>
+    </footer>
+
+    <style is:global>
+      :root {
+        color-scheme: dark;
+        --bg: #0c121d;
+        --surface: #161e2e;
+        --surface-2: #1d273a;
+        --border: #2d3852;
+        --text: #f2f6ff;
+        --text-muted: #a6b0c4;
+        --accent: #ffc457;
+        --critical: #dc455c;
+        --high: #f47f59;
+        --elevated: #ffc457;
+        --watch: #7cbcff;
+        --stable: #60e0a9;
+        --radius: 12px;
+        --shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+          Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.5;
+      }
+
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      a:hover,
+      a:focus {
+        text-decoration: underline;
+      }
+
+      a:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      .container {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      .skip-link {
+        position: absolute;
+        top: -48px;
+        left: 8px;
+        padding: 8px 12px;
+        background: var(--accent);
+        color: #000;
+        border-radius: 6px;
+      }
+
+      .skip-link:focus {
+        top: 8px;
+      }
+
+      .site-header {
+        border-bottom: 1px solid var(--border);
+        padding-top: 16px;
+      }
+
+      .site-header__inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 24px;
+        flex-wrap: wrap;
+        padding-bottom: 12px;
+      }
+
+      .brand {
+        color: var(--text);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .brand__title {
+        font-weight: 700;
+        font-size: 20px;
+      }
+
+      .brand__sub {
+        color: var(--text-muted);
+        font-size: 13px;
+      }
+
+      .nav {
+        list-style: none;
+        display: flex;
+        gap: 16px;
+        padding: 0;
+        margin: 0;
+      }
+
+      .nav__link {
+        color: var(--text-muted);
+        font-size: 14px;
+      }
+
+      .nav__link--active {
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      .meta-bar {
+        display: flex;
+        gap: 24px;
+        font-size: 13px;
+        color: var(--text-muted);
+        padding: 8px 24px;
+      }
+
+      main {
+        padding: 32px 24px 72px;
+      }
+
+      h1,
+      h2,
+      h3 {
+        letter-spacing: -0.01em;
+      }
+
+      h1 {
+        font-size: 32px;
+        margin: 0 0 8px;
+      }
+
+      h2 {
+        font-size: 22px;
+        margin: 32px 0 12px;
+      }
+
+      .muted {
+        color: var(--text-muted);
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 2px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        text-transform: uppercase;
+      }
+
+      .badge--critical {
+        background: rgba(220, 69, 92, 0.18);
+        color: var(--critical);
+      }
+
+      .badge--high {
+        background: rgba(244, 127, 89, 0.18);
+        color: var(--high);
+      }
+
+      .badge--elevated {
+        background: rgba(255, 196, 87, 0.18);
+        color: var(--elevated);
+      }
+
+      .badge--watch {
+        background: rgba(124, 188, 255, 0.18);
+        color: var(--watch);
+      }
+
+      .badge--stable {
+        background: rgba(96, 224, 169, 0.18);
+        color: var(--stable);
+      }
+
+      .site-footer {
+        padding: 32px 24px;
+        font-size: 13px;
+        color: var(--text-muted);
+        border-top: 1px solid var(--border);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+        background: var(--surface);
+        border-radius: var(--radius);
+        overflow: hidden;
+      }
+
+      th,
+      td {
+        padding: 12px 14px;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+      }
+
+      tbody tr:last-child td {
+        border-bottom: none;
+      }
+
+      thead th {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--text-muted);
+      }
+
+      .card {
+        background: var(--surface);
+        border-radius: var(--radius);
+        padding: 20px;
+        box-shadow: var(--shadow);
+      }
+
+      .empty-state {
+        padding: 24px;
+        background: var(--surface);
+        border-radius: var(--radius);
+        border: 1px dashed var(--border);
+      }
+    </style>
+  </body>
+</html>

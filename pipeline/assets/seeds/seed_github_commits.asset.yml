@@ -1,0 +1,30 @@
+name: seed.github_commits
+type: duckdb.seed
+description: |
+  Aggregated per-repo commit activity for the reporting window.
+  Columns are pre-aggregated results of what the live ingestion asset computes
+  from the GitHub commit list endpoint.
+
+parameters:
+  path: ../../fixtures/github_commits.csv
+
+tags:
+  - fixture
+  - layer:seed
+  - source:github
+
+columns:
+  - name: repo_url
+    type: varchar
+    checks:
+      - name: not_null
+      - name: unique
+  - name: last_commit_date
+    type: date
+    description: Date of the last commit on the default branch.
+    checks:
+      - name: not_null
+  - name: commits_last_365d
+    type: bigint
+    checks:
+      - name: non_negative

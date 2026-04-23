@@ -1,0 +1,39 @@
+name: seed.osv
+type: duckdb.seed
+description: |
+  Fixture snapshot of OSV advisories affecting tracked packages.
+
+parameters:
+  path: ../../fixtures/osv.csv
+
+tags:
+  - fixture
+  - layer:seed
+  - source:osv
+
+columns:
+  - name: ecosystem
+    type: varchar
+    checks:
+      - name: not_null
+      - name: accepted_values
+        value:
+          - npm
+          - pypi
+  - name: package_name
+    type: varchar
+    checks:
+      - name: not_null
+  - name: direct_vuln_count
+    type: bigint
+    checks:
+      - name: non_negative
+  - name: highest_severity
+    type: varchar
+    checks:
+      - name: accepted_values
+        value:
+          - LOW
+          - MODERATE
+          - HIGH
+          - CRITICAL

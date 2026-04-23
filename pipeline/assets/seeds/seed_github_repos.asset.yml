@@ -1,0 +1,51 @@
+name: seed.github_repos
+type: duckdb.seed
+description: |
+  Fixture snapshot of GitHub repository metadata. Live mode hits GitHub REST
+  /repos/{owner}/{repo}; fixture mode loads the committed CSV.
+
+parameters:
+  path: ../../fixtures/github_repos.csv
+
+tags:
+  - fixture
+  - layer:seed
+  - source:github
+
+columns:
+  - name: repo_url
+    type: varchar
+    checks:
+      - name: not_null
+      - name: unique
+  - name: repo_id
+    type: bigint
+    description: Stable GitHub repository numeric ID (identity-stable across renames).
+    checks:
+      - name: not_null
+      - name: unique
+  - name: default_branch
+    type: varchar
+    checks:
+      - name: not_null
+  - name: is_archived
+    type: boolean
+    checks:
+      - name: not_null
+  - name: is_disabled
+    type: boolean
+    checks:
+      - name: not_null
+  - name: stars
+    type: bigint
+    checks:
+      - name: non_negative
+  - name: primary_language
+    type: varchar
+  - name: manifest_paths
+    type: varchar
+    description: Semicolon-separated list of ecosystem manifest file paths found in the repo.
+  - name: owner_login
+    type: varchar
+    checks:
+      - name: not_null

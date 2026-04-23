@@ -1,0 +1,33 @@
+{
+  "rows": [
+    {
+      "category": "Commercial SCA / open-source risk platforms",
+      "example_products": "Snyk, Sonatype, Endor Labs",
+      "primary_question_answered": "What is risky in my organization's applications or repositories?",
+      "relationship_to_bus_factor": "Closest broad product category but a different deliverable. The Bus Factor is a public reproducible dataset and competition showcase, not an enterprise scanner.",
+      "row_order": 1
+    },
+    {
+      "category": "Supply-chain attack and malicious-package detection",
+      "example_products": "Socket",
+      "primary_question_answered": "Is this specific package malicious or typosquatted at install time?",
+      "relationship_to_bus_factor": "Adjacent inspiration for package-level heuristics. The Bus Factor focuses on continuity fragility weighted by systemic importance, not malware.",
+      "row_order": 2
+    },
+    {
+      "category": "Repository security posture checks",
+      "example_products": "OpenSSF Scorecard",
+      "primary_question_answered": "How does this repository score on automated security posture checks?",
+      "relationship_to_bus_factor": "Complementary source signal. Scorecard is an input to The Bus Factor, not a substitute.",
+      "row_order": 3
+    },
+    {
+      "category": "Public competition data product",
+      "example_products": "The Bus Factor",
+      "primary_question_answered": "Which widely depended-on packages look structurally fragile this week, and what evidence supports that?",
+      "relationship_to_bus_factor": "The actual project category - public, Bruin-powered, reproducible.",
+      "row_order": 4
+    }
+  ],
+  "snapshot_week": "2026-04-20"
+}

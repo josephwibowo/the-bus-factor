@@ -1,0 +1,49 @@
+---
+import Base from "../layouts/Base.astro";
+import { loadPositioning } from "../lib/data";
+
+const positioning = await loadPositioning();
+---
+
+<Base
+  title="Positioning | The Bus Factor"
+  description="How The Bus Factor differs from SCA, Socket, Scorecard, and other tools."
+  snapshotWeek={positioning?.snapshot_week}
+  activeNav="positioning"
+>
+  <h1>Why this isn't another SCA tool</h1>
+  <p class="muted">
+    The Bus Factor answers a different question than software-composition analysis, dependency
+    scanners, or Scorecard itself. The table below clarifies the landscape so reviewers can place
+    this project accurately.
+  </p>
+
+  {
+    !positioning || positioning.rows.length === 0 ? (
+      <div class="empty-state">
+        <p>Positioning table will populate from the seed once the pipeline runs.</p>
+      </div>
+    ) : (
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Category</th>
+            <th scope="col">Example tools</th>
+            <th scope="col">Primary question answered</th>
+            <th scope="col">Relationship to The Bus Factor</th>
+          </tr>
+        </thead>
+        <tbody>
+          {positioning.rows.map((row) => (
+            <tr>
+              <td><strong>{row.category}</strong></td>
+              <td class="muted">{row.example_products}</td>
+              <td>{row.primary_question_answered}</td>
+              <td>{row.relationship_to_bus_factor}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )
+  }
+</Base>

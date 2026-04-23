@@ -1,0 +1,44 @@
+name: seed.analysis_gallery
+type: duckdb.seed
+description: |
+  Canonical AI Data Analyst question catalog. Each row is a promptable
+  question with a cached summary and pointer to a captured screenshot.
+
+parameters:
+  path: ../../fixtures/analysis_gallery.csv
+
+tags:
+  - fixture
+  - layer:seed
+  - surface:analysis
+
+columns:
+  - name: example_id
+    type: varchar
+    checks:
+      - name: not_null
+      - name: unique
+  - name: prompt
+    type: varchar
+    checks:
+      - name: not_null
+  - name: answer_summary
+    type: varchar
+    checks:
+      - name: not_null
+  - name: screenshot_path
+    type: varchar
+  - name: dataset_version
+    type: varchar
+    checks:
+      - name: not_null
+  - name: methodology_version
+    type: varchar
+    checks:
+      - name: not_null
+  - name: capture_date
+    type: date
+    checks:
+      - name: not_null
+  - name: capture_source
+    type: varchar

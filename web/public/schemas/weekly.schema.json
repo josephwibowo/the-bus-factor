@@ -1,0 +1,128 @@
+{
+  "$defs": {
+    "WeeklyFinding": {
+      "additionalProperties": false,
+      "properties": {
+        "ecosystem": {
+          "enum": [
+            "npm",
+            "pypi"
+          ],
+          "title": "Ecosystem",
+          "type": "string"
+        },
+        "package_name": {
+          "title": "Package Name",
+          "type": "string"
+        },
+        "primary_finding": {
+          "title": "Primary Finding",
+          "type": "string"
+        },
+        "rank": {
+          "title": "Rank",
+          "type": "integer"
+        },
+        "risk_score": {
+          "title": "Risk Score",
+          "type": "number"
+        },
+        "severity_tier": {
+          "enum": [
+            "Stable",
+            "Watch",
+            "Elevated",
+            "High",
+            "Critical"
+          ],
+          "title": "Severity Tier",
+          "type": "string"
+        },
+        "slug": {
+          "title": "Slug",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rank",
+        "ecosystem",
+        "package_name",
+        "slug",
+        "severity_tier",
+        "risk_score",
+        "primary_finding"
+      ],
+      "title": "WeeklyFinding",
+      "type": "object"
+    },
+    "WeeklyHeadline": {
+      "additionalProperties": false,
+      "properties": {
+        "ecosystem_breakdown": {
+          "additionalProperties": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": "Ecosystem Breakdown",
+          "type": "object"
+        },
+        "headline": {
+          "title": "Headline",
+          "type": "string"
+        },
+        "methodology_version": {
+          "title": "Methodology Version",
+          "type": "string"
+        },
+        "snapshot_week": {
+          "title": "Snapshot Week",
+          "type": "string"
+        },
+        "summary": {
+          "title": "Summary",
+          "type": "string"
+        }
+      },
+      "required": [
+        "headline",
+        "summary",
+        "methodology_version",
+        "snapshot_week",
+        "ecosystem_breakdown"
+      ],
+      "title": "WeeklyHeadline",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/WeeklyFinding"
+      },
+      "title": "Findings",
+      "type": "array"
+    },
+    "headline": {
+      "$ref": "#/$defs/WeeklyHeadline"
+    },
+    "zero_flagged_fallback_copy": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Zero Flagged Fallback Copy"
+    }
+  },
+  "required": [
+    "headline",
+    "findings"
+  ],
+  "title": "Weekly",
+  "type": "object"
+}

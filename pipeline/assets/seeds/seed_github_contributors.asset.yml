@@ -1,0 +1,29 @@
+name: seed.github_contributors
+type: duckdb.seed
+description: |
+  Aggregated per-repo contributor-bus-factor proxy: top-1 contributor share
+  of commits in the last 365 days.
+
+parameters:
+  path: ../../fixtures/github_contributors.csv
+
+tags:
+  - fixture
+  - layer:seed
+  - source:github
+
+columns:
+  - name: repo_url
+    type: varchar
+    checks:
+      - name: not_null
+      - name: unique
+  - name: top_contributor_share_365d
+    type: double
+    description: Share in [0, 1] of commits by the single most active contributor.
+    checks:
+      - name: non_negative
+  - name: contributors_last_365d
+    type: bigint
+    checks:
+      - name: non_negative

@@ -1,0 +1,128 @@
+# Single source of truth for all scoring weights and thresholds.
+# Changing ANY value here requires bumping `methodology_version` and regenerating
+# the known-state validation fixture expectations.
+#
+# Loaded by both SQL assets (via Bruin `{{ var() }}` / Jinja) and Python assets.
+
+methodology_version: v0.1.0
+
+# ------------------------------------------------------------------
+# Importance: 0-100 ecosystem-relative percentile, weights sum to 1.0
+# ------------------------------------------------------------------
+importance:
+  weights:
+    dependency_reach: 0.60      # deps.dev downstream dependents (log-scaled percentile)
+    download_volume: 0.25       # 90-day registry downloads (log-scaled percentile)
+    security_exposure: 0.15     # OSV/deps.dev transitive vulnerability count (log-scaled percentile)
+
+# ------------------------------------------------------------------
+# Fragility: 0-100 ecosystem-relative, weights sum to 1.0
+# Each input converts to a 0-100 fragility contribution via the thresholds below.
+# ------------------------------------------------------------------
+fragility:
+  weights:
+    release_recency: 0.25
+    commit_recency: 0.25
+    release_cadence_decay: 0.15
+    issue_responsiveness: 0.15
+    contributor_bus_factor: 0.10
+    openssf_scorecard: 0.10
+
+  thresholds:
+    release_recency:
+      # 0 if <= floor days since last release; linear ramp to 100 at cap; clamp at 100 beyond.
+      floor_days: 90
+      cap_days: 540
+      paired_signal_only: true   # Never flags a package on its own.
+
+    commit_recency:
+      floor_days: 30
+      cap_days: 365
+
+    release_cadence_decay:
+      # 100 * max(0, 1 - releases_last_365d / releases_prior_365d); 0 if prior denom < 2.
+      min_prior_year_releases: 2
+
+    issue_responsiveness:
+      # Median time-to-first-maintainer-response on issues opened in last 180 days.
+      lookback_days: 180
+      min_eligible_issues: 10
+      floor_days: 7
+      cap_days: 90
+
+    contributor_bus_factor:
+      # Top-1 contributor share of commits in last 365d.
+      lookback_days: 365
+      share_floor: 0.30
+      share_cap: 0.90
+
+    openssf_scorecard:
+      # 100 - (scorecard_aggregate * 10), clamped 0-100.
+      scale: 10
+
+# ------------------------------------------------------------------
+# Eligibility and exclusions (short-circuit, not fragility inputs)
+# ------------------------------------------------------------------
+eligibility:
+  min_age_months: 12             # Younger than this -> excluded: too_new.
+  reduced_confidence_age_months: 24  # 12-24 months -> scored with reduced confidence.
+
+exclusion_states:
+  - unmappable
+  - archived_deprecated
+  - too_new
+  - stub_types  # @types/*, *-stubs, types-*
+
+# ------------------------------------------------------------------
+# Flagged definition (enforced by a custom SQL check on every run)
+# ------------------------------------------------------------------
+flagged:
+  risk_score_min: 75
+  allowed_severity_tiers: [High, Critical]
+  allowed_confidence: [medium, high]
+  min_independent_fragility_signals: 2
+  signal_contribution_threshold: 40    # Each of the 2+ signals must contribute >= this.
+  importance_top_quantile: 0.25        # Package must be in top 25% of its ecosystem by importance.
+
+# ------------------------------------------------------------------
+# Severity tiers (risk_score bands)
+# ------------------------------------------------------------------
+severity_tiers:
+  - { name: Stable,   min: 0,  max: 39, flagged: false }
+  - { name: Watch,    min: 40, max: 59, flagged: false }
+  - { name: Elevated, min: 60, max: 74, flagged: false }
+  - { name: High,     min: 75, max: 89, flagged: true  }
+  - { name: Critical, min: 90, max: 100, flagged: true }
+
+# ------------------------------------------------------------------
+# Repository mapping confidence (additive)
+# ------------------------------------------------------------------
+mapping_confidence:
+  points:
+    registry_repo_url_resolves: 40
+    homepage_resolves_same_repo: 10
+    repo_manifest_matches_package: 30
+    deps_dev_source_repo_match: 20
+    openssf_scorecard_present: 10
+    repo_owner_matches_publisher: 10
+  caps:
+    multiple_candidate_repos: medium      # Comparable-score rivals cap at medium.
+    monorepo_sibling_manifests_threshold: 5  # >= this many sibling manifests -> cap at medium.
+  buckets:
+    high_min: 70
+    medium_min: 40
+    # Below medium_min = low = unmappable for ranking purposes.
+
+# ------------------------------------------------------------------
+# Confidence labels
+# ------------------------------------------------------------------
+confidence_requirements:
+  high:
+    mapping_bucket: [high]
+    max_stale_sources: 0
+    min_fragility_signals: 2
+  medium:
+    mapping_bucket: [high, medium]
+    max_stale_sources: 1
+    min_fragility_signals: 1
+  # Everything else is "low" and cannot be flagged.

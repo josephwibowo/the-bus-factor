@@ -1,0 +1,248 @@
+---
+import Base from "../layouts/Base.astro";
+import { loadLeaderboard, loadMetadata, severityBadgeClass } from "../lib/data";
+
+const [leaderboard, metadata] = await Promise.all([loadLeaderboard(), loadMetadata()]);
+
+const ecosystems = ["npm", "pypi"] as const;
+const entriesByEcosystem = (ecosystem: (typeof ecosystems)[number]) =>
+  (leaderboard?.entries ?? [])
+    .filter((entry) => entry.ecosystem === ecosystem)
+    .sort((a, b) => b.risk_score - a.risk_score);
+
+const totalEntries = leaderboard?.entries.length ?? 0;
+const flaggedCount = (leaderboard?.entries ?? []).filter((e) => e.flagged).length;
+---
+
+<Base
+  title="Leaderboard | The Bus Factor"
+  description="Ecosystem-relative continuity risk for npm and PyPI, updated weekly by a Bruin pipeline."
+  snapshotWeek={leaderboard?.snapshot_week}
+  methodologyVersion={leaderboard?.methodology_version}
+  activeNav="home"
+>
+  <section>
+    <h1>Continuity-risk leaderboard</h1>
+    <p class="muted">
+      Top packages by fragility-weighted importance across each ecosystem. Flagged rows indicate
+      two or more independent fragility signals above the configured threshold on widely
+      depended-on packages.
+    </p>
+
+    {
+      metadata && (
+        <div class="summary" role="group" aria-label="Snapshot summary">
+          {ecosystems.map((eco) => (
+            <div class="summary__cell">
+              <span class="muted">Tracked {eco}</span>
+              <strong>{metadata.package_counts[eco] ?? 0}</strong>
+            </div>
+          ))}
+          <div class="summary__cell">
+            <span class="muted">Eligible + scored</span>
+            <strong>{totalEntries}</strong>
+          </div>
+          <div class="summary__cell">
+            <span class="muted">Flagged this week</span>
+            <strong>{flaggedCount}</strong>
+          </div>
+        </div>
+      )
+    }
+  </section>
+
+  {
+    leaderboard && leaderboard.entries.length > 0 ? (
+      <div class="tabs" role="tablist">
+        {ecosystems.map((eco, idx) => (
+          <button
+            class:list={["tab", { "tab--active": idx === 0 }]}
+            role="tab"
+            id={`tab-${eco}`}
+            aria-controls={`panel-${eco}`}
+            aria-selected={idx === 0 ? "true" : "false"}
+          >
+            {eco} ({entriesByEcosystem(eco).length})
+          </button>
+        ))}
+      </div>
+    ) : null
+  }
+
+  {
+    leaderboard && leaderboard.entries.length > 0 ? (
+      <div>
+        <label class="filter">
+          <span class="muted">Filter</span>
+          <input
+            id="filter-input"
+            type="search"
+            placeholder="Filter by package name or severity"
+            aria-label="Filter leaderboard"
+          />
+        </label>
+        {ecosystems.map((eco, idx) => (
+          <section
+            id={`panel-${eco}`}
+            role="tabpanel"
+            aria-labelledby={`tab-${eco}`}
+            class:list={["panel", { "panel--hidden": idx !== 0 }]}
+          >
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Rank</th>
+                  <th scope="col">Package</th>
+                  <th scope="col">Severity</th>
+                  <th scope="col">Risk</th>
+                  <th scope="col">Importance</th>
+                  <th scope="col">Fragility</th>
+                  <th scope="col">Confidence</th>
+                  <th scope="col">Primary finding</th>
+                </tr>
+              </thead>
+              <tbody>
+                {entriesByEcosystem(eco).map((entry) => (
+                  <tr data-row="lb" data-name={entry.package_name.toLowerCase()} data-severity={entry.severity_tier.toLowerCase()}>
+                    <td>#{entry.rank_within_ecosystem}</td>
+                    <td>
+                      <a href={`/package/${entry.slug}/`}>{entry.package_name}</a>
+                      {entry.flagged && <span class="pill pill--flagged">flagged</span>}
+                    </td>
+                    <td>
+                      <span class={severityBadgeClass(entry.severity_tier)}>
+                        {entry.severity_tier}
+                      </span>
+                    </td>
+                    <td>{entry.risk_score.toFixed(1)}</td>
+                    <td>{entry.importance_score.toFixed(1)}</td>
+                    <td>{entry.fragility_score.toFixed(1)}</td>
+                    <td>
+                      <span class="muted">{entry.confidence}</span>
+                    </td>
+                    <td class="muted finding">{entry.primary_finding}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+        ))}
+      </div>
+    ) : (
+      <div class="empty-state">
+        <h2>No leaderboard yet</h2>
+        <p>
+          Run the fixture pipeline to produce an initial <code>public-data/</code> bundle. The
+          site never renders synthetic rankings.
+        </p>
+        <pre><code>bruin run --workers=1 --full-refresh -e fixture pipeline/pipeline.yml</code></pre>
+      </div>
+    )
+  }
+</Base>
+
+<style>
+  .summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin: 16px 0 24px;
+  }
+  .summary__cell {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .summary__cell strong {
+    font-size: 22px;
+  }
+  .tabs {
+    display: flex;
+    gap: 8px;
+    border-bottom: 1px solid var(--border);
+    margin: 8px 0 16px;
+  }
+  .tab {
+    padding: 10px 16px;
+    background: transparent;
+    color: var(--text-muted);
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 13px;
+  }
+  .tab--active {
+    color: var(--text);
+    border-color: var(--accent);
+  }
+  .filter {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 12px 0 20px;
+  }
+  .filter input {
+    flex: 1;
+    padding: 10px 14px;
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  .panel--hidden {
+    display: none;
+  }
+  .pill {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 8px;
+    font-size: 11px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .pill--flagged {
+    background: rgba(244, 127, 89, 0.18);
+    color: var(--high);
+  }
+  .finding {
+    font-size: 13px;
+    max-width: 320px;
+  }
+</style>
+
+<script>
+  const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>(".tab"));
+  const panels = Array.from(document.querySelectorAll<HTMLElement>(".panel"));
+
+  tabs.forEach((tab, idx) => {
+    tab.addEventListener("click", () => {
+      tabs.forEach((t) => {
+        t.classList.remove("tab--active");
+        t.setAttribute("aria-selected", "false");
+      });
+      panels.forEach((p) => p.classList.add("panel--hidden"));
+      tab.classList.add("tab--active");
+      tab.setAttribute("aria-selected", "true");
+      panels[idx]?.classList.remove("panel--hidden");
+    });
+  });
+
+  const filter = document.getElementById("filter-input") as HTMLInputElement | null;
+  filter?.addEventListener("input", () => {
+    const needle = filter.value.trim().toLowerCase();
+    document.querySelectorAll<HTMLTableRowElement>("tr[data-row='lb']").forEach((row) => {
+      const name = row.dataset.name ?? "";
+      const severity = row.dataset.severity ?? "";
+      const matches =
+        !needle || name.includes(needle) || severity.includes(needle);
+      row.style.display = matches ? "" : "none";
+    });
+  });
+</script>

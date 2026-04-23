@@ -1,0 +1,51 @@
+name: seed.pypi_registry
+type: duckdb.seed
+description: |
+  Fixture snapshot of PyPI package metadata for the tracked universe.
+  Live mode: Warehouse JSON API. Fixture mode: committed CSV.
+
+parameters:
+  path: ../../fixtures/pypi_registry.csv
+
+tags:
+  - fixture
+  - layer:seed
+  - source:pypi
+
+columns:
+  - name: package_name
+    type: varchar
+    description: Canonical PyPI project name (normalized).
+    checks:
+      - name: not_null
+      - name: unique
+  - name: latest_version
+    type: varchar
+    checks:
+      - name: not_null
+  - name: first_release_date
+    type: date
+    checks:
+      - name: not_null
+  - name: latest_release_date
+    type: date
+    checks:
+      - name: not_null
+  - name: homepage_url
+    type: varchar
+  - name: repository_url
+    type: varchar
+  - name: is_deprecated
+    type: boolean
+    checks:
+      - name: not_null
+  - name: is_archived
+    type: boolean
+    checks:
+      - name: not_null
+  - name: publisher
+    type: varchar
+  - name: downloads_90d
+    type: bigint
+    checks:
+      - name: non_negative

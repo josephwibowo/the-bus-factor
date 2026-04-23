@@ -1,0 +1,145 @@
+name: Weekly snapshot
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"  # Mondays 06:00 UTC — after reporting-window boundary.
+  workflow_dispatch:
+
+permissions:
+  contents: write   # commit refreshed public-data/ bundle
+  pages: write
+  id-token: write
+
+concurrency:
+  group: weekly-snapshot
+  cancel-in-progress: false
+
+env:
+  BQ_MAX_BYTES_BILLED: "10000000000"  # 10 GB per query cost guardrail
+
+jobs:
+  run-pipeline:
+    name: Live run + export + publish
+    runs-on: ubuntu-latest
+    outputs:
+      degraded: ${{ steps.live_run.outputs.degraded }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+      - run: uv python install
+      - run: uv sync --locked
+
+      - name: Install Bruin CLI
+        run: |
+          curl -LsSf https://getbruin.com/install/cli | sh
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Render .bruin.yml from secrets
+        env:
+          GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          GITHUB_INGEST_TOKEN: ${{ secrets.GITHUB_INGEST_TOKEN }}
+        run: |
+          envsubst < .bruin.yml.example > .bruin.yml || cp .bruin.yml.example .bruin.yml
+
+      - name: Validate
+        run: bruin validate pipeline/pipeline.yml
+
+      - name: Snapshot existing public-data/ (fallback baseline)
+        run: |
+          mkdir -p .prev-public-data
+          if [ -d public-data ] && [ "$(ls -A public-data 2>/dev/null)" ]; then
+            cp -R public-data/. .prev-public-data/
+          fi
+
+      - name: Run live pipeline
+        id: live_run
+        env:
+          GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          GITHUB_INGEST_TOKEN: ${{ secrets.GITHUB_INGEST_TOKEN }}
+        run: |
+          set +e
+          bruin run -e ci_live_bq \
+            --var source_mode=live \
+            --var warehouse=bigquery \
+            pipeline/pipeline.yml
+          rc=$?
+          set -e
+          if [ $rc -ne 0 ]; then
+            echo "degraded=true" >> "$GITHUB_OUTPUT"
+            echo "::warning::Live run returned non-zero ($rc); attempting graceful fallback from .prev-public-data/"
+          else
+            echo "degraded=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Graceful fallback to previous public-data
+        if: steps.live_run.outputs.degraded == 'true'
+        run: |
+          if [ ! -d .prev-public-data ] || [ -z "$(ls -A .prev-public-data 2>/dev/null)" ]; then
+            echo "::error::No prior public-data snapshot available for graceful fallback."
+            exit 1
+          fi
+          rm -rf public-data
+          mkdir -p public-data
+          cp -R .prev-public-data/. public-data/
+          uv run python - <<'PY'
+          import json
+          from datetime import datetime, UTC
+          from pathlib import Path
+
+          meta_path = Path("public-data/metadata.json")
+          meta = json.loads(meta_path.read_text()) if meta_path.exists() else {}
+          meta["stale_fallback"] = True
+          meta["stale_fallback_reason"] = "live_run_failure"
+          meta["stale_fallback_at"] = datetime.now(UTC).isoformat(timespec="seconds").replace("+00:00", "Z")
+          meta_path.write_text(json.dumps(meta, indent=2, sort_keys=True) + "\n")
+          PY
+          echo "::notice::Re-publishing prior public-data/ with stale_fallback=true"
+
+      - name: Size-cap public-data (<25MB)
+        run: |
+          size=$(du -sb public-data | awk '{print $1}')
+          echo "public-data size = $size bytes"
+          if [ "$size" -ge 26214400 ]; then
+            echo "::error::public-data exceeds 25MB (hard cap)"
+            exit 1
+          fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - uses: pnpm/action-setup@v4
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter ./web build
+
+      - name: Commit refreshed public-data bundle
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public-data/ reports/ analysis/
+          if [ "${{ steps.live_run.outputs.degraded }}" = "true" ]; then
+            msg="chore(weekly): stale_fallback snapshot $(date -u +%Y-%m-%d) (live ingest degraded)"
+          else
+            msg="chore(weekly): refresh snapshot $(date -u +%Y-%m-%d)"
+          fi
+          git commit -m "$msg" || echo "No changes"
+          git push || true
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: web/dist
+
+  deploy-pages:
+    needs: run-pipeline
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

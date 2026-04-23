@@ -1,0 +1,74 @@
+{
+  "$defs": {
+    "AnalysisExample": {
+      "additionalProperties": false,
+      "properties": {
+        "answer_summary": {
+          "title": "Answer Summary",
+          "type": "string"
+        },
+        "capture_date": {
+          "format": "date",
+          "title": "Capture Date",
+          "type": "string"
+        },
+        "capture_source": {
+          "title": "Capture Source",
+          "type": "string"
+        },
+        "dataset_version": {
+          "title": "Dataset Version",
+          "type": "string"
+        },
+        "example_id": {
+          "title": "Example Id",
+          "type": "string"
+        },
+        "methodology_version": {
+          "title": "Methodology Version",
+          "type": "string"
+        },
+        "prompt": {
+          "title": "Prompt",
+          "type": "string"
+        },
+        "screenshot_path": {
+          "title": "Screenshot Path",
+          "type": "string"
+        }
+      },
+      "required": [
+        "example_id",
+        "prompt",
+        "answer_summary",
+        "screenshot_path",
+        "dataset_version",
+        "methodology_version",
+        "capture_date",
+        "capture_source"
+      ],
+      "title": "AnalysisExample",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "entries": {
+      "items": {
+        "$ref": "#/$defs/AnalysisExample"
+      },
+      "title": "Entries",
+      "type": "array"
+    },
+    "snapshot_week": {
+      "title": "Snapshot Week",
+      "type": "string"
+    }
+  },
+  "required": [
+    "snapshot_week",
+    "entries"
+  ],
+  "title": "Analysis",
+  "type": "object"
+}

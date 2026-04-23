@@ -1,0 +1,85 @@
+{
+  "entries": [
+    {
+      "answer_summary": "Returns the ordered npm flagged cohort with per-package findings drawn from mart.weekly_findings.",
+      "capture_date": "2026-04-20",
+      "capture_source": "local-mcp",
+      "dataset_version": "2026-W17",
+      "example_id": "Q1",
+      "methodology_version": "v0.1.0",
+      "prompt": "Which currently flagged npm packages have the highest risk score, and what evidence explains each score?",
+      "screenshot_path": "/screenshots/Q1_flagged_npm.png"
+    },
+    {
+      "answer_summary": "Returns the ordered PyPI flagged cohort with per-package findings.",
+      "capture_date": "2026-04-20",
+      "capture_source": "local-mcp",
+      "dataset_version": "2026-W17",
+      "example_id": "Q2",
+      "methodology_version": "v0.1.0",
+      "prompt": "Which currently flagged PyPI packages have the highest risk score, and what evidence explains each score?",
+      "screenshot_path": "/screenshots/Q2_flagged_pypi.png"
+    },
+    {
+      "answer_summary": "Cross-tab of flagged packages by ecosystem and severity_tier.",
+      "capture_date": "2026-04-20",
+      "capture_source": "local-mcp",
+      "dataset_version": "2026-W17",
+      "example_id": "Q3",
+      "methodology_version": "v0.1.0",
+      "prompt": "Group the current flagged packages by ecosystem and severity tier.",
+      "screenshot_path": "/screenshots/Q3_grouped.png"
+    },
+    {
+      "answer_summary": "Identifies packages with fragility signals that miss the flagged gate (below top-quartile importance, single-signal, or confidence < medium).",
+      "capture_date": "2026-04-20",
+      "capture_source": "local-mcp",
+      "dataset_version": "2026-W17",
+      "example_id": "Q4",
+      "methodology_version": "v0.1.0",
+      "prompt": "Which high-importance packages have elevated fragility signals but are not flagged, and why are they below the threshold?",
+      "screenshot_path": "/screenshots/Q4_elevated_not_flagged.png"
+    },
+    {
+      "answer_summary": "Lists archived/deprecated packages from mart.coverage_summary with exclusion rationale.",
+      "capture_date": "2026-04-20",
+      "capture_source": "local-mcp",
+      "dataset_version": "2026-W17",
+      "example_id": "Q5",
+      "methodology_version": "v0.1.0",
+      "prompt": "Which packages were excluded because they are archived or deprecated, and why are they not ranked?",
+      "screenshot_path": "/screenshots/Q5_archived.png"
+    },
+    {
+      "answer_summary": "Lists unmappable packages with mapping-confidence points breakdown.",
+      "capture_date": "2026-04-20",
+      "capture_source": "local-mcp",
+      "dataset_version": "2026-W17",
+      "example_id": "Q6",
+      "methodology_version": "v0.1.0",
+      "prompt": "Which tracked packages are excluded because their repository mapping confidence is too low?",
+      "screenshot_path": "/screenshots/Q6_unmappable.png"
+    },
+    {
+      "answer_summary": "Side-by-side comparison of top flagged packages across both ecosystems.",
+      "capture_date": "2026-04-20",
+      "capture_source": "local-mcp",
+      "dataset_version": "2026-W17",
+      "example_id": "Q7",
+      "methodology_version": "v0.1.0",
+      "prompt": "Compare the top flagged npm and PyPI packages by importance score, fragility score, confidence, and primary findings.",
+      "screenshot_path": "/screenshots/Q7_cross_ecosystem.png"
+    },
+    {
+      "answer_summary": "Empty in v0.1.0 (first snapshot); structure ready for cross-week comparisons once methodology stabilizes.",
+      "capture_date": "2026-04-20",
+      "capture_source": "local-mcp",
+      "dataset_version": "2026-W17",
+      "example_id": "Q8",
+      "methodology_version": "v0.1.0",
+      "prompt": "Which packages changed severity tier since the previous methodology-compatible weekly snapshot?",
+      "screenshot_path": "/screenshots/Q8_tier_changes.png"
+    }
+  ],
+  "snapshot_week": "2026-04-20"
+}

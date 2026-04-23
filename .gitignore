@@ -1,0 +1,67 @@
+# --- Bruin ---
+.bruin.yml
+logs/
+.bruin/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.tox/
+
+# --- DuckDB (fixture/live runtime data must never land in git) ---
+*.duckdb
+*.duckdb.wal
+*.duckdb.tmp
+data/
+pipeline/fixtures/*.duckdb
+
+# --- Node / frontend ---
+node_modules/
+.astro/
+dist/
+.output/
+*.tsbuildinfo
+.eslintcache
+playwright-report/
+test-results/
+
+# --- Live-ingestion caches (HTTP responses, universe lists, source-health buffer) ---
+.cache/
+
+# --- Secrets ---
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/settings.json.example
+!.vscode/extensions.json
+
+# --- Build / temp ---
+*.log
+tmp/
+.tmp/
+
+logs/runs
+logs/*.log

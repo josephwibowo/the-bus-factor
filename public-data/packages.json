@@ -1,0 +1,3054 @@
+{
+  "entries": [
+    {
+      "confidence": "low",
+      "ecosystem": "npm",
+      "exclusion_reason": "stub_types",
+      "first_release_date": "2018-06-30",
+      "flagged": false,
+      "fragility_score": 0.0,
+      "fragility_signals": [
+        {
+          "contribution": 92.22222222222223,
+          "evidence": "505 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 8.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 9.2 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "1 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "180 releases in the last 365 days vs 165 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Median first maintainer response: 3 days on 850 issues.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 4.0% of commits over the last 365 days (distinct contributors: 1200).",
+          "name": "contributor_bus_factor"
+        }
+      ],
+      "importance_score": 0.0,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-04-19",
+      "latest_release_date": "2024-12-01",
+      "mapping_confidence": {
+        "bucket": "medium",
+        "points": 100,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)",
+          "monorepo_cap_applied(medium_max)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "@types/legacy-forge",
+      "registry_url": "https://www.npmjs.com/package/@types/legacy-forge",
+      "repository_url": "https://github.com/definitelytyped/definitelytyped",
+      "risk_score": 0.0,
+      "severity_tier": "Stable",
+      "slug": "npm-types__legacy-forge",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "npm",
+      "exclusion_reason": null,
+      "first_release_date": "2018-01-10",
+      "flagged": false,
+      "fragility_score": 1.5,
+      "fragility_signals": [
+        {
+          "contribution": 15.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 8.5 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "19 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "10 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "12 releases in the last 365 days vs 10 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Median first maintainer response: 2 days on 180 issues.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 22.0% of commits over the last 365 days (distinct contributors: 48).",
+          "name": "contributor_bus_factor"
+        }
+      ],
+      "importance_score": 77.1053,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-04-10",
+      "latest_release_date": "2026-04-01",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 100,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "active-logger",
+      "registry_url": "https://www.npmjs.com/package/active-logger",
+      "repository_url": "https://github.com/fake-active/active-logger",
+      "risk_score": 1.1566,
+      "severity_tier": "Stable",
+      "slug": "npm-active-logger",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "high",
+      "ecosystem": "npm",
+      "exclusion_reason": null,
+      "first_release_date": "2017-09-30",
+      "flagged": false,
+      "fragility_score": 90.2747,
+      "fragility_signals": [
+        {
+          "contribution": 100.0,
+          "evidence": "989 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "426 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "0 releases in the last 365 days vs 4 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "Top contributor authored 90.0% of commits over the last 365 days (distinct contributors: 2).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 66.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 3.4 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 57.831325301204814,
+          "evidence": "Median first maintainer response: 55 days on 16 issues.",
+          "name": "issue_responsiveness"
+        }
+      ],
+      "importance_score": 57.1053,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2025-02-18",
+      "latest_release_date": "2023-08-05",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "aged-template",
+      "registry_url": "https://www.npmjs.com/package/aged-template",
+      "repository_url": "https://github.com/fake-aged-template/aged-template",
+      "risk_score": 51.5516,
+      "severity_tier": "Watch",
+      "slug": "npm-aged-template",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "npm",
+      "exclusion_reason": "archived_deprecated",
+      "first_release_date": "2014-02-10",
+      "flagged": false,
+      "fragility_score": 0.0,
+      "fragility_signals": [
+        {
+          "contribution": 100.0,
+          "evidence": "2287 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "2361 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Insufficient prior-year release history to compute cadence.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Fewer than 10 eligible issues in the last 180 days; signal skipped.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 0.0% of commits over the last 365 days (distinct contributors: 0).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "OpenSSF Scorecard aggregate unavailable.",
+          "name": "openssf_scorecard"
+        }
+      ],
+      "importance_score": 0.0,
+      "is_archived": true,
+      "is_deprecated": false,
+      "last_commit_date": "2019-11-02",
+      "latest_release_date": "2020-01-15",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 100,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "archived-compiler",
+      "registry_url": "https://www.npmjs.com/package/archived-compiler",
+      "repository_url": "https://github.com/fake-archived/archived-compiler",
+      "risk_score": 0.0,
+      "severity_tier": "Stable",
+      "slug": "npm-archived-compiler",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "npm",
+      "exclusion_reason": null,
+      "first_release_date": "2020-01-12",
+      "flagged": false,
+      "fragility_score": 3.6333,
+      "fragility_signals": [
+        {
+          "contribution": 28.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 7.2 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 8.333333333333332,
+          "evidence": "Top contributor authored 35.0% of commits over the last 365 days (distinct contributors: 14).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "12 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "6 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "6 releases in the last 365 days vs 5 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Median first maintainer response: 6 days on 52 issues.",
+          "name": "issue_responsiveness"
+        }
+      ],
+      "importance_score": 13.4211,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-04-14",
+      "latest_release_date": "2026-04-08",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "constant-timer",
+      "registry_url": "https://www.npmjs.com/package/constant-timer",
+      "repository_url": "https://github.com/fake-constant/constant-timer",
+      "risk_score": 0.4876,
+      "severity_tier": "Stable",
+      "slug": "npm-constant-timer",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "npm",
+      "exclusion_reason": null,
+      "first_release_date": "2019-01-15",
+      "flagged": false,
+      "fragility_score": 2.2,
+      "fragility_signals": [
+        {
+          "contribution": 22.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 7.8 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "23 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "18 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "10 releases in the last 365 days vs 9 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Median first maintainer response: 4 days on 95 issues.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 25.0% of commits over the last 365 days (distinct contributors: 24).",
+          "name": "contributor_bus_factor"
+        }
+      ],
+      "importance_score": 47.6316,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-04-02",
+      "latest_release_date": "2026-03-28",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "eventful-proxy",
+      "registry_url": "https://www.npmjs.com/package/eventful-proxy",
+      "repository_url": "https://github.com/fake-eventful/eventful-proxy",
+      "risk_score": 1.0479,
+      "severity_tier": "Stable",
+      "slug": "npm-eventful-proxy",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "npm",
+      "exclusion_reason": null,
+      "first_release_date": "2019-06-22",
+      "flagged": false,
+      "fragility_score": 1.2,
+      "fragility_signals": [
+        {
+          "contribution": 12.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 8.8 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "5 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "2 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "14 releases in the last 365 days vs 11 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Median first maintainer response: 1 days on 205 issues.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 18.0% of commits over the last 365 days (distinct contributors: 56).",
+          "name": "contributor_bus_factor"
+        }
+      ],
+      "importance_score": 67.8947,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-04-18",
+      "latest_release_date": "2026-04-15",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 100,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "fresh-parser",
+      "registry_url": "https://www.npmjs.com/package/fresh-parser",
+      "repository_url": "https://github.com/fake-fresh/fresh-parser",
+      "risk_score": 0.8147,
+      "severity_tier": "Stable",
+      "slug": "npm-fresh-parser",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "high",
+      "ecosystem": "npm",
+      "exclusion_reason": null,
+      "first_release_date": "2015-01-11",
+      "flagged": false,
+      "fragility_score": 93.747,
+      "fragility_signals": [
+        {
+          "contribution": 100.0,
+          "evidence": "867 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "470 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "0 releases in the last 365 days vs 3 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "Top contributor authored 92.0% of commits over the last 365 days (distinct contributors: 2).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 78.3132530120482,
+          "evidence": "Median first maintainer response: 72 days on 12 issues.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 70.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 3.0 / 10.",
+          "name": "openssf_scorecard"
+        }
+      ],
+      "importance_score": 71.5789,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2025-01-05",
+      "latest_release_date": "2023-12-05",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "frozen-format",
+      "registry_url": "https://www.npmjs.com/package/frozen-format",
+      "repository_url": "https://github.com/fake-frozen/frozen-format",
+      "risk_score": 67.1031,
+      "severity_tier": "Elevated",
+      "slug": "npm-frozen-format",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "high",
+      "ecosystem": "npm",
+      "exclusion_reason": null,
+      "first_release_date": "2017-03-15",
+      "flagged": true,
+      "fragility_score": 89.2992,
+      "fragility_signals": [
+        {
+          "contribution": 100.0,
+          "evidence": "948 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "416 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "0 releases in the last 365 days vs 5 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 96.66666666666669,
+          "evidence": "Top contributor authored 88.0% of commits over the last 365 days (distinct contributors: 3).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 65.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 3.5 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 54.21686746987952,
+          "evidence": "Median first maintainer response: 52 days on 22 issues.",
+          "name": "issue_responsiveness"
+        }
+      ],
+      "importance_score": 96.0526,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2025-02-28",
+      "latest_release_date": "2023-09-15",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 100,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "legacy-forge",
+      "registry_url": "https://www.npmjs.com/package/legacy-forge",
+      "repository_url": "https://github.com/fake-legacy-forge/legacy-forge",
+      "risk_score": 85.7742,
+      "severity_tier": "High",
+      "slug": "npm-legacy-forge",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "npm",
+      "exclusion_reason": null,
+      "first_release_date": "2020-09-01",
+      "flagged": false,
+      "fragility_score": 4.0701,
+      "fragility_signals": [
+        {
+          "contribution": 26.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 7.4 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 5.000000000000004,
+          "evidence": "Top contributor authored 33.0% of commits over the last 365 days (distinct contributors: 16).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 3.880597014925373,
+          "evidence": "43 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "51 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "7 releases in the last 365 days vs 6 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Median first maintainer response: 7 days on 58 issues.",
+          "name": "issue_responsiveness"
+        }
+      ],
+      "importance_score": 26.8421,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-03-08",
+      "latest_release_date": "2026-02-28",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "measured-worker",
+      "registry_url": "https://www.npmjs.com/package/measured-worker",
+      "repository_url": "https://github.com/fake-measured/measured-worker",
+      "risk_score": 1.0925,
+      "severity_tier": "Stable",
+      "slug": "npm-measured-worker",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "npm",
+      "exclusion_reason": null,
+      "first_release_date": "2021-02-05",
+      "flagged": false,
+      "fragility_score": 5.0474,
+      "fragility_signals": [
+        {
+          "contribution": 32.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 6.8 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 16.666666666666675,
+          "evidence": "Top contributor authored 40.0% of commits over the last 365 days (distinct contributors: 10).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 1.2048192771084338,
+          "evidence": "Median first maintainer response: 8 days on 45 issues.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "26 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "21 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "5 releases in the last 365 days vs 4 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        }
+      ],
+      "importance_score": 8.9474,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-03-30",
+      "latest_release_date": "2026-03-25",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "minimal-queue",
+      "registry_url": "https://www.npmjs.com/package/minimal-queue",
+      "repository_url": "https://github.com/fake-minimal/minimal-queue",
+      "risk_score": 0.4516,
+      "severity_tier": "Stable",
+      "slug": "npm-minimal-queue",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "npm",
+      "exclusion_reason": null,
+      "first_release_date": "2020-05-22",
+      "flagged": false,
+      "fragility_score": 2.7333,
+      "fragility_signals": [
+        {
+          "contribution": 24.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 7.6 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 3.3333333333333366,
+          "evidence": "Top contributor authored 32.0% of commits over the last 365 days (distinct contributors: 20).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "18 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "8 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "9 releases in the last 365 days vs 8 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Median first maintainer response: 6 days on 80 issues.",
+          "name": "issue_responsiveness"
+        }
+      ],
+      "importance_score": 37.1053,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-04-12",
+      "latest_release_date": "2026-04-02",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "modest-codec",
+      "registry_url": "https://www.npmjs.com/package/modest-codec",
+      "repository_url": "https://github.com/fake-modest/modest-codec",
+      "risk_score": 1.0142,
+      "severity_tier": "Stable",
+      "slug": "npm-modest-codec",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "high",
+      "ecosystem": "npm",
+      "exclusion_reason": null,
+      "first_release_date": "2015-11-02",
+      "flagged": true,
+      "fragility_score": 92.2819,
+      "fragility_signals": [
+        {
+          "contribution": 100.0,
+          "evidence": "1015 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "491 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "0 releases in the last 365 days vs 4 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "Top contributor authored 95.0% of commits over the last 365 days (distinct contributors: 2).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 69.87951807228916,
+          "evidence": "Median first maintainer response: 65 days on 18 issues.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 68.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 3.2 / 10.",
+          "name": "openssf_scorecard"
+        }
+      ],
+      "importance_score": 90.0,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2024-12-15",
+      "latest_release_date": "2023-07-10",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "neglected-stream",
+      "registry_url": "https://www.npmjs.com/package/neglected-stream",
+      "repository_url": "https://github.com/fake-neglected/neglected-stream",
+      "risk_score": 83.0537,
+      "severity_tier": "High",
+      "slug": "npm-neglected-stream",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "npm",
+      "exclusion_reason": "too_new",
+      "first_release_date": "2025-11-20",
+      "flagged": false,
+      "fragility_score": 0.0,
+      "fragility_signals": [
+        {
+          "contribution": 50.0,
+          "evidence": "Top contributor authored 60.0% of commits over the last 365 days (distinct contributors: 4).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "10 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "4 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Insufficient prior-year release history to compute cadence.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Median first maintainer response: 4 days on 18 issues.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "OpenSSF Scorecard aggregate unavailable.",
+          "name": "openssf_scorecard"
+        }
+      ],
+      "importance_score": 0.0,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-04-16",
+      "latest_release_date": "2026-04-10",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 100,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "newborn-cli",
+      "registry_url": "https://www.npmjs.com/package/newborn-cli",
+      "repository_url": "https://github.com/fake-newborn/newborn-cli",
+      "risk_score": 0.0,
+      "severity_tier": "Stable",
+      "slug": "npm-newborn-cli",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "high",
+      "ecosystem": "npm",
+      "exclusion_reason": null,
+      "first_release_date": "2016-05-20",
+      "flagged": false,
+      "fragility_score": 89.5835,
+      "fragility_signals": [
+        {
+          "contribution": 100.0,
+          "evidence": "915 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "396 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "0 releases in the last 365 days vs 5 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 91.66666666666667,
+          "evidence": "Top contributor authored 85.0% of commits over the last 365 days (distinct contributors: 3).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 62.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 3.8 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 61.44578313253012,
+          "evidence": "Median first maintainer response: 58 days on 14 issues.",
+          "name": "issue_responsiveness"
+        }
+      ],
+      "importance_score": 79.7368,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2025-03-20",
+      "latest_release_date": "2023-10-18",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 100,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "old-validator",
+      "registry_url": "https://www.npmjs.com/package/old-validator",
+      "repository_url": "https://github.com/fake-old-validator/old-validator",
+      "risk_score": 71.4311,
+      "severity_tier": "Elevated",
+      "slug": "npm-old-validator",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "npm",
+      "exclusion_reason": "unmappable",
+      "first_release_date": "2017-04-22",
+      "flagged": false,
+      "fragility_score": 0.0,
+      "fragility_signals": [
+        {
+          "contribution": 100.0,
+          "evidence": "625 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "No commit history available.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Insufficient prior-year release history to compute cadence.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Fewer than 10 eligible issues in the last 180 days; signal skipped.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Contributor concentration unavailable.",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "OpenSSF Scorecard aggregate unavailable.",
+          "name": "openssf_scorecard"
+        }
+      ],
+      "importance_score": 0.0,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": null,
+      "latest_release_date": "2024-08-03",
+      "mapping_confidence": {
+        "bucket": "low",
+        "points": 0,
+        "rationale": []
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "orphan-package",
+      "registry_url": "https://www.npmjs.com/package/orphan-package",
+      "repository_url": null,
+      "risk_score": 0.0,
+      "severity_tier": "Stable",
+      "slug": "npm-orphan-package",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "high",
+      "ecosystem": "npm",
+      "exclusion_reason": null,
+      "first_release_date": "2018-03-30",
+      "flagged": false,
+      "fragility_score": 39.3609,
+      "fragility_signals": [
+        {
+          "contribution": 60.0,
+          "evidence": "2 releases in the last 365 days vs 5 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 51.04477611940299,
+          "evidence": "201 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 45.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 5.5 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 33.333333333333336,
+          "evidence": "Top contributor authored 50.0% of commits over the last 365 days (distinct contributors: 6).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 28.22222222222222,
+          "evidence": "217 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 18.072289156626507,
+          "evidence": "Median first maintainer response: 22 days on 30 issues.",
+          "name": "issue_responsiveness"
+        }
+      ],
+      "importance_score": 28.1579,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2025-10-01",
+      "latest_release_date": "2025-09-15",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "quiet-daemon",
+      "registry_url": "https://www.npmjs.com/package/quiet-daemon",
+      "repository_url": "https://github.com/fake-quiet/quiet-daemon",
+      "risk_score": 11.0832,
+      "severity_tier": "Stable",
+      "slug": "npm-quiet-daemon",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "high",
+      "ecosystem": "npm",
+      "exclusion_reason": null,
+      "first_release_date": "2018-09-18",
+      "flagged": false,
+      "fragility_score": 41.0841,
+      "fragility_signals": [
+        {
+          "contribution": 51.94029850746269,
+          "evidence": "204 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 49.77777777777778,
+          "evidence": "314 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 41.66666666666668,
+          "evidence": "Top contributor authored 55.0% of commits over the last 365 days (distinct contributors: 8).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 40.0,
+          "evidence": "3 releases in the last 365 days vs 5 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 35.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 6.5 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 13.253012048192772,
+          "evidence": "Median first maintainer response: 18 days on 48 issues.",
+          "name": "issue_responsiveness"
+        }
+      ],
+      "importance_score": 59.4737,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2025-09-28",
+      "latest_release_date": "2025-06-10",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "robust-cache",
+      "registry_url": "https://www.npmjs.com/package/robust-cache",
+      "repository_url": "https://github.com/fake-robust/robust-cache",
+      "risk_score": 24.4343,
+      "severity_tier": "Stable",
+      "slug": "npm-robust-cache",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "npm",
+      "exclusion_reason": null,
+      "first_release_date": "2020-11-22",
+      "flagged": false,
+      "fragility_score": 7.0397,
+      "fragility_signals": [
+        {
+          "contribution": 30.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 7.0 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 13.333333333333336,
+          "evidence": "Top contributor authored 38.0% of commits over the last 365 days (distinct contributors: 9).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 8.656716417910449,
+          "evidence": "59 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 3.614457831325301,
+          "evidence": "Median first maintainer response: 10 days on 22 issues.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "74 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "4 releases in the last 365 days vs 4 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        }
+      ],
+      "importance_score": 3.1579,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-02-20",
+      "latest_release_date": "2026-02-05",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "simple-xml",
+      "registry_url": "https://www.npmjs.com/package/simple-xml",
+      "repository_url": "https://github.com/fake-simple/simple-xml",
+      "risk_score": 0.2223,
+      "severity_tier": "Stable",
+      "slug": "npm-simple-xml",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "npm",
+      "exclusion_reason": null,
+      "first_release_date": "2019-03-04",
+      "flagged": false,
+      "fragility_score": 13.3005,
+      "fragility_signals": [
+        {
+          "contribution": 31.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 6.9 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 25.000000000000007,
+          "evidence": "Top contributor authored 45.0% of commits over the last 365 days (distinct contributors: 8).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 20.298507462686565,
+          "evidence": "98 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 6.888888888888889,
+          "evidence": "121 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 6.024096385542169,
+          "evidence": "Median first maintainer response: 12 days on 28 issues.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "3 releases in the last 365 days vs 3 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        }
+      ],
+      "importance_score": 4.4737,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-01-12",
+      "latest_release_date": "2025-12-20",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "stable-hash",
+      "registry_url": "https://www.npmjs.com/package/stable-hash",
+      "repository_url": "https://github.com/fake-stable/stable-hash",
+      "risk_score": 0.595,
+      "severity_tier": "Stable",
+      "slug": "npm-stable-hash",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "high",
+      "ecosystem": "npm",
+      "exclusion_reason": null,
+      "first_release_date": "2016-08-01",
+      "flagged": false,
+      "fragility_score": 86.9763,
+      "fragility_signals": [
+        {
+          "contribution": 100.0,
+          "evidence": "898 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "375 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "0 releases in the last 365 days vs 6 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 86.66666666666667,
+          "evidence": "Top contributor authored 82.0% of commits over the last 365 days (distinct contributors: 4).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 59.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 4.1 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 49.39759036144578,
+          "evidence": "Median first maintainer response: 48 days on 25 issues.",
+          "name": "issue_responsiveness"
+        }
+      ],
+      "importance_score": 83.4211,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2025-04-10",
+      "latest_release_date": "2023-11-04",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "stale-bundle",
+      "registry_url": "https://www.npmjs.com/package/stale-bundle",
+      "repository_url": "https://github.com/fake-stale-bundle/stale-bundle",
+      "risk_score": 72.5565,
+      "severity_tier": "Elevated",
+      "slug": "npm-stale-bundle",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "npm",
+      "exclusion_reason": null,
+      "first_release_date": "2020-07-11",
+      "flagged": false,
+      "fragility_score": 3.2925,
+      "fragility_signals": [
+        {
+          "contribution": 18.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 8.2 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 5.970149253731343,
+          "evidence": "50 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "65 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "8 releases in the last 365 days vs 7 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Median first maintainer response: 5 days on 62 issues.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 30.0% of commits over the last 365 days (distinct contributors: 18).",
+          "name": "contributor_bus_factor"
+        }
+      ],
+      "importance_score": 35.0,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-03-01",
+      "latest_release_date": "2026-02-14",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "steady-types",
+      "registry_url": "https://www.npmjs.com/package/steady-types",
+      "repository_url": "https://github.com/fake-steady/steady-types",
+      "risk_score": 1.1524,
+      "severity_tier": "Stable",
+      "slug": "npm-steady-types",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "npm",
+      "exclusion_reason": null,
+      "first_release_date": "2019-11-10",
+      "flagged": false,
+      "fragility_score": 2.1,
+      "fragility_signals": [
+        {
+          "contribution": 21.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 7.9 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "41 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "29 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "8 releases in the last 365 days vs 7 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Median first maintainer response: 5 days on 72 issues.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 28.0% of commits over the last 365 days (distinct contributors: 22).",
+          "name": "contributor_bus_factor"
+        }
+      ],
+      "importance_score": 31.3158,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-03-22",
+      "latest_release_date": "2026-03-10",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "thorough-test",
+      "registry_url": "https://www.npmjs.com/package/thorough-test",
+      "repository_url": "https://github.com/fake-thorough/thorough-test",
+      "risk_score": 0.6576,
+      "severity_tier": "Stable",
+      "slug": "npm-thorough-test",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "npm",
+      "exclusion_reason": null,
+      "first_release_date": "2020-02-05",
+      "flagged": false,
+      "fragility_score": 1.9,
+      "fragility_signals": [
+        {
+          "contribution": 19.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 8.1 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "31 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "15 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "9 releases in the last 365 days vs 8 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Median first maintainer response: 3 days on 140 issues.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 28.0% of commits over the last 365 days (distinct contributors: 32).",
+          "name": "contributor_bus_factor"
+        }
+      ],
+      "importance_score": 63.4211,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-04-05",
+      "latest_release_date": "2026-03-20",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 100,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "vibrant-router",
+      "registry_url": "https://www.npmjs.com/package/vibrant-router",
+      "repository_url": "https://github.com/fake-vibrant/vibrant-router",
+      "risk_score": 1.205,
+      "severity_tier": "Stable",
+      "slug": "npm-vibrant-router",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "pypi",
+      "exclusion_reason": null,
+      "first_release_date": "2018-01-10",
+      "flagged": false,
+      "fragility_score": 1.5,
+      "fragility_signals": [
+        {
+          "contribution": 15.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 8.5 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "19 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "10 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "10 releases in the last 365 days vs 9 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Median first maintainer response: 2 days on 140 issues.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 22.0% of commits over the last 365 days (distinct contributors: 36).",
+          "name": "contributor_bus_factor"
+        }
+      ],
+      "importance_score": 77.1053,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-04-10",
+      "latest_release_date": "2026-04-01",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 100,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "active-pylogger",
+      "registry_url": "https://pypi.org/project/active-pylogger/",
+      "repository_url": "https://github.com/fake-active-py/active-pylogger",
+      "risk_score": 1.1566,
+      "severity_tier": "Stable",
+      "slug": "pypi-active-pylogger",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "high",
+      "ecosystem": "pypi",
+      "exclusion_reason": null,
+      "first_release_date": "2017-09-30",
+      "flagged": false,
+      "fragility_score": 90.2747,
+      "fragility_signals": [
+        {
+          "contribution": 100.0,
+          "evidence": "989 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "426 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "0 releases in the last 365 days vs 4 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "Top contributor authored 90.0% of commits over the last 365 days (distinct contributors: 2).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 66.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 3.4 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 57.831325301204814,
+          "evidence": "Median first maintainer response: 55 days on 14 issues.",
+          "name": "issue_responsiveness"
+        }
+      ],
+      "importance_score": 58.4211,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2025-02-18",
+      "latest_release_date": "2023-08-05",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "aged-pytemplate",
+      "registry_url": "https://pypi.org/project/aged-pytemplate/",
+      "repository_url": "https://github.com/fake-aged-py/aged-pytemplate",
+      "risk_score": 52.7394,
+      "severity_tier": "Watch",
+      "slug": "pypi-aged-pytemplate",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "pypi",
+      "exclusion_reason": "archived_deprecated",
+      "first_release_date": "2014-02-10",
+      "flagged": false,
+      "fragility_score": 0.0,
+      "fragility_signals": [
+        {
+          "contribution": 100.0,
+          "evidence": "2287 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "2361 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Insufficient prior-year release history to compute cadence.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Fewer than 10 eligible issues in the last 180 days; signal skipped.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 0.0% of commits over the last 365 days (distinct contributors: 0).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "OpenSSF Scorecard aggregate unavailable.",
+          "name": "openssf_scorecard"
+        }
+      ],
+      "importance_score": 0.0,
+      "is_archived": true,
+      "is_deprecated": false,
+      "last_commit_date": "2019-11-02",
+      "latest_release_date": "2020-01-15",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 100,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "archived-pycompiler",
+      "registry_url": "https://pypi.org/project/archived-pycompiler/",
+      "repository_url": "https://github.com/fake-archived-py/archived-pycompiler",
+      "risk_score": 0.0,
+      "severity_tier": "Stable",
+      "slug": "pypi-archived-pycompiler",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "pypi",
+      "exclusion_reason": null,
+      "first_release_date": "2020-01-12",
+      "flagged": false,
+      "fragility_score": 3.6333,
+      "fragility_signals": [
+        {
+          "contribution": 28.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 7.2 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 8.333333333333332,
+          "evidence": "Top contributor authored 35.0% of commits over the last 365 days (distinct contributors: 11).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "12 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "6 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "5 releases in the last 365 days vs 4 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Median first maintainer response: 6 days on 40 issues.",
+          "name": "issue_responsiveness"
+        }
+      ],
+      "importance_score": 13.4211,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-04-14",
+      "latest_release_date": "2026-04-08",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "constant-pytimer",
+      "registry_url": "https://pypi.org/project/constant-pytimer/",
+      "repository_url": "https://github.com/fake-constant-py/constant-pytimer",
+      "risk_score": 0.4876,
+      "severity_tier": "Stable",
+      "slug": "pypi-constant-pytimer",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "pypi",
+      "exclusion_reason": null,
+      "first_release_date": "2019-01-15",
+      "flagged": false,
+      "fragility_score": 2.2,
+      "fragility_signals": [
+        {
+          "contribution": 22.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 7.8 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "23 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "18 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "9 releases in the last 365 days vs 8 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Median first maintainer response: 4 days on 72 issues.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 25.0% of commits over the last 365 days (distinct contributors: 20).",
+          "name": "contributor_bus_factor"
+        }
+      ],
+      "importance_score": 47.6316,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-04-02",
+      "latest_release_date": "2026-03-28",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "eventful-pyproxy",
+      "registry_url": "https://pypi.org/project/eventful-pyproxy/",
+      "repository_url": "https://github.com/fake-eventful-py/eventful-pyproxy",
+      "risk_score": 1.0479,
+      "severity_tier": "Stable",
+      "slug": "pypi-eventful-pyproxy",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "pypi",
+      "exclusion_reason": null,
+      "first_release_date": "2019-06-22",
+      "flagged": false,
+      "fragility_score": 1.2,
+      "fragility_signals": [
+        {
+          "contribution": 12.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 8.8 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "5 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "2 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "12 releases in the last 365 days vs 10 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Median first maintainer response: 1 days on 160 issues.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 18.0% of commits over the last 365 days (distinct contributors: 44).",
+          "name": "contributor_bus_factor"
+        }
+      ],
+      "importance_score": 67.8947,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-04-18",
+      "latest_release_date": "2026-04-15",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 100,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "fresh-pyparser",
+      "registry_url": "https://pypi.org/project/fresh-pyparser/",
+      "repository_url": "https://github.com/fake-fresh-py/fresh-pyparser",
+      "risk_score": 0.8147,
+      "severity_tier": "Stable",
+      "slug": "pypi-fresh-pyparser",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "high",
+      "ecosystem": "pypi",
+      "exclusion_reason": null,
+      "first_release_date": "2015-01-11",
+      "flagged": false,
+      "fragility_score": 93.747,
+      "fragility_signals": [
+        {
+          "contribution": 100.0,
+          "evidence": "867 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "470 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "0 releases in the last 365 days vs 3 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "Top contributor authored 92.0% of commits over the last 365 days (distinct contributors: 2).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 78.3132530120482,
+          "evidence": "Median first maintainer response: 72 days on 11 issues.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 70.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 3.0 / 10.",
+          "name": "openssf_scorecard"
+        }
+      ],
+      "importance_score": 71.5789,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2025-01-05",
+      "latest_release_date": "2023-12-05",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "frozen-pyformat",
+      "registry_url": "https://pypi.org/project/frozen-pyformat/",
+      "repository_url": "https://github.com/fake-frozen-py/frozen-pyformat",
+      "risk_score": 67.1031,
+      "severity_tier": "Elevated",
+      "slug": "pypi-frozen-pyformat",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "high",
+      "ecosystem": "pypi",
+      "exclusion_reason": null,
+      "first_release_date": "2017-03-15",
+      "flagged": true,
+      "fragility_score": 89.2992,
+      "fragility_signals": [
+        {
+          "contribution": 100.0,
+          "evidence": "948 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "416 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "0 releases in the last 365 days vs 5 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 96.66666666666669,
+          "evidence": "Top contributor authored 88.0% of commits over the last 365 days (distinct contributors: 3).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 65.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 3.5 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 54.21686746987952,
+          "evidence": "Median first maintainer response: 52 days on 20 issues.",
+          "name": "issue_responsiveness"
+        }
+      ],
+      "importance_score": 97.3684,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2025-02-28",
+      "latest_release_date": "2023-09-15",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 100,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "legacy-pyforge",
+      "registry_url": "https://pypi.org/project/legacy-pyforge/",
+      "repository_url": "https://github.com/fake-legacy-pyforge/legacy-pyforge",
+      "risk_score": 86.9492,
+      "severity_tier": "High",
+      "slug": "pypi-legacy-pyforge",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "pypi",
+      "exclusion_reason": null,
+      "first_release_date": "2020-09-01",
+      "flagged": false,
+      "fragility_score": 4.0701,
+      "fragility_signals": [
+        {
+          "contribution": 26.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 7.4 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 5.000000000000004,
+          "evidence": "Top contributor authored 33.0% of commits over the last 365 days (distinct contributors: 12).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 3.880597014925373,
+          "evidence": "43 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "51 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "6 releases in the last 365 days vs 5 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Median first maintainer response: 7 days on 45 issues.",
+          "name": "issue_responsiveness"
+        }
+      ],
+      "importance_score": 26.8421,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-03-08",
+      "latest_release_date": "2026-02-28",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "measured-pyworker",
+      "registry_url": "https://pypi.org/project/measured-pyworker/",
+      "repository_url": "https://github.com/fake-measured-py/measured-pyworker",
+      "risk_score": 1.0925,
+      "severity_tier": "Stable",
+      "slug": "pypi-measured-pyworker",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "pypi",
+      "exclusion_reason": null,
+      "first_release_date": "2021-02-05",
+      "flagged": false,
+      "fragility_score": 5.0474,
+      "fragility_signals": [
+        {
+          "contribution": 32.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 6.8 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 16.666666666666675,
+          "evidence": "Top contributor authored 40.0% of commits over the last 365 days (distinct contributors: 8).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 1.2048192771084338,
+          "evidence": "Median first maintainer response: 8 days on 34 issues.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "26 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "21 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "4 releases in the last 365 days vs 3 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        }
+      ],
+      "importance_score": 8.9474,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-03-30",
+      "latest_release_date": "2026-03-25",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "minimal-pyqueue",
+      "registry_url": "https://pypi.org/project/minimal-pyqueue/",
+      "repository_url": "https://github.com/fake-minimal-py/minimal-pyqueue",
+      "risk_score": 0.4516,
+      "severity_tier": "Stable",
+      "slug": "pypi-minimal-pyqueue",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "pypi",
+      "exclusion_reason": null,
+      "first_release_date": "2020-05-22",
+      "flagged": false,
+      "fragility_score": 2.7333,
+      "fragility_signals": [
+        {
+          "contribution": 24.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 7.6 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 3.3333333333333366,
+          "evidence": "Top contributor authored 32.0% of commits over the last 365 days (distinct contributors: 16).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "18 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "8 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "8 releases in the last 365 days vs 7 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Median first maintainer response: 6 days on 62 issues.",
+          "name": "issue_responsiveness"
+        }
+      ],
+      "importance_score": 35.7895,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-04-12",
+      "latest_release_date": "2026-04-02",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "modest-pycodec",
+      "registry_url": "https://pypi.org/project/modest-pycodec/",
+      "repository_url": "https://github.com/fake-modest-py/modest-pycodec",
+      "risk_score": 0.9782,
+      "severity_tier": "Stable",
+      "slug": "pypi-modest-pycodec",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "high",
+      "ecosystem": "pypi",
+      "exclusion_reason": null,
+      "first_release_date": "2015-11-02",
+      "flagged": true,
+      "fragility_score": 92.2819,
+      "fragility_signals": [
+        {
+          "contribution": 100.0,
+          "evidence": "1015 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "491 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "0 releases in the last 365 days vs 4 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "Top contributor authored 95.0% of commits over the last 365 days (distinct contributors: 2).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 69.87951807228916,
+          "evidence": "Median first maintainer response: 65 days on 16 issues.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 68.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 3.2 / 10.",
+          "name": "openssf_scorecard"
+        }
+      ],
+      "importance_score": 90.0,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2024-12-15",
+      "latest_release_date": "2023-07-10",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "neglected-pystream",
+      "registry_url": "https://pypi.org/project/neglected-pystream/",
+      "repository_url": "https://github.com/fake-neglected-py/neglected-pystream",
+      "risk_score": 83.0537,
+      "severity_tier": "High",
+      "slug": "pypi-neglected-pystream",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "pypi",
+      "exclusion_reason": "too_new",
+      "first_release_date": "2025-11-20",
+      "flagged": false,
+      "fragility_score": 0.0,
+      "fragility_signals": [
+        {
+          "contribution": 50.0,
+          "evidence": "Top contributor authored 60.0% of commits over the last 365 days (distinct contributors: 3).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "10 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "4 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Insufficient prior-year release history to compute cadence.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Median first maintainer response: 4 days on 14 issues.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "OpenSSF Scorecard aggregate unavailable.",
+          "name": "openssf_scorecard"
+        }
+      ],
+      "importance_score": 0.0,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-04-16",
+      "latest_release_date": "2026-04-10",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 100,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "newborn-pycli",
+      "registry_url": "https://pypi.org/project/newborn-pycli/",
+      "repository_url": "https://github.com/fake-newborn-py/newborn-pycli",
+      "risk_score": 0.0,
+      "severity_tier": "Stable",
+      "slug": "pypi-newborn-pycli",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "high",
+      "ecosystem": "pypi",
+      "exclusion_reason": null,
+      "first_release_date": "2016-05-20",
+      "flagged": false,
+      "fragility_score": 89.5835,
+      "fragility_signals": [
+        {
+          "contribution": 100.0,
+          "evidence": "915 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "396 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "0 releases in the last 365 days vs 5 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 91.66666666666667,
+          "evidence": "Top contributor authored 85.0% of commits over the last 365 days (distinct contributors: 3).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 62.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 3.8 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 61.44578313253012,
+          "evidence": "Median first maintainer response: 58 days on 13 issues.",
+          "name": "issue_responsiveness"
+        }
+      ],
+      "importance_score": 79.7368,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2025-03-20",
+      "latest_release_date": "2023-10-18",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 100,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "old-pyvalidator",
+      "registry_url": "https://pypi.org/project/old-pyvalidator/",
+      "repository_url": "https://github.com/fake-old-pyvalidator/old-pyvalidator",
+      "risk_score": 71.4311,
+      "severity_tier": "Elevated",
+      "slug": "pypi-old-pyvalidator",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "pypi",
+      "exclusion_reason": "unmappable",
+      "first_release_date": "2017-04-22",
+      "flagged": false,
+      "fragility_score": 0.0,
+      "fragility_signals": [
+        {
+          "contribution": 100.0,
+          "evidence": "625 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "No commit history available.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Insufficient prior-year release history to compute cadence.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Fewer than 10 eligible issues in the last 180 days; signal skipped.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Contributor concentration unavailable.",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "OpenSSF Scorecard aggregate unavailable.",
+          "name": "openssf_scorecard"
+        }
+      ],
+      "importance_score": 0.0,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": null,
+      "latest_release_date": "2024-08-03",
+      "mapping_confidence": {
+        "bucket": "low",
+        "points": 0,
+        "rationale": []
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "orphan-pypackage",
+      "registry_url": "https://pypi.org/project/orphan-pypackage/",
+      "repository_url": null,
+      "risk_score": 0.0,
+      "severity_tier": "Stable",
+      "slug": "pypi-orphan-pypackage",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "high",
+      "ecosystem": "pypi",
+      "exclusion_reason": null,
+      "first_release_date": "2018-03-30",
+      "flagged": false,
+      "fragility_score": 39.3609,
+      "fragility_signals": [
+        {
+          "contribution": 60.0,
+          "evidence": "2 releases in the last 365 days vs 5 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 51.04477611940299,
+          "evidence": "201 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 45.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 5.5 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 33.333333333333336,
+          "evidence": "Top contributor authored 50.0% of commits over the last 365 days (distinct contributors: 5).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 28.22222222222222,
+          "evidence": "217 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 18.072289156626507,
+          "evidence": "Median first maintainer response: 22 days on 24 issues.",
+          "name": "issue_responsiveness"
+        }
+      ],
+      "importance_score": 27.3684,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2025-10-01",
+      "latest_release_date": "2025-09-15",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "quiet-pydaemon",
+      "registry_url": "https://pypi.org/project/quiet-pydaemon/",
+      "repository_url": "https://github.com/fake-quiet-py/quiet-pydaemon",
+      "risk_score": 10.7725,
+      "severity_tier": "Stable",
+      "slug": "pypi-quiet-pydaemon",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "high",
+      "ecosystem": "pypi",
+      "exclusion_reason": null,
+      "first_release_date": "2018-09-18",
+      "flagged": false,
+      "fragility_score": 41.0841,
+      "fragility_signals": [
+        {
+          "contribution": 51.94029850746269,
+          "evidence": "204 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 49.77777777777778,
+          "evidence": "314 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 41.66666666666668,
+          "evidence": "Top contributor authored 55.0% of commits over the last 365 days (distinct contributors: 7).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 40.0,
+          "evidence": "3 releases in the last 365 days vs 5 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 35.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 6.5 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 13.253012048192772,
+          "evidence": "Median first maintainer response: 18 days on 38 issues.",
+          "name": "issue_responsiveness"
+        }
+      ],
+      "importance_score": 59.4737,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2025-09-28",
+      "latest_release_date": "2025-06-10",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "robust-pycache",
+      "registry_url": "https://pypi.org/project/robust-pycache/",
+      "repository_url": "https://github.com/fake-robust-py/robust-pycache",
+      "risk_score": 24.4343,
+      "severity_tier": "Stable",
+      "slug": "pypi-robust-pycache",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "pypi",
+      "exclusion_reason": null,
+      "first_release_date": "2020-11-22",
+      "flagged": false,
+      "fragility_score": 7.0397,
+      "fragility_signals": [
+        {
+          "contribution": 30.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 7.0 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 13.333333333333336,
+          "evidence": "Top contributor authored 38.0% of commits over the last 365 days (distinct contributors: 7).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 8.656716417910449,
+          "evidence": "59 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 3.614457831325301,
+          "evidence": "Median first maintainer response: 10 days on 18 issues.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "74 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "3 releases in the last 365 days vs 3 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        }
+      ],
+      "importance_score": 3.1579,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-02-20",
+      "latest_release_date": "2026-02-05",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "simple-pyxml",
+      "registry_url": "https://pypi.org/project/simple-pyxml/",
+      "repository_url": "https://github.com/fake-simple-py/simple-pyxml",
+      "risk_score": 0.2223,
+      "severity_tier": "Stable",
+      "slug": "pypi-simple-pyxml",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "pypi",
+      "exclusion_reason": null,
+      "first_release_date": "2019-03-04",
+      "flagged": false,
+      "fragility_score": 13.3005,
+      "fragility_signals": [
+        {
+          "contribution": 31.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 6.9 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 25.000000000000007,
+          "evidence": "Top contributor authored 45.0% of commits over the last 365 days (distinct contributors: 6).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 20.298507462686565,
+          "evidence": "98 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 6.888888888888889,
+          "evidence": "121 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 6.024096385542169,
+          "evidence": "Median first maintainer response: 12 days on 22 issues.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "3 releases in the last 365 days vs 3 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        }
+      ],
+      "importance_score": 4.4737,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-01-12",
+      "latest_release_date": "2025-12-20",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "stable-pyhash",
+      "registry_url": "https://pypi.org/project/stable-pyhash/",
+      "repository_url": "https://github.com/fake-stable-py/stable-pyhash",
+      "risk_score": 0.595,
+      "severity_tier": "Stable",
+      "slug": "pypi-stable-pyhash",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "high",
+      "ecosystem": "pypi",
+      "exclusion_reason": null,
+      "first_release_date": "2016-08-01",
+      "flagged": false,
+      "fragility_score": 86.9763,
+      "fragility_signals": [
+        {
+          "contribution": 100.0,
+          "evidence": "898 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "375 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "0 releases in the last 365 days vs 6 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 86.66666666666667,
+          "evidence": "Top contributor authored 82.0% of commits over the last 365 days (distinct contributors: 4).",
+          "name": "contributor_bus_factor"
+        },
+        {
+          "contribution": 59.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 4.1 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 49.39759036144578,
+          "evidence": "Median first maintainer response: 48 days on 22 issues.",
+          "name": "issue_responsiveness"
+        }
+      ],
+      "importance_score": 83.4211,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2025-04-10",
+      "latest_release_date": "2023-11-04",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "stale-pybundle",
+      "registry_url": "https://pypi.org/project/stale-pybundle/",
+      "repository_url": "https://github.com/fake-stale-pybundle/stale-pybundle",
+      "risk_score": 72.5565,
+      "severity_tier": "Elevated",
+      "slug": "pypi-stale-pybundle",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "pypi",
+      "exclusion_reason": null,
+      "first_release_date": "2020-07-11",
+      "flagged": false,
+      "fragility_score": 3.2925,
+      "fragility_signals": [
+        {
+          "contribution": 18.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 8.2 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 5.970149253731343,
+          "evidence": "50 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "65 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "7 releases in the last 365 days vs 6 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Median first maintainer response: 5 days on 48 issues.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 30.0% of commits over the last 365 days (distinct contributors: 14).",
+          "name": "contributor_bus_factor"
+        }
+      ],
+      "importance_score": 35.0,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-03-01",
+      "latest_release_date": "2026-02-14",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "steady-pyutils",
+      "registry_url": "https://pypi.org/project/steady-pyutils/",
+      "repository_url": "https://github.com/fake-steady-py/steady-pyutils",
+      "risk_score": 1.1524,
+      "severity_tier": "Stable",
+      "slug": "pypi-steady-pyutils",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "pypi",
+      "exclusion_reason": null,
+      "first_release_date": "2019-11-10",
+      "flagged": false,
+      "fragility_score": 2.1,
+      "fragility_signals": [
+        {
+          "contribution": 21.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 7.9 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "41 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "29 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "7 releases in the last 365 days vs 6 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Median first maintainer response: 5 days on 56 issues.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 28.0% of commits over the last 365 days (distinct contributors: 18).",
+          "name": "contributor_bus_factor"
+        }
+      ],
+      "importance_score": 31.3158,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-03-22",
+      "latest_release_date": "2026-03-10",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 110,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "thorough-pytest-utils",
+      "registry_url": "https://pypi.org/project/thorough-pytest-utils/",
+      "repository_url": "https://github.com/fake-thorough-py/thorough-pytest-utils",
+      "risk_score": 0.6576,
+      "severity_tier": "Stable",
+      "slug": "pypi-thorough-pytest-utils",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "pypi",
+      "exclusion_reason": "stub_types",
+      "first_release_date": "2018-06-30",
+      "flagged": false,
+      "fragility_score": 0.0,
+      "fragility_signals": [
+        {
+          "contribution": 92.22222222222223,
+          "evidence": "505 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 10.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 9.0 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "1 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "220 releases in the last 365 days vs 200 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Median first maintainer response: 3 days on 420 issues.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 6.0% of commits over the last 365 days (distinct contributors: 800).",
+          "name": "contributor_bus_factor"
+        }
+      ],
+      "importance_score": 0.0,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-04-19",
+      "latest_release_date": "2024-12-01",
+      "mapping_confidence": {
+        "bucket": "medium",
+        "points": 120,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "homepage_resolves_same_repo(+10)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)",
+          "repo_owner_matches_publisher(+10)",
+          "monorepo_cap_applied(medium_max)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "types-legacy-pyforge",
+      "registry_url": "https://pypi.org/project/types-legacy-pyforge/",
+      "repository_url": "https://github.com/python/typeshed",
+      "risk_score": 0.0,
+      "severity_tier": "Stable",
+      "slug": "pypi-types-legacy-pyforge",
+      "snapshot_week": "2026-04-20"
+    },
+    {
+      "confidence": "low",
+      "ecosystem": "pypi",
+      "exclusion_reason": null,
+      "first_release_date": "2020-02-05",
+      "flagged": false,
+      "fragility_score": 1.9,
+      "fragility_signals": [
+        {
+          "contribution": 19.0,
+          "evidence": "OpenSSF Scorecard aggregate score: 8.1 / 10.",
+          "name": "openssf_scorecard"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "31 days since latest release.",
+          "name": "release_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "15 days since last commit on default branch.",
+          "name": "commit_recency"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "8 releases in the last 365 days vs 7 in the prior 365 days.",
+          "name": "release_cadence_decay"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Median first maintainer response: 3 days on 110 issues.",
+          "name": "issue_responsiveness"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 28.0% of commits over the last 365 days (distinct contributors: 26).",
+          "name": "contributor_bus_factor"
+        }
+      ],
+      "importance_score": 62.1053,
+      "is_archived": false,
+      "is_deprecated": false,
+      "last_commit_date": "2026-04-05",
+      "latest_release_date": "2026-03-20",
+      "mapping_confidence": {
+        "bucket": "high",
+        "points": 100,
+        "rationale": [
+          "registry_repo_url_resolves(+40)",
+          "repo_manifest_matches_package(+30)",
+          "deps_dev_source_repo_match(+20)",
+          "openssf_scorecard_present(+10)"
+        ]
+      },
+      "methodology_version": "v0.1.0",
+      "package_name": "vibrant-pyrouter",
+      "registry_url": "https://pypi.org/project/vibrant-pyrouter/",
+      "repository_url": "https://github.com/fake-vibrant-py/vibrant-pyrouter",
+      "risk_score": 1.18,
+      "severity_tier": "Stable",
+      "slug": "pypi-vibrant-pyrouter",
+      "snapshot_week": "2026-04-20"
+    }
+  ],
+  "methodology_version": "v0.1.0",
+  "snapshot_week": "2026-04-20"
+}

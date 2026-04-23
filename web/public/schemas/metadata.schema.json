@@ -1,0 +1,135 @@
+{
+  "$defs": {
+    "SourceStatus": {
+      "additionalProperties": false,
+      "properties": {
+        "failure_count": {
+          "minimum": 0,
+          "title": "Failure Count",
+          "type": "integer"
+        },
+        "last_success_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Last Success At"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        },
+        "source_name": {
+          "title": "Source Name",
+          "type": "string"
+        },
+        "stale": {
+          "title": "Stale",
+          "type": "boolean"
+        },
+        "status": {
+          "enum": [
+            "ok",
+            "degraded",
+            "failed"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_name",
+        "status",
+        "last_success_at",
+        "stale",
+        "failure_count"
+      ],
+      "title": "SourceStatus",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "data_license": {
+      "default": "Synthetic fixture data for The Bus Factor competition entry.",
+      "title": "Data License",
+      "type": "string"
+    },
+    "ecosystems_covered": {
+      "items": {
+        "enum": [
+          "npm",
+          "pypi"
+        ],
+        "type": "string"
+      },
+      "title": "Ecosystems Covered",
+      "type": "array"
+    },
+    "generated_at": {
+      "format": "date-time",
+      "title": "Generated At",
+      "type": "string"
+    },
+    "methodology_version": {
+      "title": "Methodology Version",
+      "type": "string"
+    },
+    "notes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Notes",
+      "type": "array"
+    },
+    "package_counts": {
+      "additionalProperties": {
+        "minimum": 0,
+        "type": "integer"
+      },
+      "title": "Package Counts",
+      "type": "object"
+    },
+    "snapshot_week": {
+      "description": "ISO Monday date, e.g. 2026-04-20",
+      "title": "Snapshot Week",
+      "type": "string"
+    },
+    "snapshot_week_label": {
+      "description": "ISO week label, e.g. 2026-W17",
+      "title": "Snapshot Week Label",
+      "type": "string"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/SourceStatus"
+      },
+      "title": "Sources",
+      "type": "array"
+    }
+  },
+  "required": [
+    "snapshot_week",
+    "snapshot_week_label",
+    "methodology_version",
+    "generated_at",
+    "ecosystems_covered",
+    "package_counts",
+    "sources"
+  ],
+  "title": "Metadata",
+  "type": "object"
+}

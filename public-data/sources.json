@@ -1,0 +1,53 @@
+{
+  "snapshot_week": "2026-04-20",
+  "sources": [
+    {
+      "failure_count": 0,
+      "last_success_at": "2026-04-19T18:10:00",
+      "note": "Fixture run; synthetic success.",
+      "source_name": "deps_dev",
+      "stale": false,
+      "status": "ok"
+    },
+    {
+      "failure_count": 0,
+      "last_success_at": "2026-04-19T18:18:00",
+      "note": "Fixture run; synthetic success.",
+      "source_name": "github_api",
+      "stale": false,
+      "status": "ok"
+    },
+    {
+      "failure_count": 0,
+      "last_success_at": "2026-04-19T18:05:00",
+      "note": "Fixture run; synthetic success.",
+      "source_name": "npm_registry",
+      "stale": false,
+      "status": "ok"
+    },
+    {
+      "failure_count": 0,
+      "last_success_at": "2026-04-19T18:22:00",
+      "note": "Fixture run; synthetic success.",
+      "source_name": "openssf_scorecard",
+      "stale": false,
+      "status": "ok"
+    },
+    {
+      "failure_count": 0,
+      "last_success_at": "2026-04-19T18:20:00",
+      "note": "Fixture run; synthetic success.",
+      "source_name": "osv",
+      "stale": false,
+      "status": "ok"
+    },
+    {
+      "failure_count": 0,
+      "last_success_at": "2026-04-19T18:07:00",
+      "note": "Fixture run; synthetic success.",
+      "source_name": "pypi_registry",
+      "stale": false,
+      "status": "ok"
+    }
+  ]
+}

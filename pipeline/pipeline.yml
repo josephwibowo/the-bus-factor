@@ -1,0 +1,32 @@
+name: the_bus_factor
+schedule: "0 6 * * MON"  # Mondays 06:00 UTC — after the Monday 00:00 UTC reporting-window boundary.
+
+default_connections:
+  google_cloud_platform: bigquery_default
+  duckdb: duckdb_default
+
+# Variables drive the fixture/live toggle so the same asset graph runs in both modes.
+# Read in SQL as `{{ var('source_mode') }}` and in Python via env vars.
+variables:
+  source_mode:
+    type: string
+    default: fixture
+    description: "fixture | live"
+  warehouse:
+    type: string
+    default: duckdb
+    description: "duckdb (fixture/local) | bigquery (live)"
+  snapshot_week:
+    type: string
+    default: ""
+    description: "ISO Monday date for the reporting window. Empty = most recent Monday UTC."
+  npm_package_limit:
+    type: integer
+    default: 250
+    description: "Top-N npm packages to ingest. MVP: 250-500. Stretch: 1000-2000."
+  pypi_package_limit:
+    type: integer
+    default: 250
+    description: "Top-N PyPI packages to ingest."
+
+retries: 2

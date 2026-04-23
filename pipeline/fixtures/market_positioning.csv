@@ -1,0 +1,5 @@
+row_order,category,example_products,primary_question_answered,relationship_to_bus_factor
+1,Commercial SCA / open-source risk platforms,"Snyk, Sonatype, Endor Labs",What is risky in my organization's applications or repositories?,"Closest broad product category but a different deliverable. The Bus Factor is a public reproducible dataset and competition showcase, not an enterprise scanner."
+2,Supply-chain attack and malicious-package detection,Socket,Is this specific package malicious or typosquatted at install time?,"Adjacent inspiration for package-level heuristics. The Bus Factor focuses on continuity fragility weighted by systemic importance, not malware."
+3,Repository security posture checks,OpenSSF Scorecard,How does this repository score on automated security posture checks?,"Complementary source signal. Scorecard is an input to The Bus Factor, not a substitute."
+4,Public competition data product,The Bus Factor,"Which widely depended-on packages look structurally fragile this week, and what evidence supports that?","The actual project category - public, Bruin-powered, reproducible."

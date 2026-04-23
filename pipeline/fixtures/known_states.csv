@@ -1,0 +1,31 @@
+ecosystem,package_name,expected_state,expected_flagged,rationale
+npm,legacy-forge,flagged,true,Top-1 dep reach with fragility signals maxed across release/commit/cadence/contributor/scorecard axes.
+npm,neglected-stream,flagged,true,Highest contributor concentration and one-maintainer pattern with old release/commit activity.
+npm,stale-bundle,eligible_not_flagged,false,Fragility signals are elevated but risk_score (~72) sits just under the 75 flag cutoff - demonstrates the risk gate.
+npm,old-validator,eligible_not_flagged,false,"Elevated fragility across release/commit/scorecard, but importance + risk score land below the flag threshold."
+npm,frozen-format,eligible_not_flagged,false,Oldest release/commit dates among the fragile cohort yet risk still sits in the Elevated tier below the flag cutoff.
+npm,aged-template,eligible_not_flagged,false,Fragile signals but below top-quartile importance cutoff - demonstrates importance gate.
+npm,active-logger,eligible_not_flagged,false,Healthy signals across the board despite high importance.
+npm,fresh-parser,eligible_not_flagged,false,Actively maintained with strong Scorecard and broad contributor base.
+npm,vibrant-router,eligible_not_flagged,false,Healthy; not in fragility band.
+npm,robust-cache,eligible_not_flagged,false,Some weak signals (watch/elevated tier) but no two independent >=40 fragility inputs.
+npm,quiet-daemon,eligible_not_flagged,false,Middling signals; falls in Stable/Watch tier.
+npm,@types/legacy-forge,excluded_stub_types,false,Stub types package - routes to stub_types exclusion by naming convention.
+npm,archived-compiler,excluded_archived,false,Repository is archived; excluded from ranking.
+npm,newborn-cli,excluded_too_new,false,First release within last 12 months; not eligible for flagged status.
+npm,orphan-package,excluded_unmappable,false,No repository URL in registry metadata; mapping confidence below threshold.
+pypi,legacy-pyforge,flagged,true,Top-1 dep reach with fragility signals maxed across release/commit/cadence/contributor/scorecard axes.
+pypi,neglected-pystream,flagged,true,Highest contributor concentration with old release/commit activity.
+pypi,stale-pybundle,eligible_not_flagged,false,Fragility signals are elevated but risk_score (~72) sits just under the 75 flag cutoff.
+pypi,old-pyvalidator,eligible_not_flagged,false,Elevated fragility across multiple signals yet risk still sits below the flag cutoff.
+pypi,frozen-pyformat,eligible_not_flagged,false,Oldest release/commit dates among the fragile cohort; Elevated tier but not flagged.
+pypi,aged-pytemplate,eligible_not_flagged,false,Fragile but below top-quartile importance cutoff.
+pypi,active-pylogger,eligible_not_flagged,false,Healthy maintenance activity.
+pypi,fresh-pyparser,eligible_not_flagged,false,Actively maintained; strong Scorecard.
+pypi,vibrant-pyrouter,eligible_not_flagged,false,Healthy; no fragility accumulation.
+pypi,robust-pycache,eligible_not_flagged,false,Watch/elevated tier; insufficient independent fragility evidence.
+pypi,quiet-pydaemon,eligible_not_flagged,false,Middling signals; falls in Stable/Watch tier.
+pypi,types-legacy-pyforge,excluded_stub_types,false,PEP 561 stubs package; excluded by naming convention.
+pypi,archived-pycompiler,excluded_archived,false,Repository is archived.
+pypi,newborn-pycli,excluded_too_new,false,First release within last 12 months.
+pypi,orphan-pypackage,excluded_unmappable,false,No repository URL - unmappable.

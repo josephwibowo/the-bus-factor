@@ -1,0 +1,26 @@
+{
+  "methodology_version": "v0.1.0",
+  "rows": [
+    {
+      "ecosystem": "npm",
+      "eligible": 20,
+      "excluded_archived": 1,
+      "excluded_stub_types": 1,
+      "excluded_too_new": 1,
+      "excluded_unmappable": 1,
+      "flagged": 2,
+      "tracked": 24
+    },
+    {
+      "ecosystem": "pypi",
+      "eligible": 20,
+      "excluded_archived": 1,
+      "excluded_stub_types": 1,
+      "excluded_too_new": 1,
+      "excluded_unmappable": 1,
+      "flagged": 2,
+      "tracked": 24
+    }
+  ],
+  "snapshot_week": "2026-04-20"
+}

@@ -1,0 +1,256 @@
+{
+  "$defs": {
+    "FragilitySignal": {
+      "additionalProperties": false,
+      "properties": {
+        "contribution": {
+          "title": "Contribution",
+          "type": "number"
+        },
+        "evidence": {
+          "title": "Evidence",
+          "type": "string"
+        },
+        "name": {
+          "enum": [
+            "release_recency",
+            "commit_recency",
+            "release_cadence_decay",
+            "issue_responsiveness",
+            "contributor_bus_factor",
+            "openssf_scorecard"
+          ],
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "contribution",
+        "evidence"
+      ],
+      "title": "FragilitySignal",
+      "type": "object"
+    },
+    "MappingConfidenceBreakdown": {
+      "additionalProperties": false,
+      "properties": {
+        "bucket": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ],
+          "title": "Bucket",
+          "type": "string"
+        },
+        "points": {
+          "title": "Points",
+          "type": "integer"
+        },
+        "rationale": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Rationale",
+          "type": "array"
+        }
+      },
+      "required": [
+        "points",
+        "bucket",
+        "rationale"
+      ],
+      "title": "MappingConfidenceBreakdown",
+      "type": "object"
+    },
+    "PackageDetail": {
+      "additionalProperties": false,
+      "properties": {
+        "confidence": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "title": "Confidence",
+          "type": "string"
+        },
+        "ecosystem": {
+          "enum": [
+            "npm",
+            "pypi"
+          ],
+          "title": "Ecosystem",
+          "type": "string"
+        },
+        "exclusion_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Exclusion Reason"
+        },
+        "first_release_date": {
+          "format": "date",
+          "title": "First Release Date",
+          "type": "string"
+        },
+        "flagged": {
+          "title": "Flagged",
+          "type": "boolean"
+        },
+        "fragility_score": {
+          "title": "Fragility Score",
+          "type": "number"
+        },
+        "fragility_signals": {
+          "items": {
+            "$ref": "#/$defs/FragilitySignal"
+          },
+          "title": "Fragility Signals",
+          "type": "array"
+        },
+        "importance_score": {
+          "title": "Importance Score",
+          "type": "number"
+        },
+        "is_archived": {
+          "title": "Is Archived",
+          "type": "boolean"
+        },
+        "is_deprecated": {
+          "title": "Is Deprecated",
+          "type": "boolean"
+        },
+        "last_commit_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Last Commit Date"
+        },
+        "latest_release_date": {
+          "format": "date",
+          "title": "Latest Release Date",
+          "type": "string"
+        },
+        "mapping_confidence": {
+          "$ref": "#/$defs/MappingConfidenceBreakdown"
+        },
+        "methodology_version": {
+          "title": "Methodology Version",
+          "type": "string"
+        },
+        "package_name": {
+          "title": "Package Name",
+          "type": "string"
+        },
+        "registry_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Registry Url"
+        },
+        "repository_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Repository Url"
+        },
+        "risk_score": {
+          "title": "Risk Score",
+          "type": "number"
+        },
+        "severity_tier": {
+          "enum": [
+            "Stable",
+            "Watch",
+            "Elevated",
+            "High",
+            "Critical"
+          ],
+          "title": "Severity Tier",
+          "type": "string"
+        },
+        "slug": {
+          "title": "Slug",
+          "type": "string"
+        },
+        "snapshot_week": {
+          "title": "Snapshot Week",
+          "type": "string"
+        }
+      },
+      "required": [
+        "ecosystem",
+        "package_name",
+        "slug",
+        "snapshot_week",
+        "methodology_version",
+        "severity_tier",
+        "flagged",
+        "risk_score",
+        "importance_score",
+        "fragility_score",
+        "confidence",
+        "repository_url",
+        "mapping_confidence",
+        "fragility_signals",
+        "registry_url",
+        "first_release_date",
+        "latest_release_date",
+        "last_commit_date",
+        "is_archived",
+        "is_deprecated"
+      ],
+      "title": "PackageDetail",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "entries": {
+      "items": {
+        "$ref": "#/$defs/PackageDetail"
+      },
+      "title": "Entries",
+      "type": "array"
+    },
+    "methodology_version": {
+      "title": "Methodology Version",
+      "type": "string"
+    },
+    "snapshot_week": {
+      "title": "Snapshot Week",
+      "type": "string"
+    }
+  },
+  "required": [
+    "snapshot_week",
+    "methodology_version",
+    "entries"
+  ],
+  "title": "Packages",
+  "type": "object"
+}

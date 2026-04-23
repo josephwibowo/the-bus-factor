@@ -1,0 +1,46 @@
+name: seed.known_states
+type: duckdb.seed
+description: |
+  Curated expected classifications driving the known-state custom check on
+  mart.packages_current. See pipeline/fixtures/known_states.md for rationale.
+
+parameters:
+  path: ../../fixtures/known_states.csv
+
+tags:
+  - fixture
+  - layer:seed
+  - validation
+
+columns:
+  - name: ecosystem
+    type: varchar
+    checks:
+      - name: not_null
+      - name: accepted_values
+        value:
+          - npm
+          - pypi
+  - name: package_name
+    type: varchar
+    checks:
+      - name: not_null
+  - name: expected_state
+    type: varchar
+    checks:
+      - name: not_null
+      - name: accepted_values
+        value:
+          - flagged
+          - eligible_not_flagged
+          - excluded_stub_types
+          - excluded_archived
+          - excluded_too_new
+          - excluded_unmappable
+          - excluded_deprecated
+  - name: expected_flagged
+    type: boolean
+    checks:
+      - name: not_null
+  - name: rationale
+    type: varchar
