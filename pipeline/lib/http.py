@@ -3,7 +3,7 @@
 Responsibilities:
   * Issue async GET/POST against public APIs with bounded concurrency.
   * Respect ``Retry-After`` on 429/503 responses (tenacity-backed retries).
-  * Inject a bearer token for GitHub calls when ``GITHUB_INGEST_TOKEN`` is set.
+  * Inject a bearer token for GitHub calls when ``INGEST_TOKEN`` is set.
   * Cache JSON responses on disk under ``.cache/http/`` keyed on
     (url, auth-scope, reporting-window) so re-runs within the same week
     don't re-hit live APIs.
@@ -100,14 +100,22 @@ def _write_cache(key: CacheKey, body: Any, root: Path = CACHE_ROOT) -> None:
 
 
 def _auth_scope() -> str:
-    token = os.environ.get("GITHUB_INGEST_TOKEN") or os.environ.get("GITHUB_TOKEN")
+    token = (
+        os.environ.get("INGEST_TOKEN")
+        or os.environ.get("GITHUB_INGEST_TOKEN")
+        or os.environ.get("GITHUB_TOKEN")
+    )
     return "gh-auth" if token else "anon"
 
 
 def _auth_headers(url: str) -> dict[str, str]:
     headers: dict[str, str] = {"User-Agent": "the-bus-factor/0.1 (+https://github.com)"}
     if "api.github.com" in url or "https://github.com/" in url:
-        token = os.environ.get("GITHUB_INGEST_TOKEN") or os.environ.get("GITHUB_TOKEN")
+        token = (
+            os.environ.get("INGEST_TOKEN")
+            or os.environ.get("GITHUB_INGEST_TOKEN")
+            or os.environ.get("GITHUB_TOKEN")
+        )
         if token:
             headers["Authorization"] = f"Bearer {token}"
             headers["X-GitHub-Api-Version"] = "2022-11-28"

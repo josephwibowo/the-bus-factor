@@ -97,7 +97,7 @@ jobs:
     env:
       GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-      GITHUB_INGEST_TOKEN: ${{ secrets.GITHUB_INGEST_TOKEN }}
+      INGEST_TOKEN: ${{ secrets.INGEST_TOKEN }}
       BQ_MAX_BYTES_BILLED: "10000000000"
     steps:
       - uses: actions/checkout@v4

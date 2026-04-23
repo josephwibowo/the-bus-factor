@@ -60,5 +60,5 @@ environments:
         - name: duckdb_default
           path: ./data/ci_live_bq.duckdb
       generic:
-         - name: github_token
-           value: "${INGEST_TOKEN}"
+        - name: github_token
+          value: "${INGEST_TOKEN}"
