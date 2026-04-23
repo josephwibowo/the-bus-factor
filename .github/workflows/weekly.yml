@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write # commit refreshed public-data/ bundle
+  contents: read
   pages: write
   id-token: write
 
@@ -70,16 +70,22 @@ jobs:
           node-version-file: .nvmrc
       - uses: pnpm/action-setup@v4
       - run: pnpm install --frozen-lockfile
+
+      - name: Stage generated snapshot assets for deploy
+        run: |
+          mkdir -p web/public/public-data web/public/weekly
+          rsync -a --delete public-data/ web/public/public-data/
+          rsync -a --delete reports/cards/ web/public/weekly/
+
       - run: pnpm --filter ./web build
 
-      - name: Commit refreshed public-data bundle
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public-data/ reports/ analysis/
-          msg="chore(weekly): refresh snapshot $(date -u +%Y-%m-%d)"
-          git commit -m "$msg" || echo "No changes"
-          git push || true
+      - name: Upload generated snapshot artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: weekly-snapshot-${{ github.run_id }}
+          path: |
+            public-data/
+            reports/cards/
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

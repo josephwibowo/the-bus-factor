@@ -38,6 +38,8 @@ node_modules/
 .astro/
 dist/
 .output/
+web/public/public-data/
+web/public/weekly/
 *.tsbuildinfo
 .eslintcache
 playwright-report/
