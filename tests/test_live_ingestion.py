@@ -124,6 +124,91 @@ def test_stats_contributors_retries_pending_stats(
     assert "repo=owner/repo" in output
 
 
+def test_stats_contributors_retries_secondary_rate_limit(
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+    reset_bruin_logging: None,
+) -> None:
+    del reset_bruin_logging
+    responses = [
+        httpx.Response(
+            403,
+            headers={"Retry-After": "0"},
+            json={"message": "You have exceeded a secondary rate limit. Please wait."},
+        ),
+        httpx.Response(200, json=[{"author": {"login": "alice"}, "weeks": []}]),
+    ]
+    sleeps: list[float] = []
+
+    async def fake_sleep(seconds: float) -> None:
+        sleeps.append(seconds)
+
+    def handler(_: httpx.Request) -> httpx.Response:
+        return responses.pop(0)
+
+    monkeypatch.setattr(asyncio, "sleep", fake_sleep)
+
+    async def run() -> list[dict[str, object]] | None:
+        async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+            return await contributors._stats_contributors("owner", "repo", client)
+
+    got = asyncio.run(run())
+    assert got == [{"author": {"login": "alice"}, "weeks": []}]
+    assert sleeps == [0.0]
+    output = capsys.readouterr().out
+    assert "event=github_contributors_stats_rate_limited" in output
+    assert "category=secondary_rate_limit" in output
+    assert "will_retry=true" in output
+
+
+def test_stats_contributors_handles_204_no_content(
+    capsys: pytest.CaptureFixture[str],
+    reset_bruin_logging: None,
+) -> None:
+    del reset_bruin_logging
+
+    def handler(_: httpx.Request) -> httpx.Response:
+        return httpx.Response(204)
+
+    async def run() -> None:
+        async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+            got = await contributors._stats_contributors("owner", "repo", client)
+        assert got is None
+
+    asyncio.run(run())
+    output = capsys.readouterr().out
+    assert "event=github_contributors_stats_no_content" in output
+    assert "repo=owner/repo" in output
+
+
+def test_stats_contributors_logs_primary_rate_limit_details(
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+    reset_bruin_logging: None,
+) -> None:
+    del reset_bruin_logging
+    monkeypatch.setattr(contributors, "STATS_POLL_MAX", 1)
+
+    def handler(_: httpx.Request) -> httpx.Response:
+        return httpx.Response(
+            403,
+            headers={"X-RateLimit-Remaining": "0", "X-RateLimit-Reset": "999"},
+            json={"message": "API rate limit exceeded for 1.2.3.4"},
+        )
+
+    async def run() -> None:
+        async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+            got = await contributors._stats_contributors("owner", "repo", client)
+        assert got is None
+
+    asyncio.run(run())
+    output = capsys.readouterr().out
+    assert "event=github_contributors_stats_rate_limited" in output
+    assert "category=primary_rate_limit" in output
+    assert "rate_limit_remaining=0" in output
+    assert "status_code=403" in output
+
+
 def test_github_contributors_frame_preserves_all_null_share_column() -> None:
     df = contributors._rows_to_frame(
         [

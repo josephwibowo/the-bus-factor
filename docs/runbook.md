@@ -76,7 +76,7 @@ invokes `uv tool run ingestr` (every `seed.*` asset does).
 Pre-flight check:
 
 ```bash
-echo "token_present=$(test -n "$GITHUB_INGEST_TOKEN" && echo yes || echo no)"
+echo "token_present=$(test -n "$INGEST_TOKEN" && echo yes || echo no)"
 ls ~/.config/gcloud/application_default_credentials.json    # present
 ```
 
@@ -139,22 +139,22 @@ generate_weekly_card wrote reports/cards/weekly-2026-04-20.png and latest.png
 
 Observed row counts from `data/local_live_bq.duckdb`:
 
-| Table | Rows |
-| --- | ---: |
-| `raw.npm_registry` | 5 |
-| `raw.pypi_registry` | 5 |
-| `raw.deps_dev` | 10 |
-| `raw.github_repos` | 10 |
-| `raw.github_commits` | 10 |
-| `raw.github_contributors` | 10 |
-| `raw.github_issues` | 10 |
-| `raw.github_releases` | 10 |
-| `raw.scorecard` | 10 |
-| `mart.packages_current` | 10 |
-| `mart.package_scores` | 5 |
-| `mart.coverage_summary` | 2 |
-| `mart.weekly_findings` | 0 |
-| `mart.source_health` | 10 |
+| Table                     | Rows |
+| ------------------------- | ---: |
+| `raw.npm_registry`        |    5 |
+| `raw.pypi_registry`       |    5 |
+| `raw.deps_dev`            |   10 |
+| `raw.github_repos`        |   10 |
+| `raw.github_commits`      |   10 |
+| `raw.github_contributors` |   10 |
+| `raw.github_issues`       |   10 |
+| `raw.github_releases`     |   10 |
+| `raw.scorecard`           |   10 |
+| `mart.packages_current`   |   10 |
+| `mart.package_scores`     |    5 |
+| `mart.coverage_summary`   |    2 |
+| `mart.weekly_findings`    |    0 |
+| `mart.source_health`      |   10 |
 
 This smoke uses real public APIs and live source mode, but the current
 registered Bruin assets still execute the DuckDB SQL tree. There is no
@@ -202,25 +202,25 @@ future production `raw` / `stg` / `int` / `mart` dataset set.
 
 ## Progress so far
 
-| Asset | Duration | Rows resolved | Notes |
-| --- | --- | --- | --- |
-| `seed.*` (all 14) | < 4s each | — | ingestr / dlt / DuckDB |
-| `int.snapshot` | 60ms | 1 | |
-| `mart.analysis_examples`, `mart.market_positioning` | < 50ms each | small | |
-| `raw.npm_registry` | 1m27s | 500 packages | `repository_url` populated on 496/500 |
-| `raw.pypi_registry` | 2m12s | 500 packages | `repository_url` populated on 469/500 |
-| `raw.source_health` | 4.4s | per-source rows | |
-| `raw.deps_dev` | **5.5s** | 1000 rows | New zero-BQ path worked: reads seed + joins registry |
-| `raw.github_repos` | 22s | 847 repos | GraphQL batched 25/query |
-| `raw.osv` | 33s | | POST /v1/query |
-| `raw.github_commits` | 1m26s | 847 repos | |
-| `raw.github_contributors` | **25+ min before kill** | — | See **Issue 2** |
+| Asset                                               | Duration                | Rows resolved   | Notes                                                |
+| --------------------------------------------------- | ----------------------- | --------------- | ---------------------------------------------------- |
+| `seed.*` (all 14)                                   | < 4s each               | —               | ingestr / dlt / DuckDB                               |
+| `int.snapshot`                                      | 60ms                    | 1               |                                                      |
+| `mart.analysis_examples`, `mart.market_positioning` | < 50ms each             | small           |                                                      |
+| `raw.npm_registry`                                  | 1m27s                   | 500 packages    | `repository_url` populated on 496/500                |
+| `raw.pypi_registry`                                 | 2m12s                   | 500 packages    | `repository_url` populated on 469/500                |
+| `raw.source_health`                                 | 4.4s                    | per-source rows |                                                      |
+| `raw.deps_dev`                                      | **5.5s**                | 1000 rows       | New zero-BQ path worked: reads seed + joins registry |
+| `raw.github_repos`                                  | 22s                     | 847 repos       | GraphQL batched 25/query                             |
+| `raw.osv`                                           | 33s                     |                 | POST /v1/query                                       |
+| `raw.github_commits`                                | 1m26s                   | 847 repos       |                                                      |
+| `raw.github_contributors`                           | **25+ min before kill** | —               | See **Issue 2**                                      |
 
 ---
 
 ## Issue 1 — Resolved: "Resolved 66 packages" was not repo coverage
 
-Several raw.github_* assets log "Resolved 66 packages" on entry.
+Several raw.github\_\* assets log "Resolved 66 packages" on entry.
 Ground-truth query against the same DuckDB file from outside the run:
 
 ```text
@@ -229,8 +229,7 @@ raw.pypi_registry:  500 rows, 469 with repository_url
 unique canonical github urls (repo_url_canonical across both): 847
 ```
 
-So `pipeline.lib.live.repo_urls_from_duckdb()` should return ~847, not
-66. Canonicalisation itself is fine — direct test returned 847 when run
+So `pipeline.lib.live.repo_urls_from_duckdb()` should return ~847, not 66. Canonicalisation itself is fine — direct test returned 847 when run
 offline against the same DB file.
 
 Cycle-2 check after killing the stalled run showed the concern was a
@@ -299,8 +298,10 @@ Useful event names:
 - `repo_urls_resolved` — registry rows read and canonical GitHub repo
   URLs discovered before GitHub fanout.
 - `github_contributors_stats_pending`,
+  `github_contributors_stats_no_content`,
   `github_contributors_stats_timeout`,
   `github_contributors_stats_request_failed`, and
+  `github_contributors_stats_rate_limited`, and
   `github_contributors_stats_unexpected_status` — repo-scoped
   diagnostics for the GitHub stats endpoint.
 
@@ -455,7 +456,7 @@ lsof -p <python_pid> 2>/dev/null | grep -E "TCP|api\.github|pypi\.org|registry\.
 find .cache/http -type f -mmin -2 | wc -l
 
 # GitHub rate limit
-curl -sS -H "Authorization: Bearer $GITHUB_INGEST_TOKEN" \
+curl -sS -H "Authorization: Bearer $INGEST_TOKEN" \
     https://api.github.com/rate_limit
 
 # Ground-truth DuckDB content while a run is in progress

@@ -18,6 +18,7 @@ from pipeline.lib.http import CacheKey, HttpClient, _read_cache, _write_cache
 @pytest.fixture
 def tmp_cache(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
     monkeypatch.setattr(http_lib, "CACHE_ROOT", tmp_path)
+    monkeypatch.delenv("INGEST_TOKEN", raising=False)
     monkeypatch.delenv("GITHUB_INGEST_TOKEN", raising=False)
     monkeypatch.delenv("GITHUB_TOKEN", raising=False)
     return tmp_path
@@ -105,10 +106,16 @@ def test_auth_scope_distinguishes_anon_vs_token(
 
 
 def test_github_token_injected_into_headers(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setenv("GITHUB_INGEST_TOKEN", "ghp_test")
+    monkeypatch.setenv("INGEST_TOKEN", "ghp_test")
     headers = http_lib._auth_headers("https://api.github.com/repos/foo/bar")
     assert headers["Authorization"] == "Bearer ghp_test"
     assert "X-GitHub-Api-Version" in headers
+
+
+def test_legacy_github_ingest_token_still_supported(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("GITHUB_INGEST_TOKEN", "ghp_legacy")
+    headers = http_lib._auth_headers("https://api.github.com/repos/foo/bar")
+    assert headers["Authorization"] == "Bearer ghp_legacy"
 
 
 def test_non_github_url_does_not_inject_token(monkeypatch: pytest.MonkeyPatch) -> None:

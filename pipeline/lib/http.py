@@ -111,6 +111,8 @@ def _auth_scope() -> str:
 def _auth_headers(url: str) -> dict[str, str]:
     headers: dict[str, str] = {"User-Agent": "the-bus-factor/0.1 (+https://github.com)"}
     if "api.github.com" in url or "https://github.com/" in url:
+        headers["Accept"] = "application/vnd.github+json"
+        headers["X-GitHub-Api-Version"] = "2022-11-28"
         token = (
             os.environ.get("INGEST_TOKEN")
             or os.environ.get("GITHUB_INGEST_TOKEN")
@@ -118,7 +120,6 @@ def _auth_headers(url: str) -> dict[str, str]:
         )
         if token:
             headers["Authorization"] = f"Bearer {token}"
-            headers["X-GitHub-Api-Version"] = "2022-11-28"
     return headers
 
 
