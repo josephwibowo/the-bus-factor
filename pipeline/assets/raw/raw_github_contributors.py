@@ -53,7 +53,7 @@ from pipeline.lib.http import _auth_headers
 
 FIXTURE_ROOT = Path(__file__).resolve().parents[2] / "fixtures"
 GITHUB_REST = "https://api.github.com/repos"
-STATS_POLL_MAX = 4
+STATS_POLL_MAX = 5
 STATS_POLL_WAIT_SECONDS = 3.0
 STATS_REQUEST_TIMEOUT_SECONDS = 20.0
 STATS_SECONDARY_LIMIT_DEFAULT_WAIT_SECONDS = 60.0
@@ -117,6 +117,7 @@ async def _stats_contributors(
             return None
         if resp.status_code == 202:
             wait_seconds = min(STATS_POLL_WAIT_SECONDS * (2**attempt), STATS_MAX_WAIT_SECONDS)
+            will_retry = attempt_num < STATS_POLL_MAX
             live.log_event(
                 logger,
                 logging.INFO,
@@ -125,8 +126,11 @@ async def _stats_contributors(
                 attempt=attempt_num,
                 max_attempts=STATS_POLL_MAX,
                 wait_seconds=wait_seconds,
+                will_retry=will_retry,
                 token_present=token_present,
             )
+            if not will_retry:
+                return None
             await asyncio.sleep(wait_seconds)
             continue
         if resp.status_code in (204, 404, 410, 451):
@@ -371,23 +375,48 @@ def _rows_to_frame(rows: list[dict[str, Any]]) -> pd.DataFrame:
     return df
 
 
+def _usable_contributor_signal_count(rows: list[dict[str, Any]]) -> int:
+    count = 0
+    for row in rows:
+        share = row.get("top_contributor_share_365d")
+        contributors = row.get("contributors_last_365d")
+        if share is None:
+            continue
+        try:
+            contributor_count = int(contributors or 0)
+        except (TypeError, ValueError):
+            contributor_count = 0
+        if contributor_count > 0:
+            count += 1
+    return count
+
+
 def _live() -> pd.DataFrame:
     snapshot_week = live.resolve_window_date()
     with live.tracker("github_contributors") as t:
         urls = live.repo_urls_from_duckdb(live.duckdb_path())
         rows, exception_count = asyncio.run(_ingest(urls, snapshot_week))
         attempted = len(urls)
+        usable_signals = _usable_contributor_signal_count(rows)
         t.row_count = len(rows)
         if attempted == 0:
             t.mark_failed("no github_contributors repo urls resolved")
         elif not rows:
             t.mark_failed("no github_contributors rows ingested")
         else:
+            live.log_event(
+                logger,
+                logging.INFO,
+                "github_contributors_signal_summary",
+                attempted=attempted,
+                rows=len(rows),
+                usable_signals=usable_signals,
+            )
             live.mark_degraded_if_low_success(
                 tracker=t,
                 source_name="github_contributors",
                 attempted=attempted,
-                succeeded=len(rows),
+                succeeded=usable_signals,
                 exception_count=exception_count,
             )
     df = _rows_to_frame(rows)

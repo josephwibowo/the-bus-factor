@@ -128,6 +128,34 @@ def test_stats_contributors_retries_pending_stats(
     assert "repo=owner/repo" in output
 
 
+def test_stats_contributors_does_not_sleep_after_final_pending_attempt(
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+    reset_bruin_logging: None,
+) -> None:
+    del reset_bruin_logging
+    sleeps: list[float] = []
+
+    async def fake_sleep(seconds: float) -> None:
+        sleeps.append(seconds)
+
+    def handler(_: httpx.Request) -> httpx.Response:
+        return httpx.Response(202)
+
+    monkeypatch.setattr(asyncio, "sleep", fake_sleep)
+
+    async def run() -> None:
+        async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+            got = await contributors._stats_contributors("owner", "repo", client)
+        assert got is None
+
+    asyncio.run(run())
+    assert sleeps == [3.0, 6.0, 12.0, 24.0]
+    output = capsys.readouterr().out
+    assert f"attempt={contributors.STATS_POLL_MAX}" in output
+    assert "will_retry=false" in output
+
+
 def test_stats_contributors_retries_secondary_rate_limit(
     monkeypatch: pytest.MonkeyPatch,
     capsys: pytest.CaptureFixture[str],
@@ -231,6 +259,31 @@ def test_github_contributors_frame_preserves_all_null_share_column() -> None:
     ]
     assert str(df["top_contributor_share_365d"].dtype) == "float64"
     assert pd.isna(df.loc[0, "top_contributor_share_365d"])
+
+
+def test_github_contributors_usable_signal_count_excludes_null_placeholders() -> None:
+    assert (
+        contributors._usable_contributor_signal_count(
+            [
+                {
+                    "repo_url": "https://github.com/owner/unknown",
+                    "top_contributor_share_365d": None,
+                    "contributors_last_365d": 0,
+                },
+                {
+                    "repo_url": "https://github.com/owner/working",
+                    "top_contributor_share_365d": 0.42,
+                    "contributors_last_365d": 7,
+                },
+                {
+                    "repo_url": "https://github.com/owner/no-commits",
+                    "top_contributor_share_365d": None,
+                    "contributors_last_365d": 0,
+                },
+            ]
+        )
+        == 1
+    )
 
 
 def test_github_commits_uses_snapshot_week_window() -> None:

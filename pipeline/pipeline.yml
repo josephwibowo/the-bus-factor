@@ -22,11 +22,11 @@ variables:
     description: "ISO Monday date for the reporting window. Empty = most recent Monday UTC."
   npm_package_limit:
     type: integer
-    default: 250
-    description: "Top-N npm packages to ingest. MVP: 250-500. Stretch: 1000-2000."
+    default: 100
+    description: "Top-N npm packages to ingest. MVP fallback: 100 while GitHub contributor stats remain slow."
   pypi_package_limit:
     type: integer
-    default: 250
+    default: 100
     description: "Top-N PyPI packages to ingest."
   min_source_success_ratio:
     type: string

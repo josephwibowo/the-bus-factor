@@ -19,7 +19,7 @@ Baseline rules: [`AGENTS.md`](../AGENTS.md), [`CLAUDE.md`](../CLAUDE.md).
 
 ## Cut-first priorities (from [`AGENTS.md`](../AGENTS.md))
 
-Under scope pressure, cut **package-count breadth first** (e.g. ship at 250 instead of 500). Never cut:
+Under scope pressure, cut **package-count breadth first** (e.g. ship at 100 instead of 250/500). Never cut:
 
 - Quality checks
 - Fixture reproducibility

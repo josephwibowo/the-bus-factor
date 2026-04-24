@@ -142,7 +142,7 @@ def resolve_window_date() -> date:
     return resolve_snapshot(_var("snapshot_week") or None).monday
 
 
-def resolve_limit(env_var: str, default: int = 250) -> int:
+def resolve_limit(env_var: str, default: int = 100) -> int:
     raw = _var(env_var, str(default))
     try:
         limit = int(raw)

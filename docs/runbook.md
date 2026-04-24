@@ -71,7 +71,7 @@ sandbox write allowlist; rerunning with `required_permissions: ["all"]`
 fixed it. This means the sandbox needs `all` for any command that
 invokes `uv tool run ingestr` (every `seed.*` asset does).
 
-### Live run (500/500 attempt stalled, later fixed)
+### Live run (100/100 default after 500/500 and 250/250 stalls)
 
 Pre-flight check:
 
@@ -100,8 +100,8 @@ rm -f data/local_live_bq.duckdb
 nohup bruin run --workers=1 -e local_live_bq \
     --var 'source_mode="live"' \
     --var 'warehouse="bigquery"' \
-    --var 'npm_package_limit=500' \
-    --var 'pypi_package_limit=500' \
+    --var 'npm_package_limit=100' \
+    --var 'pypi_package_limit=100' \
     pipeline/pipeline.yml \
     > .cache/bruin_live.log 2>&1 &
 ```
@@ -426,11 +426,11 @@ fresh generation.
 
 ## Next steps (not yet done)
 
-1. Re-run at **50/50** first to sanity-check scale in under 10 minutes,
-   before committing to another 500/500 attempt.
-2. Only then run 500/500, commit `public-data/` +
-   `reports/cards/latest.png`, confirm 25 MB cap and
-   `mart.source_health` lists all 10 sources.
+1. Re-run at **100/100** first; 250/250 has been too slow because
+   GitHub contributor stats frequently stay pending through the polling budget.
+2. Only expand past 100/100 after the contributor signal source is stable;
+   commit `public-data/` + `reports/cards/latest.png`, confirm 25 MB cap
+   and `mart.source_health` lists all 10 sources.
 3. Run `scripts/refresh_universe.py --ecosystem npm --limit 500` (the
    billed BQ path) so the npm seed carries real `dependent_count`
    values, then re-run the snapshot.
