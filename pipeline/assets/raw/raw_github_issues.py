@@ -54,6 +54,11 @@ PER_PAGE = 100
 MAX_ISSUE_PAGES = 3  # up to 300 issues in last 180d per repo
 COMMENTS_PAGE_CAP = 3
 MAINTAINER_ASSOCIATIONS = {"OWNER", "MEMBER", "COLLABORATOR"}
+ISSUE_COLUMNS = [
+    "repo_url",
+    "issues_opened_last_180d",
+    "median_time_to_first_response_days",
+]
 
 
 def _fixture() -> pd.DataFrame:
@@ -67,6 +72,14 @@ def _parse_owner_repo(url: str) -> tuple[str, str] | None:
     if len(parts) < 2:
         return None
     return parts[0], parts[1]
+
+
+def _empty_issue_row(url: str) -> dict[str, Any]:
+    return {
+        "repo_url": url,
+        "issues_opened_last_180d": 0,
+        "median_time_to_first_response_days": None,
+    }
 
 
 def _parse_iso(s: str | None) -> datetime | None:
@@ -199,9 +212,14 @@ async def _ingest(
             *[_fetch_repo(u, client, snapshot_week) for u in urls], return_exceptions=True
         )
     rows: list[dict[str, Any]] = []
-    exception_count = sum(1 for res in results if isinstance(res, BaseException))
-    for res in results:
-        if isinstance(res, BaseException) or res is None:
+    exception_count = 0
+    for url, res in zip(urls, results, strict=True):
+        if isinstance(res, BaseException):
+            exception_count += 1
+            rows.append(_empty_issue_row(url))
+            continue
+        if res is None:
+            rows.append(_empty_issue_row(url))
             continue
         rows.append(res)
     return rows, exception_count
@@ -227,13 +245,7 @@ def _live() -> pd.DataFrame:
                 succeeded=len(rows),
                 exception_count=exception_count,
             )
-    df = (
-        pd.DataFrame(rows)
-        if rows
-        else pd.DataFrame(
-            columns=["repo_url", "issues_opened_last_180d", "median_time_to_first_response_days"]
-        )
-    )
+    df = pd.DataFrame(rows, columns=ISSUE_COLUMNS)
     df["ingested_at"] = pd.Timestamp.utcnow()
     return df
 

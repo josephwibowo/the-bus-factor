@@ -215,6 +215,55 @@ def test_github_contributors_usable_signal_count_excludes_null_placeholders() ->
     )
 
 
+def test_github_issues_ingest_keeps_rows_when_repos_error_or_parse_empty(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class DummyHttpClient:
+        def __init__(self, **_kwargs: object) -> None:
+            pass
+
+        async def __aenter__(self) -> DummyHttpClient:
+            return self
+
+        async def __aexit__(self, *_exc: object) -> None:
+            return None
+
+    async def fake_fetch_repo(
+        url: str,
+        _client: DummyHttpClient,
+        _snapshot_week: date,
+    ) -> dict[str, object] | None:
+        if url.endswith("/boom"):
+            raise RuntimeError("boom")
+        if url.endswith("/invalid"):
+            return None
+        return {
+            "repo_url": url,
+            "issues_opened_last_180d": 2,
+            "median_time_to_first_response_days": 1.5,
+        }
+
+    monkeypatch.setattr(issues, "HttpClient", DummyHttpClient)
+    monkeypatch.setattr(issues, "_fetch_repo", fake_fetch_repo)
+
+    urls = [
+        "https://github.com/owner/ok",
+        "https://github.com/owner/boom",
+        "https://github.com/owner/invalid",
+    ]
+    rows, exception_count = asyncio.run(issues._ingest("w", urls, date(2026, 4, 20)))
+
+    assert exception_count == 1
+    assert len(rows) == len(urls)
+    assert {row["repo_url"] for row in rows} == set(urls)
+    errored = next(row for row in rows if row["repo_url"].endswith("/boom"))
+    assert errored["issues_opened_last_180d"] == 0
+    assert errored["median_time_to_first_response_days"] is None
+    invalid = next(row for row in rows if row["repo_url"].endswith("/invalid"))
+    assert invalid["issues_opened_last_180d"] == 0
+    assert invalid["median_time_to_first_response_days"] is None
+
+
 def test_github_commits_uses_snapshot_week_window() -> None:
     calls: list[dict[str, object]] = []
 
