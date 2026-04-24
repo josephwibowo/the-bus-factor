@@ -33,8 +33,14 @@ columns:
       - name: non_negative
   - name: scorecard_date
     type: date
-    checks:
-      - name: not_null
+
+custom_checks:
+  - name: scored_rows_have_scorecard_date
+    description: A populated Scorecard aggregate should include the upstream Scorecard run date.
+    value: 0
+    query: |
+      SELECT COUNT(*) FROM stg.scorecard
+      WHERE aggregate_score IS NOT NULL AND scorecard_date IS NULL
 
 @bruin */
 
