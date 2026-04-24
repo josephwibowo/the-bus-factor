@@ -15,6 +15,8 @@ import pytest
 from pipeline.assets.raw import raw_github_commits as commits
 from pipeline.assets.raw import raw_github_contributors as contributors
 from pipeline.assets.raw import raw_github_issues as issues
+from pipeline.assets.raw import raw_npm_registry as npm_registry
+from pipeline.assets.raw import raw_pypi_registry as pypi_registry
 from pipeline.assets.raw import raw_scorecard as scorecard
 from pipeline.lib import live
 from pipeline.lib import sources as sources_lib
@@ -337,6 +339,96 @@ def test_scorecard_missing_response_counts_as_null_score_row() -> None:
         "check_count": 0,
         "scorecard_date": None,
     }
+
+
+def test_npm_download_errors_do_not_count_as_registry_metadata_errors(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class DummyHttpClient:
+        def __init__(self, **_kwargs: object) -> None:
+            pass
+
+        async def __aenter__(self) -> DummyHttpClient:
+            return self
+
+        async def __aexit__(self, *_exc: object) -> None:
+            return None
+
+    async def fake_fetch_package(pkg: str, _client: DummyHttpClient) -> dict[str, object]:
+        return {
+            "package_name": pkg,
+            "latest_version": "1.0.0",
+            "first_release_date": date(2020, 1, 1),
+            "latest_release_date": date(2026, 1, 1),
+            "homepage_url": None,
+            "repository_url": None,
+            "is_deprecated": False,
+            "is_archived": False,
+            "publisher": None,
+        }
+
+    async def fake_fetch_downloads(
+        _pkg: str,
+        _client: DummyHttpClient,
+        _snapshot_week: date,
+    ) -> int:
+        raise RuntimeError("downloads unavailable")
+
+    monkeypatch.setattr(npm_registry, "HttpClient", DummyHttpClient)
+    monkeypatch.setattr(npm_registry, "_fetch_package", fake_fetch_package)
+    monkeypatch.setattr(npm_registry, "_fetch_downloads", fake_fetch_downloads)
+
+    rows, meta_errors, download_errors = asyncio.run(
+        npm_registry._ingest("w", ["left-pad", "chalk"], date(2026, 4, 20))
+    )
+
+    assert meta_errors == 0
+    assert download_errors == 2
+    assert len(rows) == 2
+    assert {row["downloads_90d"] for row in rows} == {None}
+
+
+def test_pypi_download_errors_do_not_count_as_registry_metadata_errors(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class DummyHttpClient:
+        def __init__(self, **_kwargs: object) -> None:
+            pass
+
+        async def __aenter__(self) -> DummyHttpClient:
+            return self
+
+        async def __aexit__(self, *_exc: object) -> None:
+            return None
+
+    async def fake_fetch_meta(pkg: str, _client: DummyHttpClient) -> dict[str, object]:
+        return {
+            "package_name": pkg,
+            "latest_version": "1.0.0",
+            "first_release_date": date(2020, 1, 1),
+            "latest_release_date": date(2026, 1, 1),
+            "homepage_url": None,
+            "repository_url": None,
+            "is_deprecated": False,
+            "is_archived": False,
+            "publisher": None,
+        }
+
+    async def fake_fetch_downloads(_pkg: str, _client: DummyHttpClient) -> int:
+        raise RuntimeError("downloads unavailable")
+
+    monkeypatch.setattr(pypi_registry, "HttpClient", DummyHttpClient)
+    monkeypatch.setattr(pypi_registry, "_fetch_meta", fake_fetch_meta)
+    monkeypatch.setattr(pypi_registry, "_fetch_downloads", fake_fetch_downloads)
+
+    rows, meta_errors, download_errors = asyncio.run(
+        pypi_registry._ingest("w", ["requests", "flask"])
+    )
+
+    assert meta_errors == 0
+    assert download_errors == 2
+    assert len(rows) == 2
+    assert {row["downloads_90d"] for row in rows} == {None}
 
 
 def test_issue_response_counts_only_maintainer_like_non_bot_comments() -> None:

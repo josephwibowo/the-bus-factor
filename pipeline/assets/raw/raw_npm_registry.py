@@ -154,7 +154,7 @@ async def _fetch_downloads(pkg: str, client: HttpClient, snapshot_week: date) ->
 
 async def _ingest(
     window: str, packages: list[str], snapshot_week: date
-) -> tuple[list[dict[str, Any]], int]:
+) -> tuple[list[dict[str, Any]], int, int]:
     rows: list[dict[str, Any]] = []
     async with HttpClient(window=window) as client:
         meta_task = [_fetch_package(pkg, client) for pkg in packages]
@@ -166,11 +166,11 @@ async def _ingest(
     for _pkg, meta, dl in zip(packages, metas, downloads, strict=True):
         if isinstance(meta, BaseException) or meta is None:
             continue
-        dl_val = 0 if isinstance(dl, BaseException) else int(dl)
+        dl_val = None if isinstance(dl, BaseException) else int(dl)
         meta_row = dict(meta)
         meta_row["downloads_90d"] = dl_val
         rows.append(meta_row)
-    return rows, (meta_errors + download_errors)
+    return rows, meta_errors, download_errors
 
 
 def _live() -> pd.DataFrame:
@@ -178,7 +178,7 @@ def _live() -> pd.DataFrame:
     snapshot_week = live.resolve_window_date()
     with live.tracker("npm_registry") as t:
         packages = list(live.resolve_universe("npm", window=window))
-        rows, exception_count = asyncio.run(_ingest(window, packages, snapshot_week))
+        rows, meta_errors, download_errors = asyncio.run(_ingest(window, packages, snapshot_week))
         attempted = len(packages)
         t.row_count = len(rows)
         if attempted == 0:
@@ -191,8 +191,16 @@ def _live() -> pd.DataFrame:
                 source_name="npm_registry",
                 attempted=attempted,
                 succeeded=len(rows),
-                exception_count=exception_count,
+                exception_count=meta_errors,
             )
+            if download_errors > 0:
+                live.log_event(
+                    logger,
+                    logging.WARNING,
+                    "npm_downloads_partial",
+                    attempted=attempted,
+                    download_errors=download_errors,
+                )
     df = (
         pd.DataFrame(rows)
         if rows

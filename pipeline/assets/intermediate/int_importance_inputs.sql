@@ -95,7 +95,10 @@ SELECT
     d.dependent_count AS dependent_count,
     COALESCE(d.transitive_vuln_count, 0) + COALESCE(o.direct_vuln_count, 0)
         AS security_exposure_count,
-    LN(1.0 + GREATEST(p.downloads_90d, 0)) AS log_download_volume,
+    CASE
+        WHEN p.downloads_90d IS NULL THEN NULL
+        ELSE LN(1.0 + GREATEST(p.downloads_90d, 0))
+    END AS log_download_volume,
     CASE
         WHEN d.dependent_count IS NULL THEN NULL
         ELSE LN(1.0 + GREATEST(d.dependent_count, 0))

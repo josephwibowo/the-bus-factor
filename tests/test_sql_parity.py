@@ -201,6 +201,15 @@ def test_live_source_health_publish_gate_only_blocks_critical_sources() -> None:
         )
 
 
+def test_missing_download_volume_stays_null_in_importance_inputs() -> None:
+    for path in [
+        DUCKDB_ROOT / "intermediate" / "int_importance_inputs.sql",
+        BQ_ROOT / "intermediate" / "int_importance_inputs.bq.sql",
+    ]:
+        body = path.read_text()
+        assert "WHEN p.downloads_90d IS NULL THEN NULL" in body
+
+
 def test_marts_carry_partition_and_cluster() -> None:
     marts = sorted((BQ_ROOT / "marts").glob("*.bq.sql"))
     assert marts, "No BQ mart files discovered"

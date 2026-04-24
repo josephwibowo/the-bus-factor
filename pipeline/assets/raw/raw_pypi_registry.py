@@ -168,7 +168,7 @@ async def _fetch_downloads(pkg: str, client: HttpClient) -> int:
     return 0
 
 
-async def _ingest(window: str, packages: list[str]) -> tuple[list[dict[str, Any]], int]:
+async def _ingest(window: str, packages: list[str]) -> tuple[list[dict[str, Any]], int, int]:
     async with HttpClient(window=window) as client:
         metas = await asyncio.gather(
             *[_fetch_meta(pkg, client) for pkg in packages], return_exceptions=True
@@ -182,18 +182,18 @@ async def _ingest(window: str, packages: list[str]) -> tuple[list[dict[str, Any]
     for _pkg, meta, dl in zip(packages, metas, downloads, strict=True):
         if isinstance(meta, BaseException) or meta is None:
             continue
-        dl_val = 0 if isinstance(dl, BaseException) else int(dl)
+        dl_val = None if isinstance(dl, BaseException) else int(dl)
         row = dict(meta)
         row["downloads_90d"] = dl_val
         rows.append(row)
-    return rows, (meta_errors + download_errors)
+    return rows, meta_errors, download_errors
 
 
 def _live() -> pd.DataFrame:
     window = live.resolve_window()
     with live.tracker("pypi_registry") as t:
         packages = list(live.resolve_universe("pypi", window=window))
-        rows, exception_count = asyncio.run(_ingest(window, packages))
+        rows, meta_errors, download_errors = asyncio.run(_ingest(window, packages))
         attempted = len(packages)
         t.row_count = len(rows)
         if attempted == 0:
@@ -206,8 +206,16 @@ def _live() -> pd.DataFrame:
                 source_name="pypi_registry",
                 attempted=attempted,
                 succeeded=len(rows),
-                exception_count=exception_count,
+                exception_count=meta_errors,
             )
+            if download_errors > 0:
+                live.log_event(
+                    logger,
+                    logging.WARNING,
+                    "pypi_downloads_partial",
+                    attempted=attempted,
+                    download_errors=download_errors,
+                )
     if rows:
         df = pd.DataFrame(rows)
     else:
