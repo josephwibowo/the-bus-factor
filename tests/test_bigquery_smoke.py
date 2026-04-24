@@ -3,10 +3,16 @@
 from __future__ import annotations
 
 import json
+from datetime import date
 from pathlib import Path
+
+import db_dtypes
+import duckdb
+import pandas as pd
 
 from scripts.run_bigquery_smoke import (
     BqAsset,
+    _duckdb_compatible_bigquery_frame,
     _exporter_env,
     asset_target_table_sql,
     dataset_id,
@@ -122,3 +128,27 @@ def test_topological_sort_assets_places_dependencies_first() -> None:
 
     assert ordered.index("int.snapshot") < ordered.index("mart.package_scores")
     assert "stg.npm_registry" in ordered
+
+
+def test_duckdb_compatible_bigquery_frame_converts_dbdate_dtype() -> None:
+    df = pd.DataFrame(
+        {
+            "snapshot_week": pd.Series(
+                [date(2026, 4, 20), None],
+                dtype=db_dtypes.DateDtype(),
+            ),
+            "row_count": [2, 0],
+        }
+    )
+
+    converted = _duckdb_compatible_bigquery_frame(df)
+
+    assert str(converted["snapshot_week"].dtype) == "object"
+    con = duckdb.connect(":memory:")
+    try:
+        con.register("converted", converted)
+        assert con.execute(
+            "SELECT snapshot_week FROM converted ORDER BY row_count DESC"
+        ).fetchall()[0] == (date(2026, 4, 20),)
+    finally:
+        con.close()

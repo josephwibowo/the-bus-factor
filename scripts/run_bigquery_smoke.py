@@ -538,6 +538,19 @@ def _bq_tables(client: Any, *, layer: str, dataset_prefix: str) -> list[str]:
     return sorted(table.table_id for table in client.list_tables(dataset))
 
 
+def _duckdb_compatible_bigquery_frame(df: Any) -> Any:
+    """Convert BigQuery pandas extension dtypes that DuckDB cannot register."""
+
+    converted = df.copy()
+    for column in converted.columns:
+        dtype = converted[column].dtype
+        dtype_module = type(dtype).__module__
+        dtype_name = str(dtype).lower()
+        if dtype_module.startswith("db_dtypes") or dtype_name.startswith("db"):
+            converted[column] = converted[column].astype("object")
+    return converted
+
+
 def _mirror_bigquery_layer_to_duckdb(
     client: Any,
     con: duckdb.DuckDBPyConnection,
@@ -557,6 +570,7 @@ def _mirror_bigquery_layer_to_duckdb(
         table_ref = f"{client.project}.{dataset_id(layer, dataset_prefix)}.{table}"
         sql = f"SELECT * FROM `{table_ref}`"
         df = client.query(sql, job_config=job_config, location=location).to_dataframe()
+        df = _duckdb_compatible_bigquery_frame(df)
         con.register("_bq_export_df", df)
         try:
             con.execute(
