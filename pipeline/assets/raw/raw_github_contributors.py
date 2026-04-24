@@ -41,6 +41,7 @@ import asyncio
 import json
 import logging
 import time
+from dataclasses import dataclass
 from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 from typing import Any
@@ -53,12 +54,14 @@ from pipeline.lib.http import _auth_headers
 
 FIXTURE_ROOT = Path(__file__).resolve().parents[2] / "fixtures"
 GITHUB_REST = "https://api.github.com/repos"
-STATS_POLL_MAX = 5
-STATS_POLL_WAIT_SECONDS = 3.0
+STATS_POLL_MAX = 3
+STATS_POLL_WAIT_SECONDS = 60.0
 STATS_REQUEST_TIMEOUT_SECONDS = 20.0
 STATS_SECONDARY_LIMIT_DEFAULT_WAIT_SECONDS = 60.0
-STATS_MAX_WAIT_SECONDS = 90.0
-STATS_MAX_CONCURRENCY = 1
+STATS_MAX_WAIT_SECONDS = 120.0
+STATS_MAX_CONCURRENCY = 2
+STATS_TRANSIENT_ERROR_BASE_WAIT_SECONDS = 2.0
+STATS_TRANSIENT_ERROR_MAX_WAIT_SECONDS = 15.0
 logger = logging.getLogger(__name__)
 CONTRIBUTOR_COLUMNS = [
     "repo_url",
@@ -80,132 +83,135 @@ def _parse_owner_repo(url: str) -> tuple[str, str] | None:
     return parts[0], parts[1]
 
 
-async def _stats_contributors(
-    owner: str, repo: str, client: httpx.AsyncClient
-) -> list[dict[str, Any]] | None:
+@dataclass(frozen=True)
+class StatsFetchResult:
+    status: str
+    stats: list[dict[str, Any]] | None = None
+    wait_seconds: float | None = None
+
+
+async def _request_stats_contributors(
+    owner: str,
+    repo: str,
+    client: httpx.AsyncClient,
+    *,
+    attempt_num: int,
+    max_attempts: int,
+) -> StatsFetchResult:
     url = f"{GITHUB_REST}/{owner}/{repo}/stats/contributors"
-    for attempt in range(STATS_POLL_MAX):
-        attempt_num = attempt + 1
-        repo_ref = f"{owner}/{repo}"
-        headers = _auth_headers(url)
-        token_present = "Authorization" in headers
-        try:
-            resp = await asyncio.wait_for(
-                client.get(url, headers=headers),
-                timeout=STATS_REQUEST_TIMEOUT_SECONDS,
-            )
-        except TimeoutError:
-            live.log_event(
-                logger,
-                logging.WARNING,
-                "github_contributors_stats_timeout",
-                repo=repo_ref,
-                attempt=attempt_num,
-                max_attempts=STATS_POLL_MAX,
-            )
-            return None
-        except httpx.HTTPError as exc:
-            live.log_event(
-                logger,
-                logging.WARNING,
-                "github_contributors_stats_request_failed",
-                repo=repo_ref,
-                attempt=attempt_num,
-                max_attempts=STATS_POLL_MAX,
-                error=exc,
-            )
-            return None
-        if resp.status_code == 202:
-            wait_seconds = min(STATS_POLL_WAIT_SECONDS * (2**attempt), STATS_MAX_WAIT_SECONDS)
-            will_retry = attempt_num < STATS_POLL_MAX
-            live.log_event(
-                logger,
-                logging.INFO,
-                "github_contributors_stats_pending",
-                repo=repo_ref,
-                attempt=attempt_num,
-                max_attempts=STATS_POLL_MAX,
-                wait_seconds=wait_seconds,
-                will_retry=will_retry,
-                token_present=token_present,
-            )
-            if not will_retry:
-                return None
-            await asyncio.sleep(wait_seconds)
-            continue
-        if resp.status_code in (204, 404, 410, 451):
-            if resp.status_code == 204:
-                live.log_event(
-                    logger,
-                    logging.INFO,
-                    "github_contributors_stats_no_content",
-                    repo=repo_ref,
-                    attempt=attempt_num,
-                    max_attempts=STATS_POLL_MAX,
-                    token_present=token_present,
-                )
-            return None
-        if resp.status_code == 200:
-            payload = resp.json()
-            if isinstance(payload, list):
-                return payload
-            return None
-        rate_limit_remaining = resp.headers.get("x-ratelimit-remaining")
-        rate_limit_reset = resp.headers.get("x-ratelimit-reset")
-        rate_limit_resource = resp.headers.get("x-ratelimit-resource")
-        retry_after = _parse_retry_after(resp)
-        message = _response_message(resp)
-        category = _classify_status(resp.status_code, message, rate_limit_remaining)
-        wait_seconds = _compute_wait_seconds(
-            attempt_num=attempt_num,
-            category=category,
-            retry_after=retry_after,
-            rate_limit_reset=rate_limit_reset,
+    repo_ref = f"{owner}/{repo}"
+    headers = _auth_headers(url)
+    token_present = "Authorization" in headers
+    try:
+        resp = await asyncio.wait_for(
+            client.get(url, headers=headers),
+            timeout=STATS_REQUEST_TIMEOUT_SECONDS,
         )
-        retryable = category in {
-            "primary_rate_limit",
-            "secondary_rate_limit",
-            "rate_limited",
-            "transient_server_error",
-        }
-        will_retry = retryable and attempt_num < STATS_POLL_MAX
-        if category in {
-            "primary_rate_limit",
-            "secondary_rate_limit",
-            "rate_limited",
-            "transient_server_error",
-        }:
-            live.log_event(
-                logger,
-                logging.WARNING,
-                "github_contributors_stats_rate_limited",
-                repo=repo_ref,
-                attempt=attempt_num,
-                max_attempts=STATS_POLL_MAX,
-                status_code=resp.status_code,
-                category=category,
-                wait_seconds=wait_seconds,
-                will_retry=will_retry,
-                retry_after=retry_after,
-                rate_limit_remaining=rate_limit_remaining,
-                rate_limit_reset=rate_limit_reset,
-                rate_limit_resource=rate_limit_resource,
-                token_present=token_present,
-                message=message,
-            )
-            if will_retry:
-                await asyncio.sleep(wait_seconds)
-                continue
-            return None
+    except TimeoutError:
+        wait_seconds = _transient_error_wait_seconds(attempt_num)
+        will_retry = attempt_num < max_attempts
         live.log_event(
             logger,
             logging.WARNING,
-            "github_contributors_stats_unexpected_status",
+            "github_contributors_stats_timeout",
             repo=repo_ref,
             attempt=attempt_num,
-            max_attempts=STATS_POLL_MAX,
+            max_attempts=max_attempts,
+            wait_seconds=wait_seconds,
+            will_retry=will_retry,
+            token_present=token_present,
+        )
+        return StatsFetchResult(
+            "retryable_error" if will_retry else "error",
+            wait_seconds=wait_seconds,
+        )
+    except httpx.HTTPError as exc:
+        wait_seconds = _transient_error_wait_seconds(attempt_num)
+        will_retry = attempt_num < max_attempts
+        live.log_event(
+            logger,
+            logging.WARNING,
+            "github_contributors_stats_request_failed",
+            repo=repo_ref,
+            attempt=attempt_num,
+            max_attempts=max_attempts,
+            error=exc,
+            wait_seconds=wait_seconds,
+            will_retry=will_retry,
+            token_present=token_present,
+        )
+        return StatsFetchResult(
+            "retryable_error" if will_retry else "error",
+            wait_seconds=wait_seconds,
+        )
+    if resp.status_code == 202:
+        wait_seconds = _stats_wait_seconds(attempt_num)
+        will_retry = attempt_num < max_attempts
+        live.log_event(
+            logger,
+            logging.INFO,
+            "github_contributors_stats_pending",
+            repo=repo_ref,
+            attempt=attempt_num,
+            max_attempts=max_attempts,
+            wait_seconds=wait_seconds,
+            will_retry=will_retry,
+            token_present=token_present,
+        )
+        return StatsFetchResult("pending", wait_seconds=wait_seconds)
+    if resp.status_code in (204, 404, 410, 451):
+        if resp.status_code == 204:
+            live.log_event(
+                logger,
+                logging.INFO,
+                "github_contributors_stats_no_content",
+                repo=repo_ref,
+                attempt=attempt_num,
+                max_attempts=max_attempts,
+                token_present=token_present,
+            )
+        return StatsFetchResult("missing")
+    if resp.status_code == 200:
+        payload = resp.json()
+        if isinstance(payload, list):
+            return StatsFetchResult("ok", payload)
+        return StatsFetchResult("missing")
+    rate_limit_remaining = resp.headers.get("x-ratelimit-remaining")
+    rate_limit_reset = resp.headers.get("x-ratelimit-reset")
+    rate_limit_resource = resp.headers.get("x-ratelimit-resource")
+    retry_after = _parse_retry_after(resp)
+    message = _response_message(resp)
+    category = _classify_status(resp.status_code, message, rate_limit_remaining)
+    wait_seconds = _compute_wait_seconds(
+        attempt_num=attempt_num,
+        category=category,
+        retry_after=retry_after,
+        rate_limit_reset=rate_limit_reset,
+    )
+    retryable = category in {
+        "primary_rate_limit",
+        "secondary_rate_limit",
+        "rate_limited",
+        "transient_server_error",
+    }
+    will_retry = retryable and attempt_num < max_attempts
+    if category in {
+        "primary_rate_limit",
+        "secondary_rate_limit",
+        "rate_limited",
+        "transient_server_error",
+    }:
+        live.log_event(
+            logger,
+            logging.WARNING,
+            "github_contributors_stats_rate_limited",
+            repo=repo_ref,
+            attempt=attempt_num,
+            max_attempts=max_attempts,
             status_code=resp.status_code,
             category=category,
+            wait_seconds=wait_seconds,
+            will_retry=will_retry,
             retry_after=retry_after,
             rate_limit_remaining=rate_limit_remaining,
             rate_limit_reset=rate_limit_reset,
@@ -213,8 +219,111 @@ async def _stats_contributors(
             token_present=token_present,
             message=message,
         )
+        return StatsFetchResult(
+            "retryable_error" if will_retry else "error",
+            wait_seconds=wait_seconds,
+        )
+    live.log_event(
+        logger,
+        logging.WARNING,
+        "github_contributors_stats_unexpected_status",
+        repo=repo_ref,
+        attempt=attempt_num,
+        max_attempts=max_attempts,
+        status_code=resp.status_code,
+        category=category,
+        retry_after=retry_after,
+        rate_limit_remaining=rate_limit_remaining,
+        rate_limit_reset=rate_limit_reset,
+        rate_limit_resource=rate_limit_resource,
+        token_present=token_present,
+        message=message,
+    )
+    return StatsFetchResult("error")
+
+
+async def _stats_contributors(
+    owner: str, repo: str, client: httpx.AsyncClient
+) -> list[dict[str, Any]] | None:
+    for attempt_num in range(1, STATS_POLL_MAX + 1):
+        result = await _request_stats_contributors(
+            owner,
+            repo,
+            client,
+            attempt_num=attempt_num,
+            max_attempts=STATS_POLL_MAX,
+        )
+        if result.status == "ok":
+            return result.stats
+        if result.status == "pending":
+            if attempt_num >= STATS_POLL_MAX:
+                return None
+            await asyncio.sleep(_stats_wait_seconds(attempt_num))
+            continue
+        if result.status == "retryable_error":
+            if attempt_num >= STATS_POLL_MAX:
+                return None
+            retry_wait = result.wait_seconds
+            if retry_wait is None:
+                retry_wait = STATS_SECONDARY_LIMIT_DEFAULT_WAIT_SECONDS
+            await asyncio.sleep(retry_wait)
+            continue
         return None
     return None
+
+
+def _stats_wait_seconds(attempt_num: int) -> float:
+    return min(STATS_POLL_WAIT_SECONDS * (2 ** max(0, attempt_num - 1)), STATS_MAX_WAIT_SECONDS)
+
+
+def _transient_error_wait_seconds(attempt_num: int) -> float:
+    return min(
+        STATS_TRANSIENT_ERROR_BASE_WAIT_SECONDS * (2 ** max(0, attempt_num - 1)),
+        STATS_TRANSIENT_ERROR_MAX_WAIT_SECONDS,
+    )
+
+
+def _empty_contributor_row(url: str) -> dict[str, Any]:
+    return {
+        "repo_url": url,
+        "top_contributor_share_365d": None,
+        "contributors_last_365d": 0,
+    }
+
+
+def _row_from_stats(
+    url: str, stats: list[dict[str, Any]] | None, snapshot_week: date
+) -> dict[str, Any]:
+    if not stats:
+        return _empty_contributor_row(url)
+    cutoff_ts = int(
+        datetime.combine(snapshot_week - timedelta(days=365), datetime.min.time(), UTC).timestamp()
+    )
+    until_ts = int(datetime.combine(snapshot_week, datetime.min.time(), UTC).timestamp())
+    totals: dict[str, int] = {}
+    for entry in stats:
+        if not isinstance(entry, dict):
+            continue
+        author = (entry.get("author") or {}).get("login")
+        if not author:
+            continue
+        weekly = entry.get("weeks") or []
+        commit_count = sum(
+            int(w.get("c") or 0)
+            for w in weekly
+            if isinstance(w, dict) and cutoff_ts <= int(w.get("w") or 0) < until_ts
+        )
+        if commit_count > 0:
+            totals[author] = totals.get(author, 0) + commit_count
+    if not totals:
+        return _empty_contributor_row(url)
+    total = sum(totals.values())
+    top = max(totals.values())
+    return {
+        "repo_url": url,
+        "top_contributor_share_365d": round(top / total, 4) if total else None,
+        "contributors_last_365d": len(totals),
+    }
 
 
 def _parse_retry_after(resp: httpx.Response) -> float | None:
@@ -298,65 +407,107 @@ async def _fetch_repo(
         return None
     owner, repo = or_
     stats = await _stats_contributors(owner, repo, client)
-    if not stats:
-        return {
-            "repo_url": url,
-            "top_contributor_share_365d": None,
-            "contributors_last_365d": 0,
-        }
-    cutoff_ts = int(
-        datetime.combine(snapshot_week - timedelta(days=365), datetime.min.time(), UTC).timestamp()
-    )
-    until_ts = int(datetime.combine(snapshot_week, datetime.min.time(), UTC).timestamp())
-    totals: dict[str, int] = {}
-    for entry in stats:
-        if not isinstance(entry, dict):
-            continue
-        author = (entry.get("author") or {}).get("login")
-        if not author:
-            continue
-        weekly = entry.get("weeks") or []
-        commit_count = sum(
-            int(w.get("c") or 0)
-            for w in weekly
-            if isinstance(w, dict) and cutoff_ts <= int(w.get("w") or 0) < until_ts
-        )
-        if commit_count > 0:
-            totals[author] = totals.get(author, 0) + commit_count
-    if not totals:
-        return {
-            "repo_url": url,
-            "top_contributor_share_365d": None,
-            "contributors_last_365d": 0,
-        }
-    total = sum(totals.values())
-    top = max(totals.values())
-    return {
-        "repo_url": url,
-        "top_contributor_share_365d": round(top / total, 4) if total else None,
-        "contributors_last_365d": len(totals),
-    }
+    return _row_from_stats(url, stats, snapshot_week)
 
 
 async def _ingest(urls: list[str], snapshot_week: date) -> tuple[list[dict[str, Any]], int]:
-    # The /stats endpoint is polling-heavy, so we skip the HttpClient disk
-    # cache for this asset and talk straight to httpx with bounded concurrency.
+    # Trigger GitHub's stats jobs for the whole batch, then retry pending repos
+    # after a global wait. Per-repo sleeps make cold stats caches unusably slow.
     sem = asyncio.Semaphore(STATS_MAX_CONCURRENCY)
+    parsed = [
+        (url, owner_repo[0], owner_repo[1])
+        for url in urls
+        if (owner_repo := _parse_owner_repo(url)) is not None
+    ]
+    rows_by_url: dict[str, dict[str, Any]] = {}
+    pending = parsed
+    exception_count = 0
+    run_started = time.perf_counter()
 
-    async def _worker(url: str, client: httpx.AsyncClient) -> dict[str, Any] | None:
+    async def _worker(
+        item: tuple[str, str, str], client: httpx.AsyncClient, attempt_num: int
+    ) -> tuple[tuple[str, str, str], StatsFetchResult]:
+        _, owner, repo = item
         async with sem:
-            return await _fetch_repo(url, client, snapshot_week)
+            result = await _request_stats_contributors(
+                owner,
+                repo,
+                client,
+                attempt_num=attempt_num,
+                max_attempts=STATS_POLL_MAX,
+            )
+        return item, result
 
     async with httpx.AsyncClient(
         timeout=httpx.Timeout(30.0, connect=10.0), follow_redirects=True
     ) as client:
-        results = await asyncio.gather(*[_worker(u, client) for u in urls], return_exceptions=True)
-    rows: list[dict[str, Any]] = []
-    exception_count = sum(1 for res in results if isinstance(res, BaseException))
-    for res in results:
-        if isinstance(res, BaseException) or res is None:
-            continue
-        rows.append(res)
+        for attempt_num in range(1, STATS_POLL_MAX + 1):
+            if not pending:
+                break
+            attempt_started = time.perf_counter()
+            results = await asyncio.gather(
+                *[_worker(item, client, attempt_num) for item in pending],
+                return_exceptions=True,
+            )
+            next_pending: list[tuple[str, str, str]] = []
+            retry_wait_seconds = 0.0
+            status_counts: dict[str, int] = {}
+            round_exceptions = 0
+            for res in results:
+                if isinstance(res, BaseException):
+                    exception_count += 1
+                    round_exceptions += 1
+                    continue
+                item, fetch_result = res
+                url, _, _ = item
+                status_counts[fetch_result.status] = status_counts.get(fetch_result.status, 0) + 1
+                if fetch_result.status == "ok":
+                    rows_by_url[url] = _row_from_stats(url, fetch_result.stats, snapshot_week)
+                elif fetch_result.status in {"pending", "retryable_error"}:
+                    if attempt_num < STATS_POLL_MAX:
+                        next_pending.append(item)
+                        if fetch_result.wait_seconds is not None:
+                            retry_wait_seconds = max(retry_wait_seconds, fetch_result.wait_seconds)
+                    else:
+                        rows_by_url[url] = _empty_contributor_row(url)
+                else:
+                    if fetch_result.status == "error":
+                        exception_count += 1
+                    rows_by_url[url] = _empty_contributor_row(url)
+            live.log_event(
+                logger,
+                logging.INFO,
+                "github_contributors_stats_batch",
+                attempt=attempt_num,
+                max_attempts=STATS_POLL_MAX,
+                attempted=len(pending),
+                pending=len(next_pending),
+                resolved=len(rows_by_url),
+                status_ok=status_counts.get("ok", 0),
+                status_pending=status_counts.get("pending", 0),
+                status_retryable_error=status_counts.get("retryable_error", 0),
+                status_missing=status_counts.get("missing", 0),
+                status_error=status_counts.get("error", 0),
+                worker_exceptions=round_exceptions,
+                attempt_elapsed_ms=round((time.perf_counter() - attempt_started) * 1000.0, 2),
+                total_elapsed_ms=round((time.perf_counter() - run_started) * 1000.0, 2),
+            )
+            pending = next_pending
+            if pending and attempt_num < STATS_POLL_MAX:
+                immediate_retry = retry_wait_seconds <= 0.0
+                live.log_event(
+                    logger,
+                    logging.INFO,
+                    "github_contributors_stats_batch_wait",
+                    attempt=attempt_num,
+                    pending=len(pending),
+                    wait_seconds=retry_wait_seconds,
+                    immediate_retry=immediate_retry,
+                )
+                if not immediate_retry:
+                    await asyncio.sleep(retry_wait_seconds)
+
+    rows = [rows_by_url.get(url, _empty_contributor_row(url)) for url, _, _ in parsed]
     return rows, exception_count
 
 

@@ -78,10 +78,17 @@ def test_stats_contributors_times_out_stuck_request(
 ) -> None:
     del reset_bruin_logging
     monkeypatch.setattr(contributors, "STATS_REQUEST_TIMEOUT_SECONDS", 0.001)
+    sleeps: list[float] = []
+    real_sleep = asyncio.sleep
+
+    async def fake_sleep(seconds: float) -> None:
+        sleeps.append(seconds)
 
     async def handler(_: httpx.Request) -> httpx.Response:
-        await asyncio.sleep(0.05)
+        await real_sleep(0.05)
         return httpx.Response(200, json=[])
+
+    monkeypatch.setattr(asyncio, "sleep", fake_sleep)
 
     async def run() -> None:
         async with httpx.AsyncClient(
@@ -91,12 +98,14 @@ def test_stats_contributors_times_out_stuck_request(
         assert got is None
 
     asyncio.run(run())
+    assert sleeps == [2.0, 4.0]
     output = capsys.readouterr().out
     assert "event=github_contributors_stats_timeout" in output
     assert "repo=owner/repo" in output
+    assert "will_retry=true" in output
 
 
-def test_stats_contributors_retries_pending_stats(
+def test_stats_contributors_retries_pending_stats_after_wait(
     monkeypatch: pytest.MonkeyPatch,
     capsys: pytest.CaptureFixture[str],
     reset_bruin_logging: None,
@@ -126,6 +135,7 @@ def test_stats_contributors_retries_pending_stats(
     output = capsys.readouterr().out
     assert "event=github_contributors_stats_pending" in output
     assert "repo=owner/repo" in output
+    assert "will_retry=true" in output
 
 
 def test_stats_contributors_does_not_sleep_after_final_pending_attempt(
@@ -150,10 +160,122 @@ def test_stats_contributors_does_not_sleep_after_final_pending_attempt(
         assert got is None
 
     asyncio.run(run())
-    assert sleeps == [3.0, 6.0, 12.0, 24.0]
+    assert sleeps == [60.0, 120.0]
     output = capsys.readouterr().out
     assert f"attempt={contributors.STATS_POLL_MAX}" in output
     assert "will_retry=false" in output
+
+
+def test_github_contributors_ingest_uses_batch_warmup_wait(
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+    reset_bruin_logging: None,
+) -> None:
+    del reset_bruin_logging
+    calls_by_repo: dict[str, int] = {}
+    sleeps: list[float] = []
+    week_ts = int(pd.Timestamp("2026-04-01T00:00:00Z").timestamp())
+
+    async def fake_sleep(seconds: float) -> None:
+        sleeps.append(seconds)
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        repo = request.url.path.split("/repos/", 1)[1].split("/stats/", 1)[0]
+        calls_by_repo[repo] = calls_by_repo.get(repo, 0) + 1
+        if calls_by_repo[repo] == 1:
+            return httpx.Response(202)
+        return httpx.Response(
+            200,
+            json=[
+                {"author": {"login": "alice"}, "weeks": [{"w": week_ts, "c": 7}]},
+                {"author": {"login": "bob"}, "weeks": [{"w": week_ts, "c": 3}]},
+            ],
+        )
+
+    original_async_client = contributors.httpx.AsyncClient
+    monkeypatch.setattr(asyncio, "sleep", fake_sleep)
+    monkeypatch.setattr(
+        contributors.httpx,
+        "AsyncClient",
+        lambda **_: original_async_client(transport=httpx.MockTransport(handler)),
+    )
+
+    rows, exception_count = asyncio.run(
+        contributors._ingest(
+            ["https://github.com/owner/one", "https://github.com/owner/two"],
+            date(2026, 4, 20),
+        )
+    )
+
+    assert exception_count == 0
+    assert sleeps == [contributors.STATS_POLL_WAIT_SECONDS]
+    assert calls_by_repo == {"owner/one": 2, "owner/two": 2}
+    assert {row["repo_url"] for row in rows} == {
+        "https://github.com/owner/one",
+        "https://github.com/owner/two",
+    }
+    assert all(row["top_contributor_share_365d"] == 0.7 for row in rows)
+    assert all(row["contributors_last_365d"] == 2 for row in rows)
+    output = capsys.readouterr().out
+    assert "event=github_contributors_stats_batch" in output
+    assert "status_pending=2" in output
+    assert "attempt_elapsed_ms=" in output
+    assert "total_elapsed_ms=" in output
+
+
+def test_github_contributors_ingest_immediate_retry_when_wait_is_zero(
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+    reset_bruin_logging: None,
+) -> None:
+    del reset_bruin_logging
+    calls_by_repo: dict[str, int] = {}
+    sleeps: list[float] = []
+    week_ts = int(pd.Timestamp("2026-04-01T00:00:00Z").timestamp())
+
+    async def fake_sleep(seconds: float) -> None:
+        sleeps.append(seconds)
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        repo = request.url.path.split("/repos/", 1)[1].split("/stats/", 1)[0]
+        calls_by_repo[repo] = calls_by_repo.get(repo, 0) + 1
+        if calls_by_repo[repo] == 1:
+            return httpx.Response(
+                403,
+                headers={"Retry-After": "0"},
+                json={"message": "You have exceeded a secondary rate limit. Please wait."},
+            )
+        return httpx.Response(
+            200,
+            json=[{"author": {"login": "alice"}, "weeks": [{"w": week_ts, "c": 5}]}],
+        )
+
+    original_async_client = contributors.httpx.AsyncClient
+    monkeypatch.setattr(asyncio, "sleep", fake_sleep)
+    monkeypatch.setattr(
+        contributors.httpx,
+        "AsyncClient",
+        lambda **_: original_async_client(transport=httpx.MockTransport(handler)),
+    )
+
+    rows, exception_count = asyncio.run(
+        contributors._ingest(["https://github.com/owner/one"], date(2026, 4, 20))
+    )
+
+    assert exception_count == 0
+    assert sleeps == []
+    assert calls_by_repo == {"owner/one": 2}
+    assert rows == [
+        {
+            "repo_url": "https://github.com/owner/one",
+            "top_contributor_share_365d": 1.0,
+            "contributors_last_365d": 1,
+        }
+    ]
+    output = capsys.readouterr().out
+    assert "event=github_contributors_stats_batch_wait" in output
+    assert "wait_seconds=0.0" in output
+    assert "immediate_retry=true" in output
 
 
 def test_stats_contributors_retries_secondary_rate_limit(
@@ -162,21 +284,18 @@ def test_stats_contributors_retries_secondary_rate_limit(
     reset_bruin_logging: None,
 ) -> None:
     del reset_bruin_logging
-    responses = [
-        httpx.Response(
-            403,
-            headers={"Retry-After": "0"},
-            json={"message": "You have exceeded a secondary rate limit. Please wait."},
-        ),
-        httpx.Response(200, json=[{"author": {"login": "alice"}, "weeks": []}]),
-    ]
+    response = httpx.Response(
+        403,
+        headers={"Retry-After": "0"},
+        json={"message": "You have exceeded a secondary rate limit. Please wait."},
+    )
     sleeps: list[float] = []
 
     async def fake_sleep(seconds: float) -> None:
         sleeps.append(seconds)
 
     def handler(_: httpx.Request) -> httpx.Response:
-        return responses.pop(0)
+        return response
 
     monkeypatch.setattr(asyncio, "sleep", fake_sleep)
 
@@ -185,8 +304,8 @@ def test_stats_contributors_retries_secondary_rate_limit(
             return await contributors._stats_contributors("owner", "repo", client)
 
     got = asyncio.run(run())
-    assert got == [{"author": {"login": "alice"}, "weeks": []}]
-    assert sleeps == [0.0]
+    assert got is None
+    assert sleeps == [0.0, 0.0]
     output = capsys.readouterr().out
     assert "event=github_contributors_stats_rate_limited" in output
     assert "category=secondary_rate_limit" in output

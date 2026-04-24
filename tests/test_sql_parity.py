@@ -190,6 +190,17 @@ def test_live_scored_ecosystem_floor_requires_missing_ecosystems() -> None:
         assert "COALESCE(c.n, 0) < 50" in body
 
 
+def test_live_source_health_publish_gate_only_blocks_critical_sources() -> None:
+    for path in [
+        DUCKDB_ROOT / "marts" / "mart_package_scores.sql",
+        BQ_ROOT / "marts" / "mart_package_scores.bq.sql",
+    ]:
+        body = path.read_text()
+        assert (
+            "source_name IN ('npm_registry', 'pypi_registry', 'deps_dev', 'github_repos')" in body
+        )
+
+
 def test_marts_carry_partition_and_cluster() -> None:
     marts = sorted((BQ_ROOT / "marts").glob("*.bq.sql"))
     assert marts, "No BQ mart files discovered"

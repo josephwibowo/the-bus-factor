@@ -75,6 +75,7 @@ def test_source_health_failure_query_rewrites_dataset() -> None:
     query = source_health_failure_query(dataset_prefix="bf_smoke")
 
     assert "FROM bf_smoke_stg.source_health" in query
+    assert "source_name IN ('npm_registry', 'pypi_registry', 'deps_dev', 'github_repos')" in query
     assert "status != 'ok'" in query
     assert "COALESCE(row_count, 0) = 0" in query
 

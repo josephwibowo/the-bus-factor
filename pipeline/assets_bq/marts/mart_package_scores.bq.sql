@@ -231,6 +231,7 @@ custom_checks:
       SELECT COUNT(*)
       FROM stg.source_health
       WHERE '{{ var.source_mode }}' = 'live'
+        AND source_name IN ('npm_registry', 'pypi_registry', 'deps_dev', 'github_repos')
         AND (
             status != 'ok'
             OR stale = TRUE

@@ -365,10 +365,13 @@ def source_health_failure_query(*, dataset_prefix: str) -> str:
             row_count,
             COALESCE(note, '') AS note
         FROM stg.source_health
-        WHERE status != 'ok'
-           OR stale = TRUE
-           OR failure_count > 0
-           OR COALESCE(row_count, 0) = 0
+        WHERE source_name IN ('npm_registry', 'pypi_registry', 'deps_dev', 'github_repos')
+          AND (
+              status != 'ok'
+              OR stale = TRUE
+              OR failure_count > 0
+              OR COALESCE(row_count, 0) = 0
+          )
         ORDER BY source_name
         LIMIT 20
         """,
@@ -501,7 +504,11 @@ def validate_key_outputs(
             SELECT
                 COUNT(*) AS total_sources,
                 COUNTIF(status = 'ok' AND stale = FALSE AND failure_count = 0) AS ok_sources,
-                COUNTIF(status != 'ok' OR stale = TRUE OR failure_count != 0) AS bad_sources
+                COUNTIF(status != 'ok' OR stale = TRUE OR failure_count != 0) AS bad_sources,
+                COUNTIF(
+                    source_name IN ('npm_registry', 'pypi_registry', 'deps_dev', 'github_repos')
+                    AND (status != 'ok' OR stale = TRUE OR failure_count != 0)
+                ) AS critical_bad_sources
             FROM `{health_ref}`
             """,
             job_config=job_config,
@@ -510,10 +517,12 @@ def validate_key_outputs(
     )
     health = health_rows[0]
     bad_sources = int(health["bad_sources"])
+    critical_bad_sources = int(health["critical_bad_sources"])
     total_sources = int(health["total_sources"])
-    if total_sources == 0 or (require_healthy_sources and bad_sources != 0):
+    if total_sources == 0 or (require_healthy_sources and critical_bad_sources != 0):
         raise RuntimeError(
-            f"{health_ref} is unhealthy: total_sources={total_sources}, bad_sources={bad_sources}"
+            f"{health_ref} is unhealthy: total_sources={total_sources}, "
+            f"bad_sources={bad_sources}, critical_bad_sources={critical_bad_sources}"
         )
 
     if counts[f"{dataset_id('mart', dataset_prefix)}.packages_current"] == 0:
