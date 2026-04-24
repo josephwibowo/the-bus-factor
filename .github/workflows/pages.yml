@@ -6,8 +6,6 @@ on:
     branches: [main]
     paths:
       - "web/**"
-      - "public-data/**"
-      - "reports/cards/**"
       - ".github/workflows/pages.yml"
 
 permissions:
@@ -21,6 +19,7 @@ concurrency:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  SITE_BASE_URL: https://josephwibowo.github.io/the-bus-factor
 
 jobs:
   build:
@@ -37,11 +36,32 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: Stage checked-in snapshot assets
+      - name: Fetch currently deployed snapshot assets
         run: |
           mkdir -p web/public/public-data web/public/weekly
-          rsync -a --delete public-data/ web/public/public-data/
-          rsync -a --delete reports/cards/ web/public/weekly/
+          for path in public-data/*.json; do
+            name="$(basename "$path")"
+            curl -fsSL "$SITE_BASE_URL/public-data/$name" -o "web/public/public-data/$name"
+          done
+          curl -fsSL "$SITE_BASE_URL/weekly/latest.png" -o "web/public/weekly/latest.png"
+
+      - name: Guard against fixture/synthetic snapshot deploys
+        run: |
+          node -e '
+            const fs = require("fs");
+            const metadata = JSON.parse(fs.readFileSync("web/public/public-data/metadata.json", "utf8"));
+            const sources = JSON.parse(fs.readFileSync("web/public/public-data/sources.json", "utf8"));
+            const metadataText = JSON.stringify(metadata).toLowerCase();
+            const sourcesText = JSON.stringify(sources).toLowerCase();
+            const hasFixtureMarker =
+              metadataText.includes("synthetic fixture") ||
+              metadataText.includes("fixture run") ||
+              sourcesText.includes("fixture run; synthetic success");
+            if (hasFixtureMarker) {
+              console.error("Refusing Pages deploy: deployed snapshot appears to be fixture/synthetic.");
+              process.exit(1);
+            }
+          '
 
       - run: pnpm --filter ./web build
 
