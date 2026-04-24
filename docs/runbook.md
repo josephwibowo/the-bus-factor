@@ -124,6 +124,7 @@ BUS_FACTOR_LOG_LEVEL=INFO BQ_MAX_BYTES_BILLED=10000000000 \
 bruin run --workers=1 --full-refresh -e local_live_bq \
     --var 'source_mode="live"' \
     --var 'warehouse="bigquery"' \
+    --var 'snapshot_week="2026-04-20"' \
     --var npm_package_limit=5 \
     --var pypi_package_limit=5 \
     pipeline/pipeline.yml | tee .cache/bruin_live_smoke.log
@@ -175,7 +176,10 @@ uv run python scripts/run_bigquery_smoke.py \
     --duckdb-path data/local_live_bq.duckdb \
     --project-id bus-factor-494119 \
     --location US \
-    --dataset-prefix bf_smoke
+    --dataset-prefix bf_smoke \
+    --snapshot-week 2026-04-20 \
+    --export-public-data \
+    --require-healthy-sources
 ```
 
 Result:

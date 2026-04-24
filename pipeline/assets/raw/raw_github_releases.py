@@ -39,7 +39,7 @@ columns:
 from __future__ import annotations
 
 import asyncio
-from datetime import UTC, date, datetime, timedelta
+from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -77,13 +77,15 @@ def _parse_date(iso: str | None) -> date | None:
         return None
 
 
-async def _fetch_releases(url: str, client: HttpClient) -> dict[str, Any] | None:
+async def _fetch_releases(
+    url: str, client: HttpClient, snapshot_week: date
+) -> dict[str, Any] | None:
     or_ = _parse_owner_repo(url)
     if or_ is None:
         return None
     owner, repo = or_
-    now = datetime.now(UTC).date()
-    last_cutoff = now - timedelta(days=365)
+    now = snapshot_week
+    last_cutoff = snapshot_week - timedelta(days=365)
     prior_cutoff = now - timedelta(days=730)
 
     all_releases: list[tuple[date, str]] = []
@@ -101,11 +103,13 @@ async def _fetch_releases(url: str, client: HttpClient) -> dict[str, Any] | None
             d = _parse_date(rel.get("published_at") or rel.get("created_at"))
             if d is None:
                 continue
+            if d >= snapshot_week:
+                continue
             all_releases.append((d, str(rel.get("tag_name") or "")))
         if len(payload) < PER_PAGE:
             break
 
-    last = sum(1 for d, _ in all_releases if last_cutoff <= d <= now)
+    last = sum(1 for d, _ in all_releases if last_cutoff <= d < now)
     prior = sum(1 for d, _ in all_releases if prior_cutoff <= d < last_cutoff)
     latest = max(all_releases, default=None)
     return {
@@ -117,10 +121,13 @@ async def _fetch_releases(url: str, client: HttpClient) -> dict[str, Any] | None
     }
 
 
-async def _ingest(window: str, urls: list[str]) -> tuple[list[dict[str, Any]], int]:
+async def _ingest(
+    window: str, urls: list[str], snapshot_week: date
+) -> tuple[list[dict[str, Any]], int]:
     async with HttpClient(window=window, concurrency=8) as client:
         results = await asyncio.gather(
-            *[_fetch_releases(url, client) for url in urls], return_exceptions=True
+            *[_fetch_releases(url, client, snapshot_week) for url in urls],
+            return_exceptions=True,
         )
     rows: list[dict[str, Any]] = []
     exception_count = sum(1 for res in results if isinstance(res, BaseException))
@@ -133,9 +140,10 @@ async def _ingest(window: str, urls: list[str]) -> tuple[list[dict[str, Any]], i
 
 def _live() -> pd.DataFrame:
     window = live.resolve_window()
+    snapshot_week = live.resolve_window_date()
     with live.tracker("github_releases") as t:
         urls = live.repo_urls_from_duckdb(live.duckdb_path())
-        rows, exception_count = asyncio.run(_ingest(window, urls))
+        rows, exception_count = asyncio.run(_ingest(window, urls, snapshot_week))
         attempted = len(urls)
         t.row_count = len(rows)
         if attempted == 0:

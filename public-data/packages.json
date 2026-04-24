@@ -55,7 +55,7 @@
           "monorepo_cap_applied(medium_max)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "@types/legacy-forge",
       "registry_url": "https://www.npmjs.com/package/@types/legacy-forge",
       "repository_url": "https://github.com/definitelytyped/definitelytyped",
@@ -118,7 +118,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "active-logger",
       "registry_url": "https://www.npmjs.com/package/active-logger",
       "repository_url": "https://github.com/fake-active/active-logger",
@@ -182,7 +182,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "aged-template",
       "registry_url": "https://www.npmjs.com/package/aged-template",
       "repository_url": "https://github.com/fake-aged-template/aged-template",
@@ -245,7 +245,7 @@
           "deps_dev_source_repo_match(+20)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "archived-compiler",
       "registry_url": "https://www.npmjs.com/package/archived-compiler",
       "repository_url": "https://github.com/fake-archived/archived-compiler",
@@ -309,7 +309,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "constant-timer",
       "registry_url": "https://www.npmjs.com/package/constant-timer",
       "repository_url": "https://github.com/fake-constant/constant-timer",
@@ -373,7 +373,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "eventful-proxy",
       "registry_url": "https://www.npmjs.com/package/eventful-proxy",
       "repository_url": "https://github.com/fake-eventful/eventful-proxy",
@@ -436,7 +436,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "fresh-parser",
       "registry_url": "https://www.npmjs.com/package/fresh-parser",
       "repository_url": "https://github.com/fake-fresh/fresh-parser",
@@ -500,7 +500,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "frozen-format",
       "registry_url": "https://www.npmjs.com/package/frozen-format",
       "repository_url": "https://github.com/fake-frozen/frozen-format",
@@ -563,7 +563,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "legacy-forge",
       "registry_url": "https://www.npmjs.com/package/legacy-forge",
       "repository_url": "https://github.com/fake-legacy-forge/legacy-forge",
@@ -627,7 +627,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "measured-worker",
       "registry_url": "https://www.npmjs.com/package/measured-worker",
       "repository_url": "https://github.com/fake-measured/measured-worker",
@@ -691,7 +691,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "minimal-queue",
       "registry_url": "https://www.npmjs.com/package/minimal-queue",
       "repository_url": "https://github.com/fake-minimal/minimal-queue",
@@ -755,7 +755,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "modest-codec",
       "registry_url": "https://www.npmjs.com/package/modest-codec",
       "repository_url": "https://github.com/fake-modest/modest-codec",
@@ -819,7 +819,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "neglected-stream",
       "registry_url": "https://www.npmjs.com/package/neglected-stream",
       "repository_url": "https://github.com/fake-neglected/neglected-stream",
@@ -882,7 +882,7 @@
           "deps_dev_source_repo_match(+20)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "newborn-cli",
       "registry_url": "https://www.npmjs.com/package/newborn-cli",
       "repository_url": "https://github.com/fake-newborn/newborn-cli",
@@ -945,7 +945,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "old-validator",
       "registry_url": "https://www.npmjs.com/package/old-validator",
       "repository_url": "https://github.com/fake-old-validator/old-validator",
@@ -1003,7 +1003,7 @@
         "points": 0,
         "rationale": []
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "orphan-package",
       "registry_url": "https://www.npmjs.com/package/orphan-package",
       "repository_url": null,
@@ -1067,7 +1067,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "quiet-daemon",
       "registry_url": "https://www.npmjs.com/package/quiet-daemon",
       "repository_url": "https://github.com/fake-quiet/quiet-daemon",
@@ -1131,7 +1131,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "robust-cache",
       "registry_url": "https://www.npmjs.com/package/robust-cache",
       "repository_url": "https://github.com/fake-robust/robust-cache",
@@ -1195,7 +1195,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "simple-xml",
       "registry_url": "https://www.npmjs.com/package/simple-xml",
       "repository_url": "https://github.com/fake-simple/simple-xml",
@@ -1259,7 +1259,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "stable-hash",
       "registry_url": "https://www.npmjs.com/package/stable-hash",
       "repository_url": "https://github.com/fake-stable/stable-hash",
@@ -1323,7 +1323,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "stale-bundle",
       "registry_url": "https://www.npmjs.com/package/stale-bundle",
       "repository_url": "https://github.com/fake-stale-bundle/stale-bundle",
@@ -1387,7 +1387,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "steady-types",
       "registry_url": "https://www.npmjs.com/package/steady-types",
       "repository_url": "https://github.com/fake-steady/steady-types",
@@ -1451,7 +1451,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "thorough-test",
       "registry_url": "https://www.npmjs.com/package/thorough-test",
       "repository_url": "https://github.com/fake-thorough/thorough-test",
@@ -1514,7 +1514,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "vibrant-router",
       "registry_url": "https://www.npmjs.com/package/vibrant-router",
       "repository_url": "https://github.com/fake-vibrant/vibrant-router",
@@ -1577,7 +1577,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "active-pylogger",
       "registry_url": "https://pypi.org/project/active-pylogger/",
       "repository_url": "https://github.com/fake-active-py/active-pylogger",
@@ -1641,7 +1641,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "aged-pytemplate",
       "registry_url": "https://pypi.org/project/aged-pytemplate/",
       "repository_url": "https://github.com/fake-aged-py/aged-pytemplate",
@@ -1704,7 +1704,7 @@
           "deps_dev_source_repo_match(+20)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "archived-pycompiler",
       "registry_url": "https://pypi.org/project/archived-pycompiler/",
       "repository_url": "https://github.com/fake-archived-py/archived-pycompiler",
@@ -1768,7 +1768,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "constant-pytimer",
       "registry_url": "https://pypi.org/project/constant-pytimer/",
       "repository_url": "https://github.com/fake-constant-py/constant-pytimer",
@@ -1832,7 +1832,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "eventful-pyproxy",
       "registry_url": "https://pypi.org/project/eventful-pyproxy/",
       "repository_url": "https://github.com/fake-eventful-py/eventful-pyproxy",
@@ -1895,7 +1895,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "fresh-pyparser",
       "registry_url": "https://pypi.org/project/fresh-pyparser/",
       "repository_url": "https://github.com/fake-fresh-py/fresh-pyparser",
@@ -1959,7 +1959,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "frozen-pyformat",
       "registry_url": "https://pypi.org/project/frozen-pyformat/",
       "repository_url": "https://github.com/fake-frozen-py/frozen-pyformat",
@@ -2022,7 +2022,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "legacy-pyforge",
       "registry_url": "https://pypi.org/project/legacy-pyforge/",
       "repository_url": "https://github.com/fake-legacy-pyforge/legacy-pyforge",
@@ -2086,7 +2086,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "measured-pyworker",
       "registry_url": "https://pypi.org/project/measured-pyworker/",
       "repository_url": "https://github.com/fake-measured-py/measured-pyworker",
@@ -2150,7 +2150,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "minimal-pyqueue",
       "registry_url": "https://pypi.org/project/minimal-pyqueue/",
       "repository_url": "https://github.com/fake-minimal-py/minimal-pyqueue",
@@ -2214,7 +2214,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "modest-pycodec",
       "registry_url": "https://pypi.org/project/modest-pycodec/",
       "repository_url": "https://github.com/fake-modest-py/modest-pycodec",
@@ -2278,7 +2278,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "neglected-pystream",
       "registry_url": "https://pypi.org/project/neglected-pystream/",
       "repository_url": "https://github.com/fake-neglected-py/neglected-pystream",
@@ -2341,7 +2341,7 @@
           "deps_dev_source_repo_match(+20)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "newborn-pycli",
       "registry_url": "https://pypi.org/project/newborn-pycli/",
       "repository_url": "https://github.com/fake-newborn-py/newborn-pycli",
@@ -2404,7 +2404,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "old-pyvalidator",
       "registry_url": "https://pypi.org/project/old-pyvalidator/",
       "repository_url": "https://github.com/fake-old-pyvalidator/old-pyvalidator",
@@ -2462,7 +2462,7 @@
         "points": 0,
         "rationale": []
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "orphan-pypackage",
       "registry_url": "https://pypi.org/project/orphan-pypackage/",
       "repository_url": null,
@@ -2526,7 +2526,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "quiet-pydaemon",
       "registry_url": "https://pypi.org/project/quiet-pydaemon/",
       "repository_url": "https://github.com/fake-quiet-py/quiet-pydaemon",
@@ -2590,7 +2590,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "robust-pycache",
       "registry_url": "https://pypi.org/project/robust-pycache/",
       "repository_url": "https://github.com/fake-robust-py/robust-pycache",
@@ -2654,7 +2654,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "simple-pyxml",
       "registry_url": "https://pypi.org/project/simple-pyxml/",
       "repository_url": "https://github.com/fake-simple-py/simple-pyxml",
@@ -2718,7 +2718,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "stable-pyhash",
       "registry_url": "https://pypi.org/project/stable-pyhash/",
       "repository_url": "https://github.com/fake-stable-py/stable-pyhash",
@@ -2782,7 +2782,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "stale-pybundle",
       "registry_url": "https://pypi.org/project/stale-pybundle/",
       "repository_url": "https://github.com/fake-stale-pybundle/stale-pybundle",
@@ -2846,7 +2846,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "steady-pyutils",
       "registry_url": "https://pypi.org/project/steady-pyutils/",
       "repository_url": "https://github.com/fake-steady-py/steady-pyutils",
@@ -2910,7 +2910,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "thorough-pytest-utils",
       "registry_url": "https://pypi.org/project/thorough-pytest-utils/",
       "repository_url": "https://github.com/fake-thorough-py/thorough-pytest-utils",
@@ -2976,7 +2976,7 @@
           "monorepo_cap_applied(medium_max)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "types-legacy-pyforge",
       "registry_url": "https://pypi.org/project/types-legacy-pyforge/",
       "repository_url": "https://github.com/python/typeshed",
@@ -3039,7 +3039,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.2.0",
+      "methodology_version": "v0.3.0",
       "package_name": "vibrant-pyrouter",
       "registry_url": "https://pypi.org/project/vibrant-pyrouter/",
       "repository_url": "https://github.com/fake-vibrant-py/vibrant-pyrouter",
@@ -3049,6 +3049,6 @@
       "snapshot_week": "2026-04-20"
     }
   ],
-  "methodology_version": "v0.2.0",
+  "methodology_version": "v0.3.0",
   "snapshot_week": "2026-04-20"
 }

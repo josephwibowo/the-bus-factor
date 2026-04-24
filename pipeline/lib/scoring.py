@@ -130,21 +130,29 @@ def _cadence_decay(last: int, prior: int, min_prior: int) -> float:
 
 @dataclass(frozen=True)
 class ImportanceInputs:
-    log_dependency_reach_percentile: float  # 0 - 100
-    log_download_volume_percentile: float  # 0 - 100
-    log_security_exposure_percentile: float  # 0 - 100
+    log_dependency_reach_percentile: float | None  # 0 - 100
+    log_download_volume_percentile: float | None  # 0 - 100
+    log_security_exposure_percentile: float | None  # 0 - 100
 
 
 def importance_score(inputs: ImportanceInputs, config: ScoringConfig) -> float:
-    """Weighted sum of the three log-scaled ecosystem percentiles."""
+    """Weighted sum of available log-scaled ecosystem percentiles.
+
+    Missing signals are excluded from the denominator so unknown dependency
+    reach does not become false zero reach.
+    """
 
     w = config.importance_weights
-    total = (
-        w["dependency_reach"] * inputs.log_dependency_reach_percentile
-        + w["download_volume"] * inputs.log_download_volume_percentile
-        + w["security_exposure"] * inputs.log_security_exposure_percentile
+    pairs = (
+        ("dependency_reach", inputs.log_dependency_reach_percentile),
+        ("download_volume", inputs.log_download_volume_percentile),
+        ("security_exposure", inputs.log_security_exposure_percentile),
     )
-    return round(total, 4)
+    weight_total = sum(w[name] for name, value in pairs if value is not None)
+    if weight_total == 0:
+        return 0.0
+    total = sum(w[name] * value for name, value in pairs if value is not None)
+    return round(total / weight_total, 4)
 
 
 def risk_score(importance: float, fragility: float) -> float:

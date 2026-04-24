@@ -114,9 +114,7 @@ def _live() -> pd.DataFrame:
                     {
                         "ecosystem": ecosystem,
                         "package_name": pkg.name,
-                        "dependent_count": (
-                            pkg.dependent_count if pkg.dependent_count is not None else 0
-                        ),
+                        "dependent_count": pkg.dependent_count,
                         "source_repo_url": source_repos.get((ecosystem, pkg.name)),
                         "transitive_vuln_count": 0,
                     }

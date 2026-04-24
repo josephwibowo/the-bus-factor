@@ -52,7 +52,7 @@
       "pypi": 4
     },
     "headline": "8 packages flagged for continuity risk in 2026-W17.",
-    "methodology_version": "v0.2.0",
+    "methodology_version": "v0.3.0",
     "snapshot_week": "2026-04-20",
     "summary": "Flagged packages combine high downstream reach with at least two independent fragility signals. Repositories and maintainer identities are never referenced in the viral surfaces."
   },

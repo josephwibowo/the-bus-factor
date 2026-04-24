@@ -59,6 +59,18 @@ columns:
     checks:
       - name: non_negative
 
+custom_checks:
+  - name: unknown_dependency_reach_stays_null
+    description: Missing dependency reach must remain null rather than being coerced to zero.
+    value: 0
+    query: |
+      SELECT COUNT(*)
+      FROM int.importance_inputs ii
+      INNER JOIN stg.deps_dev d
+          ON ii.ecosystem = d.ecosystem AND ii.package_name = d.package_name
+      WHERE d.dependent_count IS NULL
+        AND (ii.dependent_count IS NOT NULL OR ii.log_dependency_reach IS NOT NULL)
+
 @bruin */
 
 WITH packages AS (
@@ -80,11 +92,14 @@ SELECT
     p.ecosystem,
     p.package_name,
     p.downloads_90d,
-    COALESCE(d.dependent_count, 0) AS dependent_count,
+    d.dependent_count AS dependent_count,
     COALESCE(d.transitive_vuln_count, 0) + COALESCE(o.direct_vuln_count, 0)
         AS security_exposure_count,
     LN(1.0 + GREATEST(p.downloads_90d, 0)) AS log_download_volume,
-    LN(1.0 + COALESCE(d.dependent_count, 0)) AS log_dependency_reach,
+    CASE
+        WHEN d.dependent_count IS NULL THEN NULL
+        ELSE LN(1.0 + GREATEST(d.dependent_count, 0))
+    END AS log_dependency_reach,
     LN(1.0
         + COALESCE(d.transitive_vuln_count, 0)
         + COALESCE(o.direct_vuln_count, 0)

@@ -175,6 +175,19 @@ def test_known_state_checks_are_fixture_only() -> None:
     ]:
         body = path.read_text()
         assert body.count("'{{ var.source_mode }}' = 'fixture'") == 2
+        assert "'{{ var.source_mode }}' = 'live'" in body
+
+
+def test_live_scored_ecosystem_floor_requires_missing_ecosystems() -> None:
+    for path in [
+        DUCKDB_ROOT / "marts" / "mart_package_scores.sql",
+        BQ_ROOT / "marts" / "mart_package_scores.bq.sql",
+    ]:
+        body = path.read_text()
+        assert "SELECT 'npm' AS ecosystem" in body
+        assert "SELECT 'pypi' AS ecosystem" in body
+        assert "LEFT JOIN scored_counts c USING (ecosystem)" in body
+        assert "COALESCE(c.n, 0) < 50" in body
 
 
 def test_marts_carry_partition_and_cluster() -> None:
@@ -261,6 +274,17 @@ def test_bq_siblings_do_not_use_duckdb_only_aggregates() -> None:
             assert " FILTER (WHERE " not in body, (
                 f"{path.relative_to(REPO)} contains SQL FILTER syntax; "
                 "use BigQuery COUNTIF/SUM(IF(...))"
+            )
+
+
+def test_bq_siblings_do_not_use_duckdb_trim_both_syntax() -> None:
+    for layer in LAYERS:
+        folder = BQ_ROOT / layer
+        for path in sorted(folder.glob("*.bq.sql")):
+            body = path.read_text().upper()
+            assert "TRIM(BOTH" not in body, (
+                f"{path.relative_to(REPO)} contains DuckDB TRIM(BOTH ... FROM ...); "
+                "BigQuery uses TRIM(value, characters)"
             )
 
 

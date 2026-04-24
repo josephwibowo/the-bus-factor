@@ -77,18 +77,26 @@ def _parse_commit_date(raw: dict[str, Any]) -> date | None:
         return None
 
 
-async def _fetch_commits(url: str, client: HttpClient) -> dict[str, Any] | None:
+async def _fetch_commits(
+    url: str, client: HttpClient, snapshot_week: date
+) -> dict[str, Any] | None:
     or_ = _parse_owner_repo(url)
     if or_ is None:
         return None
     owner, repo = or_
-    since = (datetime.now(UTC) - timedelta(days=365)).isoformat()
+    since = datetime.combine(snapshot_week - timedelta(days=365), datetime.min.time(), UTC)
+    until = datetime.combine(snapshot_week, datetime.min.time(), UTC)
     total = 0
     latest: date | None = None
     for page in range(1, MAX_PAGES + 1):
         payload = await client.get_json(
             f"{GITHUB_REST}/{owner}/{repo}/commits",
-            params={"since": since, "per_page": PER_PAGE, "page": page},
+            params={
+                "since": since.isoformat(),
+                "until": until.isoformat(),
+                "per_page": PER_PAGE,
+                "page": page,
+            },
             missing_statuses=(404, 409, 451),
         )
         if not isinstance(payload, list) or not payload:
@@ -106,10 +114,13 @@ async def _fetch_commits(url: str, client: HttpClient) -> dict[str, Any] | None:
     }
 
 
-async def _ingest(window: str, urls: list[str]) -> tuple[list[dict[str, Any]], int]:
+async def _ingest(
+    window: str, urls: list[str], snapshot_week: date
+) -> tuple[list[dict[str, Any]], int]:
     async with HttpClient(window=window, concurrency=8) as client:
         results = await asyncio.gather(
-            *[_fetch_commits(url, client) for url in urls], return_exceptions=True
+            *[_fetch_commits(url, client, snapshot_week) for url in urls],
+            return_exceptions=True,
         )
     rows: list[dict[str, Any]] = []
     exception_count = sum(1 for res in results if isinstance(res, BaseException))
@@ -122,9 +133,10 @@ async def _ingest(window: str, urls: list[str]) -> tuple[list[dict[str, Any]], i
 
 def _live() -> pd.DataFrame:
     window = live.resolve_window()
+    snapshot_week = live.resolve_window_date()
     with live.tracker("github_commits") as t:
         urls = live.repo_urls_from_duckdb(live.duckdb_path())
-        rows, exception_count = asyncio.run(_ingest(window, urls))
+        rows, exception_count = asyncio.run(_ingest(window, urls, snapshot_week))
         attempted = len(urls)
         t.row_count = len(rows)
         if attempted == 0:

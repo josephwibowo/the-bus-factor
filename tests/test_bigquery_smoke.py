@@ -2,13 +2,17 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 from scripts.run_bigquery_smoke import (
     BqAsset,
+    _exporter_env,
+    asset_target_table_sql,
     dataset_id,
     render_custom_check_query,
     rewrite_dataset_refs,
+    source_health_failure_query,
     topological_sort_assets,
 )
 
@@ -35,17 +39,64 @@ def test_rewrite_dataset_refs_handles_plain_and_backticked_refs() -> None:
     assert "project.raw.external_name" in rewritten
 
 
+def test_asset_target_table_sql_uses_prefixed_dataset_and_project() -> None:
+    asset = BqAsset(
+        "mart.package_scores",
+        Path("pipeline/assets_bq/marts/mart_package_scores.bq.sql"),
+        (),
+        (),
+    )
+
+    target = asset_target_table_sql(
+        asset,
+        project_id="bus-factor-494119",
+        dataset_prefix="bf_smoke",
+    )
+
+    assert target == "`bus-factor-494119.bf_smoke_mart.package_scores`"
+
+
 def test_render_custom_check_query_rewrites_source_mode_and_datasets() -> None:
     query = """
     SELECT COUNT(*)
     FROM mart.package_scores
     WHERE '{{ var.source_mode }}' = 'fixture'
+      AND risk_score < {{ var.flagged_risk_score_min }}
     """
 
     rendered = render_custom_check_query(query, source_mode="live", dataset_prefix="bf_smoke")
 
     assert "FROM bf_smoke_mart.package_scores" in rendered
     assert "'live' = 'fixture'" in rendered
+    assert "risk_score < 30" in rendered
+
+
+def test_source_health_failure_query_rewrites_dataset() -> None:
+    query = source_health_failure_query(dataset_prefix="bf_smoke")
+
+    assert "FROM bf_smoke_stg.source_health" in query
+    assert "status != 'ok'" in query
+    assert "COALESCE(row_count, 0) = 0" in query
+
+
+def test_exporter_env_marks_bigquery_bundle_as_live(tmp_path: Path) -> None:
+    duckdb_path = tmp_path / "bundle.duckdb"
+
+    env = _exporter_env(
+        duckdb_path=duckdb_path,
+        source_mode="live",
+        warehouse="bigquery",
+        snapshot_week="2026-04-20",
+    )
+
+    assert json.loads(env["duckdb_default"]) == {"path": str(duckdb_path)}
+    assert env["source_mode"] == "live"
+    assert env["warehouse"] == "bigquery"
+    assert env["snapshot_week"] == "2026-04-20"
+    bruin_vars = json.loads(env["BRUIN_VARS"])
+    assert bruin_vars["source_mode"] == "live"
+    assert bruin_vars["warehouse"] == "bigquery"
+    assert bruin_vars["snapshot_week"] == "2026-04-20"
 
 
 def test_topological_sort_assets_places_dependencies_first() -> None:

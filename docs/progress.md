@@ -114,6 +114,12 @@ Completed Cycle 3 work:
 - Finalized `launch/slack-post.md`, `launch/linkedin-post.md`, and `launch/submission-checklist.md`
 - Rebuilt the weekly card and refreshed the hosted-analysis copy so the site and repo tell the same story
 
+### Phase C — production accuracy hardening (2026-04-23)
+
+- Weekly production now rebuilds `public-data/` from BigQuery mart outputs after the DuckDB raw-ingestion stage
+- `methodology_version` bumped to v0.3.0 for nullable dependency reach, source-health confidence gates, snapshot-anchored extraction windows, and maintainer-like issue responsiveness
+- BigQuery custom checks and export validation now block publishing unhealthy live source snapshots
+
 Remaining blocker before a fully live launch baseline:
 
 - A fresh full-breadth live export is still pending. Both the original 500/500 pass and a reduced-breadth retry were blocked by GitHub contributor-stats retries on `raw.github_contributors`, so the committed `public-data/` bundle remains fixture-backed for now.

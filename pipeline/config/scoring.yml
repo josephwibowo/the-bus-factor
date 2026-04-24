@@ -4,7 +4,7 @@
 #
 # Loaded by both SQL assets (via Bruin `{{ var() }}` / Jinja) and Python assets.
 
-methodology_version: v0.2.0
+methodology_version: v0.3.0
 
 # ------------------------------------------------------------------
 # Importance: 0-100 ecosystem-relative percentile, weights sum to 1.0

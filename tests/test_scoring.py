@@ -75,6 +75,23 @@ def test_importance_score_weighted(config) -> None:  # type: ignore[no-untyped-d
     assert importance_score(zero, config) == 0.0
 
 
+def test_importance_score_reweights_missing_dependency_reach(config) -> None:  # type: ignore[no-untyped-def]
+    inputs = ImportanceInputs(
+        log_dependency_reach_percentile=None,
+        log_download_volume_percentile=100.0,
+        log_security_exposure_percentile=0.0,
+    )
+    expected = (
+        100.0
+        * config.importance_weights["download_volume"]
+        / (
+            config.importance_weights["download_volume"]
+            + config.importance_weights["security_exposure"]
+        )
+    )
+    assert importance_score(inputs, config) == pytest.approx(expected)
+
+
 def test_risk_score_is_product_over_100() -> None:
     assert risk_score(80.0, 90.0) == pytest.approx(72.0)
     assert risk_score(100.0, 100.0) == pytest.approx(100.0)

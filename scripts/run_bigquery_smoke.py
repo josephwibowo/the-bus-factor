@@ -16,11 +16,13 @@ datasets. For example, ``mart.source_health`` becomes
 from __future__ import annotations
 
 import argparse
+import json
 import logging
 import os
 import re
 import subprocess
 import sys
+import tempfile
 import warnings
 from dataclasses import dataclass
 from pathlib import Path
@@ -49,6 +51,7 @@ UPLOAD_LAYERS = ("seed", "raw")
 BQ_ASSETS_ROOT = ROOT / "pipeline" / "assets_bq"
 FRONTMATTER_RE = re.compile(r"/\*\s*@bruin(.*?)@bruin\s*\*/", re.DOTALL)
 DATASET_REF_RE = re.compile(r"(?<![A-Za-z0-9_.-])(?P<tick>`?)(?P<layer>seed|raw|stg|int|mart)\.")
+PIPELINE_YML = ROOT / "pipeline" / "pipeline.yml"
 
 
 @dataclass(frozen=True)
@@ -88,11 +91,32 @@ def rewrite_dataset_refs(sql: str, dataset_prefix: str) -> str:
     return DATASET_REF_RE.sub(repl, sql)
 
 
-def render_custom_check_query(query: str, *, source_mode: str, dataset_prefix: str) -> str:
-    """Render the small subset of Bruin variables used by custom checks."""
+def _pipeline_var_defaults() -> dict[str, object]:
+    raw = yaml.safe_load(PIPELINE_YML.read_text(encoding="utf-8")) or {}
+    variables = raw.get("variables") or {}
+    return {
+        str(name): meta.get("default")
+        for name, meta in variables.items()
+        if isinstance(meta, dict) and "default" in meta
+    }
 
-    rendered = query.replace("{{ var.source_mode }}", source_mode)
-    rendered = rendered.replace("{{ var('source_mode') }}", source_mode)
+
+def _render_bruin_vars(query: str, variables: dict[str, object]) -> str:
+    rendered = query
+    for name, value in variables.items():
+        value_s = str(value)
+        rendered = rendered.replace(f"{{{{ var.{name} }}}}", value_s)
+        rendered = rendered.replace(f"{{{{ var('{name}') }}}}", value_s)
+        rendered = rendered.replace(f'{{{{ var("{name}") }}}}', value_s)
+    return rendered
+
+
+def render_custom_check_query(query: str, *, source_mode: str, dataset_prefix: str) -> str:
+    """Render Bruin variables used by custom checks and rewrite datasets."""
+
+    variables = _pipeline_var_defaults()
+    variables["source_mode"] = source_mode
+    rendered = _render_bruin_vars(query, variables)
     return rewrite_dataset_refs(rendered, dataset_prefix)
 
 
@@ -272,6 +296,16 @@ def render_asset_sql(
     return proc.stdout.strip()
 
 
+def asset_target_table_sql(asset: BqAsset, *, project_id: str, dataset_prefix: str) -> str:
+    """Return a backticked BigQuery table identifier for a pipeline asset."""
+
+    try:
+        layer, table = asset.name.split(".", 1)
+    except ValueError as exc:
+        raise ValueError(f"asset name must be layer.table, got {asset.name!r}") from exc
+    return f"`{project_id}.{dataset_id(layer, dataset_prefix)}.{table}`"
+
+
 def execute_bq_assets(
     client: Any,
     assets: list[BqAsset],
@@ -296,7 +330,17 @@ def execute_bq_assets(
             snapshot_week=snapshot_week,
         )
         sql = rewrite_dataset_refs(rendered, dataset_prefix)
+        target_table = asset_target_table_sql(
+            asset,
+            project_id=client.project,
+            dataset_prefix=dataset_prefix,
+        )
         log_event(logger, logging.INFO, "bq_asset_start", asset=asset.name)
+        client.query(
+            f"DROP TABLE IF EXISTS {target_table}",
+            job_config=job_config,
+            location=location,
+        ).result()
         client.query(sql, job_config=job_config, location=location).result()
         log_event(logger, logging.INFO, "bq_asset_finish", asset=asset.name)
 
@@ -306,6 +350,60 @@ def _first_count(row: Any) -> int:
     if value is None:
         raise ValueError("custom check returned NULL")
     return int(value)
+
+
+def source_health_failure_query(*, dataset_prefix: str) -> str:
+    """Return source-health rows that block live publication."""
+
+    return rewrite_dataset_refs(
+        """
+        SELECT
+            source_name,
+            status,
+            stale,
+            failure_count,
+            row_count,
+            COALESCE(note, '') AS note
+        FROM stg.source_health
+        WHERE status != 'ok'
+           OR stale = TRUE
+           OR failure_count > 0
+           OR COALESCE(row_count, 0) = 0
+        ORDER BY source_name
+        LIMIT 20
+        """,
+        dataset_prefix,
+    )
+
+
+def _source_health_failure_details(
+    client: Any,
+    *,
+    dataset_prefix: str,
+    job_config: Any,
+    location: str,
+) -> list[str]:
+    rows = list(
+        client.query(
+            source_health_failure_query(dataset_prefix=dataset_prefix),
+            job_config=job_config,
+            location=location,
+        ).result()
+    )
+    details: list[str] = []
+    for row in rows:
+        details.append(
+            "source_name={source_name} status={status} stale={stale} "
+            "failure_count={failure_count} row_count={row_count} note={note}".format(
+                source_name=row["source_name"],
+                status=row["status"],
+                stale=row["stale"],
+                failure_count=row["failure_count"],
+                row_count=row["row_count"],
+                note=row["note"],
+            )
+        )
+    return details
 
 
 def run_custom_checks(
@@ -344,7 +442,17 @@ def run_custom_checks(
             failures=count,
         )
         if count != 0:
-            failures.append(f"{check.asset_name}.{check.check_name}: {count}")
+            failure = f"{check.asset_name}.{check.check_name}: {count}"
+            if check.check_name == "live_mode_sources_are_healthy":
+                details = _source_health_failure_details(
+                    client,
+                    dataset_prefix=dataset_prefix,
+                    job_config=job_config,
+                    location=location,
+                )
+                if details:
+                    failure = f"{failure} ({'; '.join(details)})"
+            failures.append(failure)
 
     if failures:
         raise RuntimeError("BigQuery custom checks failed: " + "; ".join(failures))
@@ -355,6 +463,7 @@ def validate_key_outputs(
     *,
     dataset_prefix: str,
     location: str,
+    require_healthy_sources: bool = False,
 ) -> dict[str, int]:
     from google.cloud import bigquery
 
@@ -402,7 +511,7 @@ def validate_key_outputs(
     health = health_rows[0]
     bad_sources = int(health["bad_sources"])
     total_sources = int(health["total_sources"])
-    if total_sources == 0 or bad_sources != 0:
+    if total_sources == 0 or (require_healthy_sources and bad_sources != 0):
         raise RuntimeError(
             f"{health_ref} is unhealthy: total_sources={total_sources}, bad_sources={bad_sources}"
         )
@@ -413,6 +522,106 @@ def validate_key_outputs(
         raise RuntimeError("mart.package_scores produced zero rows")
 
     return counts
+
+
+def _bq_tables(client: Any, *, layer: str, dataset_prefix: str) -> list[str]:
+    dataset = f"{client.project}.{dataset_id(layer, dataset_prefix)}"
+    return sorted(table.table_id for table in client.list_tables(dataset))
+
+
+def _mirror_bigquery_layer_to_duckdb(
+    client: Any,
+    con: duckdb.DuckDBPyConnection,
+    *,
+    layer: str,
+    dataset_prefix: str,
+    location: str,
+) -> None:
+    from google.cloud import bigquery
+
+    job_config = bigquery.QueryJobConfig(
+        use_query_cache=True,
+        maximum_bytes_billed=bq.max_bytes_billed(),
+    )
+    con.execute(f"CREATE SCHEMA IF NOT EXISTS {layer}")
+    for table in _bq_tables(client, layer=layer, dataset_prefix=dataset_prefix):
+        table_ref = f"{client.project}.{dataset_id(layer, dataset_prefix)}.{table}"
+        sql = f"SELECT * FROM `{table_ref}`"
+        df = client.query(sql, job_config=job_config, location=location).to_dataframe()
+        con.register("_bq_export_df", df)
+        try:
+            con.execute(
+                f'CREATE OR REPLACE TABLE "{layer}"."{table}" AS SELECT * FROM _bq_export_df'
+            )
+        finally:
+            con.unregister("_bq_export_df")
+        log_event(logger, logging.INFO, "bq_export_table_mirrored", table=table_ref, rows=len(df))
+
+
+def export_public_bundle_from_bigquery(
+    client: Any,
+    *,
+    dataset_prefix: str,
+    location: str,
+    source_mode: str,
+    warehouse: str,
+    snapshot_week: str,
+) -> Path:
+    """Mirror BigQuery outputs into DuckDB and run the canonical public exporter."""
+
+    tmp_dir = Path(tempfile.mkdtemp(prefix="bus-factor-bq-export-"))
+    duckdb_path = tmp_dir / "public_bundle.duckdb"
+    con = duckdb.connect(str(duckdb_path))
+    try:
+        for layer in ("stg", "int", "mart"):
+            _mirror_bigquery_layer_to_duckdb(
+                client,
+                con,
+                layer=layer,
+                dataset_prefix=dataset_prefix,
+                location=location,
+            )
+    finally:
+        con.close()
+
+    env = _exporter_env(
+        duckdb_path=duckdb_path,
+        source_mode=source_mode,
+        warehouse=warehouse,
+        snapshot_week=snapshot_week,
+    )
+    subprocess.run(
+        [sys.executable, "pipeline/assets/marts/export_public_bundle.py"],
+        cwd=ROOT,
+        check=True,
+        env=env,
+    )
+    log_event(logger, logging.INFO, "bq_public_bundle_exported", duckdb_path=duckdb_path)
+    return duckdb_path
+
+
+def _exporter_env(
+    *,
+    duckdb_path: Path,
+    source_mode: str,
+    warehouse: str,
+    snapshot_week: str,
+) -> dict[str, str]:
+    env = os.environ.copy()
+    env["duckdb_default"] = json.dumps({"path": str(duckdb_path)})
+    env["source_mode"] = source_mode
+    env["warehouse"] = warehouse
+    if snapshot_week:
+        env["snapshot_week"] = snapshot_week
+    env["BRUIN_VARS"] = json.dumps(
+        {
+            **_pipeline_var_defaults(),
+            "source_mode": source_mode,
+            "warehouse": warehouse,
+            "snapshot_week": snapshot_week,
+        }
+    )
+    return env
 
 
 def parse_args() -> argparse.Namespace:
@@ -458,6 +667,16 @@ def parse_args() -> argparse.Namespace:
         "--skip-upload",
         action="store_true",
         help="Reuse existing prefixed seed/raw BigQuery tables and only rebuild SQL assets/checks.",
+    )
+    parser.add_argument(
+        "--export-public-data",
+        action="store_true",
+        help="After BigQuery checks pass, export public-data from the BigQuery marts.",
+    )
+    parser.add_argument(
+        "--require-healthy-sources",
+        action="store_true",
+        help="Fail output validation when mart.source_health contains unhealthy sources.",
     )
     return parser.parse_args()
 
@@ -508,7 +727,17 @@ def main() -> int:
         client,
         dataset_prefix=args.dataset_prefix,
         location=args.location,
+        require_healthy_sources=args.require_healthy_sources,
     )
+    if args.export_public_data:
+        export_public_bundle_from_bigquery(
+            client,
+            dataset_prefix=args.dataset_prefix,
+            location=args.location,
+            source_mode=args.source_mode,
+            warehouse=args.warehouse,
+            snapshot_week=args.snapshot_week,
+        )
     print("BigQuery smoke complete")
     print(f"project_id={client.project}")
     print(f"dataset_prefix={args.dataset_prefix}")

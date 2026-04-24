@@ -25,7 +25,7 @@ def _pipeline_var_defaults() -> dict[str, object]:
 
 def test_scoring_config_loads() -> None:
     config = load_scoring_config()
-    assert config.methodology_version == "v0.2.0"
+    assert config.methodology_version == "v0.3.0"
     # Weights sum to 1.0 (within fp tolerance) for both pillars.
     assert abs(sum(config.importance_weights.values()) - 1.0) < 1e-9
     assert abs(sum(config.fragility_weights.values()) - 1.0) < 1e-9

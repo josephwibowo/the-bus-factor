@@ -25,7 +25,7 @@ The result is a reproducible, public dataset that answers a question no SCA tool
 
 ---
 
-## Scoring model (v0.2.0)
+## Scoring model (v0.3.0)
 
 All weights and thresholds live in one file: [`pipeline/config/scoring.yml`](pipeline/config/scoring.yml). Nothing is hardcoded.
 
@@ -33,6 +33,10 @@ All weights and thresholds live in one file: [`pipeline/config/scoring.yml`](pip
 - Dependency reach (deps.dev downstream dependents) — **60%**
 - Download volume (90-day registry downloads) — **25%**
 - Security exposure (OSV transitive vulnerability count) — **15%**
+
+When dependency reach is unavailable for an ecosystem/package (currently common
+for PyPI), the missing component stays unknown and the available importance
+signals are reweighted. Unknown reach is never treated as zero reach.
 
 **Fragility** — ecosystem-relative percentile, weights:
 - Release recency — **25%**
@@ -43,6 +47,9 @@ All weights and thresholds live in one file: [`pipeline/config/scoring.yml`](pip
 - OpenSSF Scorecard — **10%**
 
 A package is **flagged** only when it clears all four gates simultaneously: top-25% importance, risk score ≥ 30, medium-or-higher confidence, and at least two signals each contributing ≥ 40%. That conservatism is intentional — false positives cost more than false negatives on a public surface.
+
+Live snapshots publish only after source-health checks pass; stale or degraded
+critical sources block the weekly bundle rather than quietly lowering scores.
 
 ---
 
@@ -172,6 +179,11 @@ bruin run --workers=1 --full-refresh -e local_live_bq \
   --var pypi_package_limit=250 \
   pipeline/pipeline.yml
 ```
+
+For deterministic replay, pass an ISO Monday reporting boundary through
+`snapshot_week`, for example `--var 'snapshot_week="2026-04-20"'`. The weekly
+GitHub Actions workflow exposes the same value as an optional manual-dispatch
+input.
 
 ---
 

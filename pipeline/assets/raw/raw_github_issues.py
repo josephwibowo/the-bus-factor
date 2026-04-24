@@ -39,7 +39,7 @@ from __future__ import annotations
 
 import asyncio
 import statistics
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -52,7 +52,8 @@ FIXTURE_ROOT = Path(__file__).resolve().parents[2] / "fixtures"
 GITHUB_REST = "https://api.github.com/repos"
 PER_PAGE = 100
 MAX_ISSUE_PAGES = 3  # up to 300 issues in last 180d per repo
-COMMENTS_PAGE_CAP = 1  # first page of comments is enough for first-response
+COMMENTS_PAGE_CAP = 3
+MAINTAINER_ASSOCIATIONS = {"OWNER", "MEMBER", "COLLABORATOR"}
 
 
 def _fixture() -> pd.DataFrame:
@@ -77,11 +78,44 @@ def _parse_iso(s: str | None) -> datetime | None:
         return None
 
 
+def _is_bot_user(raw_user: object) -> bool:
+    if not isinstance(raw_user, dict):
+        return False
+    login = str(raw_user.get("login") or "").lower()
+    user_type = str(raw_user.get("type") or "").lower()
+    return user_type == "bot" or login.endswith("[bot]")
+
+
+def _is_maintainer_like(item: dict[str, Any]) -> bool:
+    if _is_bot_user(item.get("user")):
+        return False
+    association = str(item.get("author_association") or "").upper()
+    return association in MAINTAINER_ASSOCIATIONS
+
+
+def _is_eligible_issue(item: dict[str, Any], *, since_dt: datetime, until_dt: datetime) -> bool:
+    if "pull_request" in item:
+        return False
+    if _is_bot_user(item.get("user")):
+        return False
+    if _is_maintainer_like(item):
+        return False
+    created = _parse_iso(item.get("created_at"))
+    return created is not None and since_dt <= created < until_dt
+
+
 async def _first_maintainer_response_days(
-    owner: str, repo: str, issue: dict[str, Any], client: HttpClient
+    owner: str,
+    repo: str,
+    issue: dict[str, Any],
+    client: HttpClient,
+    snapshot_week: date,
 ) -> float | None:
-    """Return days between issue open and first comment from someone other
-    than the issue author. Returns ``None`` when we can't determine that.
+    """Return days between issue open and first maintainer-like comment.
+
+    Maintainer-like means GitHub marks the comment author as OWNER, MEMBER, or
+    COLLABORATOR. Community comments and bots do not count as maintainer
+    responses.
     """
 
     number = issue.get("number")
@@ -91,32 +125,39 @@ async def _first_maintainer_response_days(
     created = _parse_iso(issue.get("created_at"))
     if not author or not created:
         return None
-    payload = await client.get_json(
-        f"{GITHUB_REST}/{owner}/{repo}/issues/{number}/comments",
-        params={"per_page": PER_PAGE, "page": 1},
-        missing_statuses=(404, 410, 451),
-    )
-    if not isinstance(payload, list):
-        return None
-    for comment in payload:
-        if not isinstance(comment, dict):
-            continue
-        commenter = (comment.get("user") or {}).get("login")
-        when = _parse_iso(comment.get("created_at"))
-        if not commenter or when is None:
-            continue
-        if commenter == author:
-            continue
-        return max(0.0, (when - created).total_seconds() / 86400.0)
+    until_dt = datetime.combine(snapshot_week, datetime.min.time(), UTC)
+    for page in range(1, COMMENTS_PAGE_CAP + 1):
+        payload = await client.get_json(
+            f"{GITHUB_REST}/{owner}/{repo}/issues/{number}/comments",
+            params={"per_page": PER_PAGE, "page": page},
+            missing_statuses=(404, 410, 451),
+        )
+        if not isinstance(payload, list) or not payload:
+            return None
+        for comment in payload:
+            if not isinstance(comment, dict):
+                continue
+            commenter = (comment.get("user") or {}).get("login")
+            when = _parse_iso(comment.get("created_at"))
+            if not commenter or when is None or when >= until_dt:
+                continue
+            if commenter == author:
+                continue
+            if not _is_maintainer_like(comment):
+                continue
+            return max(0.0, (when - created).total_seconds() / 86400.0)
+        if len(payload) < PER_PAGE:
+            return None
     return None
 
 
-async def _fetch_repo(url: str, client: HttpClient) -> dict[str, Any] | None:
+async def _fetch_repo(url: str, client: HttpClient, snapshot_week: date) -> dict[str, Any] | None:
     or_ = _parse_owner_repo(url)
     if or_ is None:
         return None
     owner, repo = or_
-    since_dt = datetime.now(UTC) - timedelta(days=180)
+    until_dt = datetime.combine(snapshot_week, datetime.min.time(), UTC)
+    since_dt = until_dt - timedelta(days=180)
     since = since_dt.isoformat()
 
     issues: list[dict[str, Any]] = []
@@ -129,10 +170,9 @@ async def _fetch_repo(url: str, client: HttpClient) -> dict[str, Any] | None:
         if not isinstance(payload, list) or not payload:
             break
         for item in payload:
-            if not isinstance(item, dict) or "pull_request" in item:
+            if not isinstance(item, dict):
                 continue
-            created = _parse_iso(item.get("created_at"))
-            if created is None or created < since_dt:
+            if not _is_eligible_issue(item, since_dt=since_dt, until_dt=until_dt):
                 continue
             issues.append(item)
         if len(payload) < PER_PAGE:
@@ -140,7 +180,7 @@ async def _fetch_repo(url: str, client: HttpClient) -> dict[str, Any] | None:
 
     responses: list[float] = []
     for issue in issues:
-        days = await _first_maintainer_response_days(owner, repo, issue, client)
+        days = await _first_maintainer_response_days(owner, repo, issue, client, snapshot_week)
         if days is not None:
             responses.append(days)
     median = statistics.median(responses) if responses else None
@@ -151,10 +191,12 @@ async def _fetch_repo(url: str, client: HttpClient) -> dict[str, Any] | None:
     }
 
 
-async def _ingest(window: str, urls: list[str]) -> tuple[list[dict[str, Any]], int]:
+async def _ingest(
+    window: str, urls: list[str], snapshot_week: date
+) -> tuple[list[dict[str, Any]], int]:
     async with HttpClient(window=window, concurrency=6) as client:
         results = await asyncio.gather(
-            *[_fetch_repo(u, client) for u in urls], return_exceptions=True
+            *[_fetch_repo(u, client, snapshot_week) for u in urls], return_exceptions=True
         )
     rows: list[dict[str, Any]] = []
     exception_count = sum(1 for res in results if isinstance(res, BaseException))
@@ -167,9 +209,10 @@ async def _ingest(window: str, urls: list[str]) -> tuple[list[dict[str, Any]], i
 
 def _live() -> pd.DataFrame:
     window = live.resolve_window()
+    snapshot_week = live.resolve_window_date()
     with live.tracker("github_issues") as t:
         urls = live.repo_urls_from_duckdb(live.duckdb_path())
-        rows, exception_count = asyncio.run(_ingest(window, urls))
+        rows, exception_count = asyncio.run(_ingest(window, urls, snapshot_week))
         attempted = len(urls)
         t.row_count = len(rows)
         if attempted == 0:

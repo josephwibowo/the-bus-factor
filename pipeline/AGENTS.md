@@ -4,19 +4,22 @@ The Bruin pipeline. See repo-root [`AGENTS.md`](../AGENTS.md) for baseline rules
 
 ## Asset layer conventions
 
-| Layer | Purpose | Language |
-| --- | --- | --- |
-| `assets/raw/` | Direct API extraction; minimal shaping. One asset per source endpoint. | Python (`materialize()` returning a DataFrame). |
-| `assets/seeds/` | Fixture files loaded into DuckDB for the reviewer path. | YAML / CSV / JSON seed assets. |
-| `assets/staging/` | Typed, deduped, source-faithful tables. | SQL (BigQuery live, DuckDB fixture — toggled by `{{ var('source_mode') }}`). |
-| `assets/intermediate/` | Derived joins, normalization, percentile ranks. | SQL. |
-| `assets/marts/` | Curated, AI-facing tables that match the public contract. | SQL. |
+| Layer                  | Purpose                                                                | Language                                                                     |
+| ---------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `assets/raw/`          | Direct API extraction; minimal shaping. One asset per source endpoint. | Python (`materialize()` returning a DataFrame).                              |
+| `assets/seeds/`        | Fixture files loaded into DuckDB for the reviewer path.                | YAML / CSV / JSON seed assets.                                               |
+| `assets/staging/`      | Typed, deduped, source-faithful tables.                                | DuckDB SQL for fixture/local and raw-ingestion staging.                      |
+| `assets/intermediate/` | Derived joins, normalization, percentile ranks.                        | SQL.                                                                         |
+| `assets/marts/`        | Curated, AI-facing tables that match the public contract.              | SQL.                                                                         |
 
 ### Required marts
 
 `mart.packages_current`, `mart.package_scores`, `mart.package_evidence`, `mart.weekly_findings`, `mart.coverage_summary`, `mart.analysis_examples`, `mart.source_health`, `mart.market_positioning`.
 
 A final `export_public_bundle` asset writes JSON shards to `../public-data/`. A `generate_weekly_card` asset writes the share image to `../reports/cards/`.
+
+BigQuery production SQL lives in `assets_bq/` and is executed by
+`scripts/run_bigquery_smoke.py` after live raw inputs are materialized.
 
 ## Rules specific to this directory
 

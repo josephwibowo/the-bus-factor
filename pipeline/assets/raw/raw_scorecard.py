@@ -78,8 +78,14 @@ async def _fetch_repo(url: str, client: HttpClient) -> dict[str, Any] | None:
         return None
     api_url = f"{SCORECARD_API}/github.com/{path}"
     payload = await client.get_json(api_url, missing_statuses=(404, 410, 451))
+    missing_row = {
+        "repo_url": f"https://github.com/{path}",
+        "aggregate_score": None,
+        "check_count": 0,
+        "scorecard_date": None,
+    }
     if not isinstance(payload, dict):
-        return None
+        return missing_row
     score = payload.get("score")
     checks = payload.get("checks") or []
     if not isinstance(checks, list):

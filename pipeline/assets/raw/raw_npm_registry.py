@@ -132,7 +132,7 @@ async def _fetch_package(pkg: str, client: HttpClient) -> dict[str, Any] | None:
     return _parse_registry(pkg, payload)
 
 
-async def _fetch_downloads(pkg: str, client: HttpClient) -> int:
+async def _fetch_downloads(pkg: str, client: HttpClient, snapshot_week: date) -> int:
     """Sum the last-90-days download count for ``pkg``.
 
     ``api.npmjs.org/downloads`` doesn't expose a ``last-90-days`` preset; we
@@ -140,7 +140,7 @@ async def _fetch_downloads(pkg: str, client: HttpClient) -> int:
     unsettled).
     """
 
-    end = date.today() - timedelta(days=1)
+    end = snapshot_week - timedelta(days=1)
     start = end - timedelta(days=89)
     url = f"{DOWNLOADS_BASE}/{start.isoformat()}:{end.isoformat()}/{pkg}"
     payload = await client.get_json(url, missing_statuses=(404,))
@@ -152,12 +152,14 @@ async def _fetch_downloads(pkg: str, client: HttpClient) -> int:
     return int(sum(int(d.get("downloads", 0)) for d in downloads))
 
 
-async def _ingest(window: str, packages: list[str]) -> tuple[list[dict[str, Any]], int]:
+async def _ingest(
+    window: str, packages: list[str], snapshot_week: date
+) -> tuple[list[dict[str, Any]], int]:
     rows: list[dict[str, Any]] = []
     async with HttpClient(window=window) as client:
         meta_task = [_fetch_package(pkg, client) for pkg in packages]
         metas = await asyncio.gather(*meta_task, return_exceptions=True)
-        dl_task = [_fetch_downloads(pkg, client) for pkg in packages]
+        dl_task = [_fetch_downloads(pkg, client, snapshot_week) for pkg in packages]
         downloads = await asyncio.gather(*dl_task, return_exceptions=True)
     meta_errors = sum(1 for meta in metas if isinstance(meta, BaseException))
     download_errors = sum(1 for dl in downloads if isinstance(dl, BaseException))
@@ -173,9 +175,10 @@ async def _ingest(window: str, packages: list[str]) -> tuple[list[dict[str, Any]
 
 def _live() -> pd.DataFrame:
     window = live.resolve_window()
+    snapshot_week = live.resolve_window_date()
     with live.tracker("npm_registry") as t:
         packages = list(live.resolve_universe("npm", window=window))
-        rows, exception_count = asyncio.run(_ingest(window, packages))
+        rows, exception_count = asyncio.run(_ingest(window, packages, snapshot_week))
         attempted = len(packages)
         t.row_count = len(rows)
         if attempted == 0:

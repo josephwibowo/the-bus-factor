@@ -78,7 +78,7 @@ def test_schemas_round_trip() -> None:
     sample = Metadata(
         snapshot_week="2026-04-20",
         snapshot_week_label="2026-W17",
-        methodology_version="v0.2.0",
+        methodology_version="v0.3.0",
         generated_at="2026-04-20T12:00:00Z",  # type: ignore[arg-type]
         ecosystems_covered=["npm", "pypi"],
         package_counts={"npm": 24, "pypi": 24},

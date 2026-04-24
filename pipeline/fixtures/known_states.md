@@ -12,7 +12,7 @@ All packages below are **synthetic / curated**. They are designed to exercise th
 
 Snapshot reference date: **2026-04-20** (Monday 00:00 UTC).
 
-Scoring version: **v0.2.0** (risk_score_min: 30; severity tiers: Stable <15 / Watch 15–24 / Elevated 25–29 / High 30–49 / Critical ≥50).
+Scoring version: **v0.3.0** (risk_score_min: 30; severity tiers: Stable <15 / Watch 15–24 / Elevated 25–29 / High 30–49 / Critical ≥50).
 
 ---
 
@@ -22,8 +22,8 @@ Scoring version: **v0.2.0** (risk_score_min: 30; severity tiers: Stable <15 / Wa
 | --- | --- | --- |
 | `legacy-forge` | Top-1 dep reach; risk ~86 (Critical). | release_recency, commit_recency, release_cadence_decay, contributor_bus_factor, openssf_scorecard |
 | `neglected-stream` | Solo-maintainer pattern; risk ~83 (Critical). | contributor_bus_factor, release_recency, commit_recency, release_cadence_decay |
-| `stale-bundle` | Risk ~72 (Critical); cleared flag gate under v0.2.0. | release_recency, commit_recency, release_cadence_decay, contributor_bus_factor, openssf_scorecard |
-| `old-validator` | Risk ~71 (Critical); cleared flag gate under v0.2.0. | release_recency, commit_recency, release_cadence_decay, contributor_bus_factor, openssf_scorecard |
+| `stale-bundle` | Risk ~72 (Critical); clears the v0.3.0 flag gate. | release_recency, commit_recency, release_cadence_decay, contributor_bus_factor, openssf_scorecard |
+| `old-validator` | Risk ~71 (Critical); clears the v0.3.0 flag gate. | release_recency, commit_recency, release_cadence_decay, contributor_bus_factor, openssf_scorecard |
 
 ## npm — expected `flagged = false` (ranked)
 
@@ -54,8 +54,8 @@ Scoring version: **v0.2.0** (risk_score_min: 30; severity tiers: Stable <15 / Wa
 | --- | --- | --- |
 | `legacy-pyforge` | Top-1 dep reach; risk ~87 (Critical). | release_recency, commit_recency, release_cadence_decay, contributor_bus_factor, openssf_scorecard |
 | `neglected-pystream` | Solo-maintainer; risk ~83 (Critical). | contributor_bus_factor, release_recency, commit_recency, release_cadence_decay |
-| `stale-pybundle` | Risk ~72 (Critical); cleared flag gate under v0.2.0. | release_recency, commit_recency, release_cadence_decay, contributor_bus_factor, openssf_scorecard |
-| `old-pyvalidator` | Risk ~71 (Critical); cleared flag gate under v0.2.0. | release_recency, commit_recency, release_cadence_decay, contributor_bus_factor, openssf_scorecard |
+| `stale-pybundle` | Risk ~72 (Critical); clears the v0.3.0 flag gate. | release_recency, commit_recency, release_cadence_decay, contributor_bus_factor, openssf_scorecard |
+| `old-pyvalidator` | Risk ~71 (Critical); clears the v0.3.0 flag gate. | release_recency, commit_recency, release_cadence_decay, contributor_bus_factor, openssf_scorecard |
 
 ## PyPI — expected `flagged = false` (ranked)
 

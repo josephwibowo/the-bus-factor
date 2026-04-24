@@ -32,9 +32,13 @@ the next run.  If a BigQuery sibling needs a permanent deviation (e.g.
 array handling or window-function syntax diffs), extend the translator in
 `scripts/generate_bq_siblings.py` rather than hand-patching the output.
 
-## Promotion path (Cycle 3 `first_real_snapshot`)
+## Weekly production path
 
-When the weekly live run swaps in these assets, the runner copies this
-tree over `../assets/` (or uses `--bruin-assets-dir assets_bq/`) so Bruin
-sees only the BigQuery variant.  Until then these files are reviewed-only
-and do not participate in fixture runs.
+The weekly workflow first runs the normal Bruin graph to materialize live
+`seed` and `raw` inputs into DuckDB, then `scripts/run_bigquery_smoke.py`
+uploads those inputs to BigQuery, executes this sidecar tree in dependency
+order, runs custom checks, and exports `public-data/` from the resulting
+BigQuery mart outputs.
+
+These files still live outside `assets/` because Bruin cannot discover two
+assets with the same `name:` field in one graph.

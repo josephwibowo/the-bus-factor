@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: "0 6 * * 1" # Mondays 06:00 UTC — after reporting-window boundary.
   workflow_dispatch:
+    inputs:
+      snapshot_week:
+        description: "Optional ISO Monday date to replay, e.g. 2026-04-20. Empty uses the most recent Monday UTC."
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -16,6 +21,7 @@ concurrency:
 
 env:
   BQ_MAX_BYTES_BILLED: "10000000000" # 10 GB per query cost guardrail
+  BQ_DATASET_PREFIX: "bus_factor_prod"
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
@@ -50,11 +56,35 @@ jobs:
           GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
           GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
           INGEST_TOKEN: ${{ secrets.INGEST_TOKEN }}
+          SNAPSHOT_WEEK: ${{ inputs.snapshot_week || '' }}
         run: |
+          uv run python -c 'import os; from pipeline.lib.snapshot import resolve_snapshot; from pipeline.lib import sources; sources.clear_buffer(resolve_snapshot(os.environ.get("SNAPSHOT_WEEK") or None).iso)'
+
+          snapshot_args=()
+          if [ -n "$SNAPSHOT_WEEK" ]; then
+            snapshot_args+=(--var "snapshot_week=\"$SNAPSHOT_WEEK\"")
+          fi
+
           bruin run --workers=1 -e ci_live_bq \
             --var 'source_mode="live"' \
             --var 'warehouse="bigquery"' \
+            "${snapshot_args[@]}" \
             pipeline/pipeline.yml
+
+      - name: Build public snapshot from BigQuery marts
+        env:
+          GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          SNAPSHOT_WEEK: ${{ inputs.snapshot_week || '' }}
+        run: |
+          uv run python scripts/run_bigquery_smoke.py \
+            --duckdb-path data/ci_live_bq.duckdb \
+            --dataset-prefix "$BQ_DATASET_PREFIX" \
+            --source-mode live \
+            --warehouse bigquery \
+            --snapshot-week "$SNAPSHOT_WEEK" \
+            --export-public-data \
+            --require-healthy-sources
 
       - name: Size-cap public-data (<25MB)
         run: |

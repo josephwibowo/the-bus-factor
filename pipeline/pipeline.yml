@@ -34,7 +34,7 @@ variables:
     description: "Minimum successful-row ratio per source before marking source health degraded."
   methodology_version:
     type: string
-    default: "v0.2.0"
+    default: "v0.3.0"
     description: "Scoring methodology version stamped onto every snapshot row."
   importance_weight_dependency_reach:
     type: string

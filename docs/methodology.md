@@ -10,6 +10,13 @@
 4. Weekly cadence. Monday 00:00 UTC → Monday 00:00 UTC reporting window.
 5. False positives cost more than false negatives — thresholds are deliberately conservative.
 
+## v0.3.0 accuracy rules
+
+- Missing dependency reach remains unknown. It is excluded from the importance denominator instead of being treated as zero reach.
+- Live source-health failures block publication or reduce confidence; stale inputs are not allowed to silently suppress fragility.
+- Rolling windows are anchored to the stamped `snapshot_week`, not the wall-clock time when a retry happens.
+- Issue responsiveness measures first maintainer-like response (`OWNER`, `MEMBER`, or `COLLABORATOR`), not the first community or bot comment.
+
 ## What flagged does NOT mean
 
 - It does **not** mean the package is abandoned.

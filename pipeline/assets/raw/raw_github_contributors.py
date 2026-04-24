@@ -41,7 +41,7 @@ import asyncio
 import json
 import logging
 import time
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -271,7 +271,7 @@ def _compute_wait_seconds(
     retry_after: float | None,
     rate_limit_reset: str | None,
 ) -> float:
-    backoff = min(STATS_POLL_WAIT_SECONDS * (2 ** (attempt_num - 1)), STATS_MAX_WAIT_SECONDS)
+    backoff: float = min(STATS_POLL_WAIT_SECONDS * (2 ** (attempt_num - 1)), STATS_MAX_WAIT_SECONDS)
     if retry_after is not None:
         return min(max(retry_after, 0.0), STATS_MAX_WAIT_SECONDS)
     if category == "primary_rate_limit" and rate_limit_reset:
@@ -286,7 +286,9 @@ def _compute_wait_seconds(
     return backoff
 
 
-async def _fetch_repo(url: str, client: httpx.AsyncClient) -> dict[str, Any] | None:
+async def _fetch_repo(
+    url: str, client: httpx.AsyncClient, snapshot_week: date
+) -> dict[str, Any] | None:
     or_ = _parse_owner_repo(url)
     if or_ is None:
         return None
@@ -298,7 +300,10 @@ async def _fetch_repo(url: str, client: httpx.AsyncClient) -> dict[str, Any] | N
             "top_contributor_share_365d": None,
             "contributors_last_365d": 0,
         }
-    cutoff_ts = int((datetime.now(UTC) - timedelta(days=365)).timestamp())
+    cutoff_ts = int(
+        datetime.combine(snapshot_week - timedelta(days=365), datetime.min.time(), UTC).timestamp()
+    )
+    until_ts = int(datetime.combine(snapshot_week, datetime.min.time(), UTC).timestamp())
     totals: dict[str, int] = {}
     for entry in stats:
         if not isinstance(entry, dict):
@@ -310,7 +315,7 @@ async def _fetch_repo(url: str, client: httpx.AsyncClient) -> dict[str, Any] | N
         commit_count = sum(
             int(w.get("c") or 0)
             for w in weekly
-            if isinstance(w, dict) and int(w.get("w") or 0) >= cutoff_ts
+            if isinstance(w, dict) and cutoff_ts <= int(w.get("w") or 0) < until_ts
         )
         if commit_count > 0:
             totals[author] = totals.get(author, 0) + commit_count
@@ -329,14 +334,14 @@ async def _fetch_repo(url: str, client: httpx.AsyncClient) -> dict[str, Any] | N
     }
 
 
-async def _ingest(urls: list[str]) -> tuple[list[dict[str, Any]], int]:
+async def _ingest(urls: list[str], snapshot_week: date) -> tuple[list[dict[str, Any]], int]:
     # The /stats endpoint is polling-heavy, so we skip the HttpClient disk
     # cache for this asset and talk straight to httpx with bounded concurrency.
     sem = asyncio.Semaphore(STATS_MAX_CONCURRENCY)
 
     async def _worker(url: str, client: httpx.AsyncClient) -> dict[str, Any] | None:
         async with sem:
-            return await _fetch_repo(url, client)
+            return await _fetch_repo(url, client, snapshot_week)
 
     async with httpx.AsyncClient(
         timeout=httpx.Timeout(30.0, connect=10.0), follow_redirects=True
@@ -367,9 +372,10 @@ def _rows_to_frame(rows: list[dict[str, Any]]) -> pd.DataFrame:
 
 
 def _live() -> pd.DataFrame:
+    snapshot_week = live.resolve_window_date()
     with live.tracker("github_contributors") as t:
         urls = live.repo_urls_from_duckdb(live.duckdb_path())
-        rows, exception_count = asyncio.run(_ingest(urls))
+        rows, exception_count = asyncio.run(_ingest(urls, snapshot_week))
         attempted = len(urls)
         t.row_count = len(rows)
         if attempted == 0:

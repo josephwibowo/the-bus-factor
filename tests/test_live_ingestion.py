@@ -5,6 +5,7 @@ from __future__ import annotations
 import asyncio
 import logging
 from collections.abc import Iterator
+from datetime import date
 from pathlib import Path
 
 import duckdb
@@ -12,7 +13,10 @@ import httpx
 import pandas as pd
 import pytest
 
+from pipeline.assets.raw import raw_github_commits as commits
 from pipeline.assets.raw import raw_github_contributors as contributors
+from pipeline.assets.raw import raw_github_issues as issues
+from pipeline.assets.raw import raw_scorecard as scorecard
 from pipeline.lib import live
 from pipeline.lib import sources as sources_lib
 
@@ -227,6 +231,132 @@ def test_github_contributors_frame_preserves_all_null_share_column() -> None:
     ]
     assert str(df["top_contributor_share_365d"].dtype) == "float64"
     assert pd.isna(df.loc[0, "top_contributor_share_365d"])
+
+
+def test_github_commits_uses_snapshot_week_window() -> None:
+    calls: list[dict[str, object]] = []
+
+    class Client:
+        async def get_json(self, _url: str, **kwargs: object) -> list[dict[str, object]]:
+            calls.append(kwargs)
+            return []
+
+    got = asyncio.run(
+        commits._fetch_commits(
+            "https://github.com/owner/repo",
+            Client(),  # type: ignore[arg-type]
+            date(2026, 4, 20),
+        )
+    )
+
+    assert got == {
+        "repo_url": "https://github.com/owner/repo",
+        "last_commit_date": None,
+        "commits_last_365d": 0,
+    }
+    params = calls[0]["params"]
+    assert isinstance(params, dict)
+    assert str(params["since"]).startswith("2025-04-20T00:00:00")
+    assert str(params["until"]).startswith("2026-04-20T00:00:00")
+
+
+def test_scorecard_missing_response_counts_as_null_score_row() -> None:
+    class Client:
+        async def get_json(self, _url: str, **_kwargs: object) -> None:
+            return None
+
+    got = asyncio.run(
+        scorecard._fetch_repo(
+            "https://github.com/Owner/Repo",
+            Client(),  # type: ignore[arg-type]
+        )
+    )
+
+    assert got == {
+        "repo_url": "https://github.com/owner/repo",
+        "aggregate_score": None,
+        "check_count": 0,
+        "scorecard_date": None,
+    }
+
+
+def test_issue_response_counts_only_maintainer_like_non_bot_comments() -> None:
+    payloads = {
+        "https://api.github.com/repos/owner/repo/issues/1/comments": [
+            [
+                {
+                    "user": {"login": "community"},
+                    "author_association": "NONE",
+                    "created_at": "2026-04-02T00:00:00Z",
+                },
+                {
+                    "user": {"login": "ci[bot]", "type": "Bot"},
+                    "author_association": "MEMBER",
+                    "created_at": "2026-04-03T00:00:00Z",
+                },
+                {
+                    "user": {"login": "maintainer"},
+                    "author_association": "MEMBER",
+                    "created_at": "2026-04-04T12:00:00Z",
+                },
+            ]
+        ],
+    }
+
+    class Client:
+        async def get_json(self, url: str, **_kwargs: object) -> object:
+            return payloads[url].pop(0)
+
+    issue = {
+        "number": 1,
+        "user": {"login": "reporter"},
+        "created_at": "2026-04-01T00:00:00Z",
+    }
+
+    days = asyncio.run(
+        issues._first_maintainer_response_days(
+            "owner",
+            "repo",
+            issue,
+            Client(),  # type: ignore[arg-type]
+            date(2026, 4, 20),
+        )
+    )
+
+    assert days == pytest.approx(3.5)
+
+
+def test_issue_eligibility_excludes_maintainer_authored_and_bots() -> None:
+    since = pd.Timestamp("2026-01-01T00:00:00Z").to_pydatetime()
+    until = pd.Timestamp("2026-04-20T00:00:00Z").to_pydatetime()
+
+    assert not issues._is_eligible_issue(
+        {
+            "created_at": "2026-04-01T00:00:00Z",
+            "user": {"login": "maintainer"},
+            "author_association": "OWNER",
+        },
+        since_dt=since,
+        until_dt=until,
+    )
+    assert not issues._is_eligible_issue(
+        {
+            "created_at": "2026-04-01T00:00:00Z",
+            "user": {"login": "bot[bot]", "type": "Bot"},
+            "author_association": "NONE",
+        },
+        since_dt=since,
+        until_dt=until,
+    )
+    assert issues._is_eligible_issue(
+        {
+            "created_at": "2026-04-01T00:00:00Z",
+            "user": {"login": "reporter"},
+            "author_association": "NONE",
+        },
+        since_dt=since,
+        until_dt=until,
+    )
 
 
 def test_mark_degraded_if_low_success_marks_tracker_degraded(tmp_path: Path) -> None:

@@ -31,6 +31,7 @@ depends:
   - int.importance_inputs
   - int.fragility_inputs
   - int.repo_mapping
+  - stg.source_health
 
 columns:
   - name: ecosystem
@@ -202,6 +203,40 @@ custom_checks:
             OR (k.expected_state = 'excluded_too_new' AND COALESCE(p.exclusion_reason, '') != 'too_new')
             OR (k.expected_state = 'excluded_stub_types' AND COALESCE(p.exclusion_reason, '') != 'stub_types')
         )
+  - name: live_mode_min_scored_per_ecosystem
+    description: |
+      In live mode, each ecosystem must retain at least 50 scored packages.
+      A smaller cohort almost always means a repo-mapping regression upstream
+      (stg.*_registry.repository_url_clean no longer joining to stg.github_repos).
+    value: 0
+    query: |
+      WITH required AS (
+          SELECT 'npm' AS ecosystem
+          UNION ALL
+          SELECT 'pypi' AS ecosystem
+      ),
+      scored_counts AS (
+          SELECT ecosystem, COUNT(*) AS n
+          FROM mart.package_scores
+          GROUP BY ecosystem
+      )
+      SELECT COUNT(*)
+      FROM required r
+      LEFT JOIN scored_counts c USING (ecosystem)
+      WHERE '{{ var.source_mode }}' = 'live' AND COALESCE(c.n, 0) < 50
+  - name: live_mode_sources_are_healthy
+    description: Live public snapshots must not publish with stale, failed, degraded, or empty critical source rows.
+    value: 0
+    query: |
+      SELECT COUNT(*)
+      FROM stg.source_health
+      WHERE '{{ var.source_mode }}' = 'live'
+        AND (
+            status != 'ok'
+            OR stale = TRUE
+            OR failure_count > 0
+            OR COALESCE(row_count, 0) = 0
+        )
 
 @bruin */
 
@@ -213,30 +248,96 @@ eligible AS (
     FROM int.eligibility
     WHERE is_eligible
 ),
-importance_pct AS (
+dep_pct AS (
     SELECT
         ii.ecosystem,
         ii.package_name,
         PERCENT_RANK() OVER (
             PARTITION BY ii.ecosystem ORDER BY ii.log_dependency_reach
-        ) * 100.0 AS pct_dependency_reach,
+        ) * 100.0 AS pct_dependency_reach
+    FROM int.importance_inputs ii
+    INNER JOIN eligible USING (ecosystem, package_name)
+    WHERE ii.log_dependency_reach IS NOT NULL
+),
+download_pct AS (
+    SELECT
+        ii.ecosystem,
+        ii.package_name,
         PERCENT_RANK() OVER (
             PARTITION BY ii.ecosystem ORDER BY ii.log_download_volume
-        ) * 100.0 AS pct_download_volume,
+        ) * 100.0 AS pct_download_volume
+    FROM int.importance_inputs ii
+    INNER JOIN eligible USING (ecosystem, package_name)
+    WHERE ii.log_download_volume IS NOT NULL
+),
+security_pct AS (
+    SELECT
+        ii.ecosystem,
+        ii.package_name,
         PERCENT_RANK() OVER (
             PARTITION BY ii.ecosystem ORDER BY ii.log_security_exposure
         ) * 100.0 AS pct_security_exposure
     FROM int.importance_inputs ii
     INNER JOIN eligible USING (ecosystem, package_name)
+    WHERE ii.log_security_exposure IS NOT NULL
+),
+importance_pct AS (
+    SELECT
+        e.ecosystem,
+        e.package_name,
+        d.pct_dependency_reach,
+        dl.pct_download_volume,
+        s.pct_security_exposure
+    FROM eligible e
+    LEFT JOIN dep_pct d USING (ecosystem, package_name)
+    LEFT JOIN download_pct dl USING (ecosystem, package_name)
+    LEFT JOIN security_pct s USING (ecosystem, package_name)
+),
+source_health_rollup AS (
+    SELECT
+        CASE
+            WHEN '{{ var.source_mode }}' != 'live' THEN 0
+            ELSE SUM(CASE
+                WHEN status != 'ok'
+                     OR stale = TRUE
+                     OR failure_count > 0
+                     OR COALESCE(row_count, 0) = 0
+                    THEN 1
+                ELSE 0
+            END)
+        END AS unhealthy_sources,
+        CASE
+            WHEN '{{ var.source_mode }}' != 'live' THEN 0
+            ELSE SUM(CASE
+                WHEN source_name IN ('npm_registry', 'pypi_registry', 'deps_dev', 'github_repos')
+                     AND (
+                        status != 'ok'
+                        OR stale = TRUE
+                        OR failure_count > 0
+                        OR COALESCE(row_count, 0) = 0
+                     )
+                    THEN 1
+                ELSE 0
+            END)
+        END AS critical_unhealthy_sources
+    FROM stg.source_health
 ),
 scored AS (
     SELECT
         i.ecosystem,
         i.package_name,
-        (
-            {{ var.importance_weight_dependency_reach }} * i.pct_dependency_reach
-            + {{ var.importance_weight_download_volume }} * i.pct_download_volume
-            + {{ var.importance_weight_security_exposure }} * i.pct_security_exposure
+        COALESCE(
+            (
+                COALESCE({{ var.importance_weight_dependency_reach }} * i.pct_dependency_reach, 0)
+                + COALESCE({{ var.importance_weight_download_volume }} * i.pct_download_volume, 0)
+                + COALESCE({{ var.importance_weight_security_exposure }} * i.pct_security_exposure, 0)
+            ) / NULLIF(
+                (CASE WHEN i.pct_dependency_reach IS NOT NULL THEN {{ var.importance_weight_dependency_reach }} ELSE 0 END)
+                + (CASE WHEN i.pct_download_volume IS NOT NULL THEN {{ var.importance_weight_download_volume }} ELSE 0 END)
+                + (CASE WHEN i.pct_security_exposure IS NOT NULL THEN {{ var.importance_weight_security_exposure }} ELSE 0 END),
+                0
+            ),
+            0
         ) AS importance_score,
         f.fragility_score,
         f.release_recency,
@@ -246,11 +347,14 @@ scored AS (
         f.contributor_bus_factor,
         f.openssf_scorecard,
         m.mapping_bucket,
-        e.is_reduced_confidence_age
+        e.is_reduced_confidence_age,
+        COALESCE(sh.unhealthy_sources, 0) AS unhealthy_sources,
+        COALESCE(sh.critical_unhealthy_sources, 0) AS critical_unhealthy_sources
     FROM importance_pct i
     INNER JOIN int.fragility_inputs f USING (ecosystem, package_name)
     INNER JOIN int.repo_mapping m USING (ecosystem, package_name)
     INNER JOIN eligible e USING (ecosystem, package_name)
+    CROSS JOIN source_health_rollup sh
 ),
 with_risk AS (
     SELECT
@@ -289,9 +393,16 @@ with_confidence AS (
     SELECT
         *,
         CASE
-            WHEN mapping_bucket = 'high' AND signals_above_threshold >= 2 AND NOT is_reduced_confidence_age
+            WHEN critical_unhealthy_sources > 0 OR unhealthy_sources > 1 THEN 'low'
+            WHEN mapping_bucket = 'high'
+                 AND signals_above_threshold >= 2
+                 AND NOT is_reduced_confidence_age
+                 AND unhealthy_sources = 0
                 THEN 'high'
-            WHEN mapping_bucket IN ('high', 'medium') AND signals_above_threshold >= 1
+            WHEN mapping_bucket IN ('high', 'medium')
+                 AND signals_above_threshold >= 1
+                 AND critical_unhealthy_sources = 0
+                 AND unhealthy_sources <= 1
                 THEN 'medium'
             ELSE 'low'
         END AS confidence

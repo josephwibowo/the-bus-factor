@@ -1,8 +1,8 @@
 ecosystem,package_name,expected_state,expected_flagged,rationale
 npm,legacy-forge,flagged,true,Top-1 dep reach with fragility signals maxed across release/commit/cadence/contributor/scorecard axes.
 npm,neglected-stream,flagged,true,Highest contributor concentration and one-maintainer pattern with old release/commit activity.
-npm,stale-bundle,flagged,true,Risk ~72 (Critical tier) with 5 independent fragility signals and importance percentile ~89%; cleared flag gate under v0.2.0 lower threshold.
-npm,old-validator,flagged,true,Risk ~71 (Critical tier) with 5 independent fragility signals and importance percentile ~84%; cleared flag gate under v0.2.0 lower threshold.
+npm,stale-bundle,flagged,true,Risk ~72 (Critical tier) with 5 independent fragility signals and importance percentile ~89%; clears the v0.3.0 flag gate.
+npm,old-validator,flagged,true,Risk ~71 (Critical tier) with 5 independent fragility signals and importance percentile ~84%; clears the v0.3.0 flag gate.
 npm,frozen-format,eligible_not_flagged,false,Risk ~67 (Critical tier) but importance percentile ~74% falls just below the top-quartile gate (75%); demonstrates the importance gate.
 npm,aged-template,eligible_not_flagged,false,Fragile signals but below top-quartile importance cutoff - demonstrates importance gate.
 npm,active-logger,eligible_not_flagged,false,Healthy signals across the board despite high importance.
@@ -16,8 +16,8 @@ npm,newborn-cli,excluded_too_new,false,First release within last 12 months; not 
 npm,orphan-package,excluded_unmappable,false,No repository URL in registry metadata; mapping confidence below threshold.
 pypi,legacy-pyforge,flagged,true,Top-1 dep reach with fragility signals maxed across release/commit/cadence/contributor/scorecard axes.
 pypi,neglected-pystream,flagged,true,Highest contributor concentration with old release/commit activity.
-pypi,stale-pybundle,flagged,true,Risk ~72 (Critical tier) with 5 independent fragility signals and importance percentile ~89%; cleared flag gate under v0.2.0 lower threshold.
-pypi,old-pyvalidator,flagged,true,Risk ~71 (Critical tier) with 5 independent fragility signals and importance percentile ~84%; cleared flag gate under v0.2.0 lower threshold.
+pypi,stale-pybundle,flagged,true,Risk ~72 (Critical tier) with 5 independent fragility signals and importance percentile ~89%; clears the v0.3.0 flag gate.
+pypi,old-pyvalidator,flagged,true,Risk ~71 (Critical tier) with 5 independent fragility signals and importance percentile ~84%; clears the v0.3.0 flag gate.
 pypi,frozen-pyformat,eligible_not_flagged,false,Risk ~67 (Critical tier) but importance percentile ~74% falls just below the top-quartile gate (75%); demonstrates the importance gate.
 pypi,aged-pytemplate,eligible_not_flagged,false,Fragile but below top-quartile importance cutoff.
 pypi,active-pylogger,eligible_not_flagged,false,Healthy maintenance activity.

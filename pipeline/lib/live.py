@@ -12,6 +12,7 @@ import logging
 import os
 import re
 from collections.abc import Awaitable, Callable, Iterable
+from datetime import date
 from pathlib import Path
 
 from pipeline.lib import sources
@@ -133,6 +134,12 @@ def resolve_window() -> str:
     """Return the reporting-window ISO date (Monday)."""
 
     return resolve_snapshot(_var("snapshot_week") or None).iso
+
+
+def resolve_window_date() -> date:
+    """Return the reporting-window Monday as a :class:`datetime.date`."""
+
+    return resolve_snapshot(_var("snapshot_week") or None).monday
 
 
 def resolve_limit(env_var: str, default: int = 250) -> int:
