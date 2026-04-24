@@ -34,7 +34,7 @@ variables:
     description: "Minimum successful-row ratio per source before marking source health degraded."
   methodology_version:
     type: string
-    default: "v0.3.0"
+    default: "v0.4.0"
     description: "Scoring methodology version stamped onto every snapshot row."
   importance_weight_dependency_reach:
     type: string
@@ -54,7 +54,7 @@ variables:
     description: "fragility.weights.release_recency from config/scoring.yml"
   fragility_weight_commit_recency:
     type: string
-    default: "0.25"
+    default: "0.20"
     description: "fragility.weights.commit_recency from config/scoring.yml"
   fragility_weight_release_cadence_decay:
     type: string
@@ -64,10 +64,14 @@ variables:
     type: string
     default: "0.15"
     description: "fragility.weights.issue_responsiveness from config/scoring.yml"
-  fragility_weight_contributor_bus_factor:
+  fragility_weight_all_time_contribution_concentration:
     type: string
-    default: "0.10"
-    description: "fragility.weights.contributor_bus_factor from config/scoring.yml"
+    default: "0.08"
+    description: "fragility.weights.all_time_contribution_concentration from config/scoring.yml"
+  fragility_weight_recent_commit_concentration_365d:
+    type: string
+    default: "0.07"
+    description: "fragility.weights.recent_commit_concentration_365d from config/scoring.yml"
   fragility_weight_openssf_scorecard:
     type: string
     default: "0.10"
@@ -104,14 +108,22 @@ variables:
     type: integer
     default: 90
     description: "fragility.thresholds.issue_responsiveness.cap_days from config/scoring.yml"
-  threshold_contributor_share_floor:
+  threshold_all_time_contributor_share_floor:
     type: string
     default: "0.30"
-    description: "fragility.thresholds.contributor_bus_factor.share_floor from config/scoring.yml"
-  threshold_contributor_share_cap:
+    description: "fragility.thresholds.all_time_contribution_concentration.share_floor from config/scoring.yml"
+  threshold_all_time_contributor_share_cap:
     type: string
     default: "0.90"
-    description: "fragility.thresholds.contributor_bus_factor.share_cap from config/scoring.yml"
+    description: "fragility.thresholds.all_time_contribution_concentration.share_cap from config/scoring.yml"
+  threshold_recent_commit_contributor_share_floor:
+    type: string
+    default: "0.30"
+    description: "fragility.thresholds.recent_commit_concentration_365d.share_floor from config/scoring.yml"
+  threshold_recent_commit_contributor_share_cap:
+    type: string
+    default: "0.90"
+    description: "fragility.thresholds.recent_commit_concentration_365d.share_cap from config/scoring.yml"
   threshold_scorecard_scale:
     type: string
     default: "10"

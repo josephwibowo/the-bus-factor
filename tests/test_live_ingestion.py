@@ -9,7 +9,6 @@ from datetime import date
 from pathlib import Path
 
 import duckdb
-import httpx
 import pandas as pd
 import pytest
 
@@ -71,293 +70,102 @@ def test_repo_urls_from_duckdb_reads_all_canonical_registry_urls(tmp_path: Path)
     ]
 
 
-def test_stats_contributors_times_out_stuck_request(
-    monkeypatch: pytest.MonkeyPatch,
-    capsys: pytest.CaptureFixture[str],
-    reset_bruin_logging: None,
-) -> None:
-    del reset_bruin_logging
-    monkeypatch.setattr(contributors, "STATS_REQUEST_TIMEOUT_SECONDS", 0.001)
-    sleeps: list[float] = []
-    real_sleep = asyncio.sleep
-
-    async def fake_sleep(seconds: float) -> None:
-        sleeps.append(seconds)
-
-    async def handler(_: httpx.Request) -> httpx.Response:
-        await real_sleep(0.05)
-        return httpx.Response(200, json=[])
-
-    monkeypatch.setattr(asyncio, "sleep", fake_sleep)
-
-    async def run() -> None:
-        async with httpx.AsyncClient(
-            transport=httpx.MockTransport(handler), timeout=None
-        ) as client:
-            got = await contributors._stats_contributors("owner", "repo", client)
-        assert got is None
-
-    asyncio.run(run())
-    assert sleeps == [2.0, 4.0]
-    output = capsys.readouterr().out
-    assert "event=github_contributors_stats_timeout" in output
-    assert "repo=owner/repo" in output
-    assert "will_retry=true" in output
-
-
-def test_stats_contributors_retries_pending_stats_after_wait(
-    monkeypatch: pytest.MonkeyPatch,
-    capsys: pytest.CaptureFixture[str],
-    reset_bruin_logging: None,
-) -> None:
-    del reset_bruin_logging
-    responses = [
-        httpx.Response(202),
-        httpx.Response(200, json=[{"author": {"login": "alice"}, "weeks": []}]),
-    ]
-    sleeps: list[float] = []
-
-    async def fake_sleep(seconds: float) -> None:
-        sleeps.append(seconds)
-
-    def handler(_: httpx.Request) -> httpx.Response:
-        return responses.pop(0)
-
-    monkeypatch.setattr(asyncio, "sleep", fake_sleep)
-
-    async def run() -> list[dict[str, object]] | None:
-        async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
-            return await contributors._stats_contributors("owner", "repo", client)
-
-    got = asyncio.run(run())
-    assert got == [{"author": {"login": "alice"}, "weeks": []}]
-    assert sleeps == [contributors.STATS_POLL_WAIT_SECONDS]
-    output = capsys.readouterr().out
-    assert "event=github_contributors_stats_pending" in output
-    assert "repo=owner/repo" in output
-    assert "will_retry=true" in output
-
-
-def test_stats_contributors_does_not_sleep_after_final_pending_attempt(
-    monkeypatch: pytest.MonkeyPatch,
-    capsys: pytest.CaptureFixture[str],
-    reset_bruin_logging: None,
-) -> None:
-    del reset_bruin_logging
-    sleeps: list[float] = []
-
-    async def fake_sleep(seconds: float) -> None:
-        sleeps.append(seconds)
-
-    def handler(_: httpx.Request) -> httpx.Response:
-        return httpx.Response(202)
-
-    monkeypatch.setattr(asyncio, "sleep", fake_sleep)
-
-    async def run() -> None:
-        async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
-            got = await contributors._stats_contributors("owner", "repo", client)
-        assert got is None
-
-    asyncio.run(run())
-    assert sleeps == [60.0, 120.0]
-    output = capsys.readouterr().out
-    assert f"attempt={contributors.STATS_POLL_MAX}" in output
-    assert "will_retry=false" in output
-
-
-def test_github_contributors_ingest_uses_batch_warmup_wait(
-    monkeypatch: pytest.MonkeyPatch,
-    capsys: pytest.CaptureFixture[str],
-    reset_bruin_logging: None,
-) -> None:
-    del reset_bruin_logging
-    calls_by_repo: dict[str, int] = {}
-    sleeps: list[float] = []
-    week_ts = int(pd.Timestamp("2026-04-01T00:00:00Z").timestamp())
-
-    async def fake_sleep(seconds: float) -> None:
-        sleeps.append(seconds)
-
-    def handler(request: httpx.Request) -> httpx.Response:
-        repo = request.url.path.split("/repos/", 1)[1].split("/stats/", 1)[0]
-        calls_by_repo[repo] = calls_by_repo.get(repo, 0) + 1
-        if calls_by_repo[repo] == 1:
-            return httpx.Response(202)
-        return httpx.Response(
-            200,
-            json=[
-                {"author": {"login": "alice"}, "weeks": [{"w": week_ts, "c": 7}]},
-                {"author": {"login": "bob"}, "weeks": [{"w": week_ts, "c": 3}]},
-            ],
-        )
-
-    original_async_client = contributors.httpx.AsyncClient
-    monkeypatch.setattr(asyncio, "sleep", fake_sleep)
-    monkeypatch.setattr(
-        contributors.httpx,
-        "AsyncClient",
-        lambda **_: original_async_client(transport=httpx.MockTransport(handler)),
+def test_github_contributors_row_from_contributors_computes_share() -> None:
+    row = contributors._row_from_contributors(
+        "https://github.com/owner/repo",
+        [
+            {"contributions": 70},
+            {"contributions": 30},
+        ],
     )
+    assert row["repo_url"] == "https://github.com/owner/repo"
+    assert row["top_contributor_share_all_time"] == pytest.approx(0.7)
+    assert row["contributors_all_time"] == 2
 
-    rows, exception_count = asyncio.run(
-        contributors._ingest(
-            ["https://github.com/owner/one", "https://github.com/owner/two"],
-            date(2026, 4, 20),
+
+def test_github_contributors_row_from_contributors_empty_returns_null_share() -> None:
+    row = contributors._row_from_contributors("https://github.com/owner/repo", [])
+    assert row["top_contributor_share_all_time"] is None
+    assert row["contributors_all_time"] == 0
+
+
+def test_github_contributors_fetch_repo_truncated_returns_empty_row() -> None:
+    class Client:
+        async def get_json(
+            self,
+            _url: str,
+            **kwargs: object,
+        ) -> list[dict[str, object]]:
+            params = kwargs.get("params")
+            assert isinstance(params, dict)
+            page = int(params["page"])
+            if page <= contributors.MAX_PAGES:
+                return [{"contributions": 1}] * contributors.PER_PAGE
+            return []
+
+    got = asyncio.run(
+        contributors._fetch_repo(
+            "https://github.com/owner/repo",
+            Client(),  # type: ignore[arg-type]
         )
     )
-
-    assert exception_count == 0
-    assert sleeps == [contributors.STATS_POLL_WAIT_SECONDS]
-    assert calls_by_repo == {"owner/one": 2, "owner/two": 2}
-    assert {row["repo_url"] for row in rows} == {
-        "https://github.com/owner/one",
-        "https://github.com/owner/two",
-    }
-    assert all(row["top_contributor_share_365d"] == 0.7 for row in rows)
-    assert all(row["contributors_last_365d"] == 2 for row in rows)
-    output = capsys.readouterr().out
-    assert "event=github_contributors_stats_batch" in output
-    assert "status_pending=2" in output
-    assert "attempt_elapsed_ms=" in output
-    assert "total_elapsed_ms=" in output
-
-
-def test_github_contributors_ingest_immediate_retry_when_wait_is_zero(
-    monkeypatch: pytest.MonkeyPatch,
-    capsys: pytest.CaptureFixture[str],
-    reset_bruin_logging: None,
-) -> None:
-    del reset_bruin_logging
-    calls_by_repo: dict[str, int] = {}
-    sleeps: list[float] = []
-    week_ts = int(pd.Timestamp("2026-04-01T00:00:00Z").timestamp())
-
-    async def fake_sleep(seconds: float) -> None:
-        sleeps.append(seconds)
-
-    def handler(request: httpx.Request) -> httpx.Response:
-        repo = request.url.path.split("/repos/", 1)[1].split("/stats/", 1)[0]
-        calls_by_repo[repo] = calls_by_repo.get(repo, 0) + 1
-        if calls_by_repo[repo] == 1:
-            return httpx.Response(
-                403,
-                headers={"Retry-After": "0"},
-                json={"message": "You have exceeded a secondary rate limit. Please wait."},
-            )
-        return httpx.Response(
-            200,
-            json=[{"author": {"login": "alice"}, "weeks": [{"w": week_ts, "c": 5}]}],
-        )
-
-    original_async_client = contributors.httpx.AsyncClient
-    monkeypatch.setattr(asyncio, "sleep", fake_sleep)
-    monkeypatch.setattr(
-        contributors.httpx,
-        "AsyncClient",
-        lambda **_: original_async_client(transport=httpx.MockTransport(handler)),
-    )
-
-    rows, exception_count = asyncio.run(
-        contributors._ingest(["https://github.com/owner/one"], date(2026, 4, 20))
-    )
-
-    assert exception_count == 0
-    assert sleeps == []
-    assert calls_by_repo == {"owner/one": 2}
-    assert rows == [
+    assert got == (
         {
-            "repo_url": "https://github.com/owner/one",
-            "top_contributor_share_365d": 1.0,
-            "contributors_last_365d": 1,
-        }
-    ]
-    output = capsys.readouterr().out
-    assert "event=github_contributors_stats_batch_wait" in output
-    assert "wait_seconds=0.0" in output
-    assert "immediate_retry=true" in output
-
-
-def test_stats_contributors_retries_secondary_rate_limit(
-    monkeypatch: pytest.MonkeyPatch,
-    capsys: pytest.CaptureFixture[str],
-    reset_bruin_logging: None,
-) -> None:
-    del reset_bruin_logging
-    response = httpx.Response(
-        403,
-        headers={"Retry-After": "0"},
-        json={"message": "You have exceeded a secondary rate limit. Please wait."},
+            "repo_url": "https://github.com/owner/repo",
+            "top_contributor_share_all_time": None,
+            "contributors_all_time": 0,
+        },
+        True,
     )
-    sleeps: list[float] = []
-
-    async def fake_sleep(seconds: float) -> None:
-        sleeps.append(seconds)
-
-    def handler(_: httpx.Request) -> httpx.Response:
-        return response
-
-    monkeypatch.setattr(asyncio, "sleep", fake_sleep)
-
-    async def run() -> list[dict[str, object]] | None:
-        async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
-            return await contributors._stats_contributors("owner", "repo", client)
-
-    got = asyncio.run(run())
-    assert got is None
-    assert sleeps == [0.0, 0.0]
-    output = capsys.readouterr().out
-    assert "event=github_contributors_stats_rate_limited" in output
-    assert "category=secondary_rate_limit" in output
-    assert "will_retry=true" in output
 
 
-def test_stats_contributors_handles_204_no_content(
-    capsys: pytest.CaptureFixture[str],
-    reset_bruin_logging: None,
-) -> None:
-    del reset_bruin_logging
-
-    def handler(_: httpx.Request) -> httpx.Response:
-        return httpx.Response(204)
-
-    async def run() -> None:
-        async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
-            got = await contributors._stats_contributors("owner", "repo", client)
-        assert got is None
-
-    asyncio.run(run())
-    output = capsys.readouterr().out
-    assert "event=github_contributors_stats_no_content" in output
-    assert "repo=owner/repo" in output
-
-
-def test_stats_contributors_logs_primary_rate_limit_details(
+def test_github_contributors_ingest_keeps_rows_when_one_repo_errors(
     monkeypatch: pytest.MonkeyPatch,
-    capsys: pytest.CaptureFixture[str],
-    reset_bruin_logging: None,
 ) -> None:
-    del reset_bruin_logging
-    monkeypatch.setattr(contributors, "STATS_POLL_MAX", 1)
+    class DummyHttpClient:
+        def __init__(self, **_kwargs: object) -> None:
+            pass
 
-    def handler(_: httpx.Request) -> httpx.Response:
-        return httpx.Response(
-            403,
-            headers={"X-RateLimit-Remaining": "0", "X-RateLimit-Reset": "999"},
-            json={"message": "API rate limit exceeded for 1.2.3.4"},
+        async def __aenter__(self) -> DummyHttpClient:
+            return self
+
+        async def __aexit__(self, *_exc: object) -> None:
+            return None
+
+    async def fake_fetch_repo(
+        url: str,
+        _client: DummyHttpClient,
+    ) -> tuple[dict[str, object], bool]:
+        if url.endswith("/boom"):
+            raise RuntimeError("boom")
+        if url.endswith("/truncated"):
+            return contributors._empty_contributor_row(url), True
+        return (
+            {
+                "repo_url": url,
+                "top_contributor_share_all_time": 0.4,
+                "contributors_all_time": 5,
+            },
+            False,
         )
 
-    async def run() -> None:
-        async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
-            got = await contributors._stats_contributors("owner", "repo", client)
-        assert got is None
+    monkeypatch.setattr(contributors, "HttpClient", DummyHttpClient)
+    monkeypatch.setattr(contributors, "_fetch_repo", fake_fetch_repo)
 
-    asyncio.run(run())
-    output = capsys.readouterr().out
-    assert "event=github_contributors_stats_rate_limited" in output
-    assert "category=primary_rate_limit" in output
-    assert "rate_limit_remaining=0" in output
-    assert "status_code=403" in output
+    urls = [
+        "https://github.com/owner/ok",
+        "https://github.com/owner/boom",
+        "https://github.com/owner/truncated",
+    ]
+    rows, exception_count, truncated_count = asyncio.run(contributors._ingest("w", urls))
+
+    assert exception_count == 1
+    assert truncated_count == 1
+    assert len(rows) == len(urls)
+    assert {row["repo_url"] for row in rows} == set(urls)
+    errored = next(row for row in rows if row["repo_url"].endswith("/boom"))
+    assert errored["top_contributor_share_all_time"] is None
+    assert errored["contributors_all_time"] == 0
 
 
 def test_github_contributors_frame_preserves_all_null_share_column() -> None:
@@ -365,19 +173,19 @@ def test_github_contributors_frame_preserves_all_null_share_column() -> None:
         [
             {
                 "repo_url": "https://github.com/owner/repo",
-                "top_contributor_share_365d": None,
-                "contributors_last_365d": 0,
+                "top_contributor_share_all_time": None,
+                "contributors_all_time": 0,
             }
         ]
     )
 
     assert list(df.columns) == [
         "repo_url",
-        "top_contributor_share_365d",
-        "contributors_last_365d",
+        "top_contributor_share_all_time",
+        "contributors_all_time",
     ]
-    assert str(df["top_contributor_share_365d"].dtype) == "float64"
-    assert pd.isna(df.loc[0, "top_contributor_share_365d"])
+    assert str(df["top_contributor_share_all_time"].dtype) == "float64"
+    assert pd.isna(df.loc[0, "top_contributor_share_all_time"])
 
 
 def test_github_contributors_usable_signal_count_excludes_null_placeholders() -> None:
@@ -386,18 +194,18 @@ def test_github_contributors_usable_signal_count_excludes_null_placeholders() ->
             [
                 {
                     "repo_url": "https://github.com/owner/unknown",
-                    "top_contributor_share_365d": None,
-                    "contributors_last_365d": 0,
+                    "top_contributor_share_all_time": None,
+                    "contributors_all_time": 0,
                 },
                 {
                     "repo_url": "https://github.com/owner/working",
-                    "top_contributor_share_365d": 0.42,
-                    "contributors_last_365d": 7,
+                    "top_contributor_share_all_time": 0.42,
+                    "contributors_all_time": 7,
                 },
                 {
                     "repo_url": "https://github.com/owner/no-commits",
-                    "top_contributor_share_365d": None,
-                    "contributors_last_365d": 0,
+                    "top_contributor_share_all_time": None,
+                    "contributors_all_time": 0,
                 },
             ]
         )
@@ -425,11 +233,90 @@ def test_github_commits_uses_snapshot_week_window() -> None:
         "repo_url": "https://github.com/owner/repo",
         "last_commit_date": None,
         "commits_last_365d": 0,
+        "top_contributor_share_365d": None,
+        "unique_contributors_last_365d": 0,
     }
     params = calls[0]["params"]
     assert isinstance(params, dict)
     assert str(params["since"]).startswith("2025-04-20T00:00:00")
     assert str(params["until"]).startswith("2026-04-20T00:00:00")
+
+
+def test_github_commits_truncated_pages_drop_concentration_signal() -> None:
+    class Client:
+        async def get_json(
+            self,
+            _url: str,
+            **kwargs: object,
+        ) -> list[dict[str, object]]:
+            params = kwargs.get("params")
+            assert isinstance(params, dict)
+            page = int(params["page"])
+            if page <= commits.MAX_PAGES:
+                return [
+                    {
+                        "commit": {
+                            "author": {
+                                "date": "2026-04-18T00:00:00Z",
+                                "email": "alice@example.com",
+                            }
+                        },
+                        "author": {"login": "alice"},
+                    }
+                ] * commits.PER_PAGE
+            return []
+
+    got = asyncio.run(
+        commits._fetch_commits(
+            "https://github.com/owner/repo",
+            Client(),  # type: ignore[arg-type]
+            date(2026, 4, 20),
+        )
+    )
+    assert got is not None
+    assert got["commits_last_365d"] == commits.PER_PAGE * commits.MAX_PAGES
+    assert got["top_contributor_share_365d"] is None
+    assert got["unique_contributors_last_365d"] == 0
+
+
+def test_github_commits_fixture_fallback_handles_new_contributor_fixture_columns(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    commits_fixture = pd.DataFrame(
+        [
+            {
+                "repo_url": "https://github.com/owner/repo",
+                "last_commit_date": "2026-04-01",
+                "commits_last_365d": 10,
+            }
+        ]
+    )
+    contributors_fixture = pd.DataFrame(
+        [
+            {
+                "repo_url": "https://github.com/owner/repo",
+                "top_contributor_share_all_time": 0.95,
+                "contributors_all_time": 2,
+            }
+        ]
+    )
+
+    def fake_read_csv(path: object, *args: object, **kwargs: object) -> pd.DataFrame:
+        del args, kwargs
+        path_str = str(path)
+        if path_str.endswith("github_commits.csv"):
+            return commits_fixture.copy()
+        if path_str.endswith("github_contributors.csv"):
+            return contributors_fixture.copy()
+        raise AssertionError(f"unexpected fixture path: {path_str}")
+
+    monkeypatch.setattr(pd, "read_csv", fake_read_csv)
+
+    got = commits._fixture()
+    assert "top_contributor_share_365d" in got.columns
+    assert "unique_contributors_last_365d" in got.columns
+    assert pd.isna(got.loc[0, "top_contributor_share_365d"])
+    assert got.loc[0, "unique_contributors_last_365d"] == 0
 
 
 def test_scorecard_missing_response_counts_as_null_score_row() -> None:

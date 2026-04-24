@@ -343,7 +343,8 @@ scored AS (
         f.commit_recency,
         f.release_cadence_decay,
         f.issue_responsiveness,
-        f.contributor_bus_factor,
+        f.all_time_contribution_concentration,
+        f.recent_commit_concentration_365d,
         f.openssf_scorecard,
         m.mapping_bucket,
         e.is_reduced_confidence_age,
@@ -376,14 +377,16 @@ with_tier AS (
             + CASE WHEN commit_recency >= {{ var.flagged_signal_contribution_threshold }} THEN 1 ELSE 0 END
             + CASE WHEN release_cadence_decay >= {{ var.flagged_signal_contribution_threshold }} THEN 1 ELSE 0 END
             + CASE WHEN issue_responsiveness >= {{ var.flagged_signal_contribution_threshold }} THEN 1 ELSE 0 END
-            + CASE WHEN contributor_bus_factor >= {{ var.flagged_signal_contribution_threshold }} THEN 1 ELSE 0 END
+            + CASE WHEN all_time_contribution_concentration >= {{ var.flagged_signal_contribution_threshold }} THEN 1 ELSE 0 END
+            + CASE WHEN recent_commit_concentration_365d >= {{ var.flagged_signal_contribution_threshold }} THEN 1 ELSE 0 END
             + CASE WHEN openssf_scorecard >= {{ var.flagged_signal_contribution_threshold }} THEN 1 ELSE 0 END
         ) AS signals_above_threshold,
         (
             CASE WHEN commit_recency >= {{ var.flagged_signal_contribution_threshold }} THEN 1 ELSE 0 END
             + CASE WHEN release_cadence_decay >= {{ var.flagged_signal_contribution_threshold }} THEN 1 ELSE 0 END
             + CASE WHEN issue_responsiveness >= {{ var.flagged_signal_contribution_threshold }} THEN 1 ELSE 0 END
-            + CASE WHEN contributor_bus_factor >= {{ var.flagged_signal_contribution_threshold }} THEN 1 ELSE 0 END
+            + CASE WHEN all_time_contribution_concentration >= {{ var.flagged_signal_contribution_threshold }} THEN 1 ELSE 0 END
+            + CASE WHEN recent_commit_concentration_365d >= {{ var.flagged_signal_contribution_threshold }} THEN 1 ELSE 0 END
             + CASE WHEN openssf_scorecard >= {{ var.flagged_signal_contribution_threshold }} THEN 1 ELSE 0 END
         ) AS non_paired_signals_above_threshold
     FROM with_risk

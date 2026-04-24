@@ -25,7 +25,7 @@ def _pipeline_var_defaults() -> dict[str, object]:
 
 def test_scoring_config_loads() -> None:
     config = load_scoring_config()
-    assert config.methodology_version == "v0.3.0"
+    assert config.methodology_version == "v0.4.0"
     # Weights sum to 1.0 (within fp tolerance) for both pillars.
     assert abs(sum(config.importance_weights.values()) - 1.0) < 1e-9
     assert abs(sum(config.fragility_weights.values()) - 1.0) < 1e-9
@@ -95,12 +95,17 @@ def test_pipeline_scoring_var_defaults_match_scoring_config() -> None:
         "fragility_weight_commit_recency": config.fragility_weights["commit_recency"],
         "fragility_weight_release_cadence_decay": config.fragility_weights["release_cadence_decay"],
         "fragility_weight_issue_responsiveness": config.fragility_weights["issue_responsiveness"],
-        "fragility_weight_contributor_bus_factor": config.fragility_weights[
-            "contributor_bus_factor"
+        "fragility_weight_all_time_contribution_concentration": config.fragility_weights[
+            "all_time_contribution_concentration"
+        ],
+        "fragility_weight_recent_commit_concentration_365d": config.fragility_weights[
+            "recent_commit_concentration_365d"
         ],
         "fragility_weight_openssf_scorecard": config.fragility_weights["openssf_scorecard"],
-        "threshold_contributor_share_floor": config.contributor_bus_factor.share_floor,
-        "threshold_contributor_share_cap": config.contributor_bus_factor.share_cap,
+        "threshold_all_time_contributor_share_floor": config.all_time_contribution_concentration.share_floor,
+        "threshold_all_time_contributor_share_cap": config.all_time_contribution_concentration.share_cap,
+        "threshold_recent_commit_contributor_share_floor": config.recent_commit_concentration_365d.share_floor,
+        "threshold_recent_commit_contributor_share_cap": config.recent_commit_concentration_365d.share_cap,
         "threshold_scorecard_scale": float(config.scorecard_scale),
         "flagged_importance_top_quantile": config.importance_top_quantile,
     }

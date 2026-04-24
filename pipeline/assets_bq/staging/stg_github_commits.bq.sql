@@ -38,11 +38,21 @@ columns:
     type: bigint
     checks:
       - name: non_negative
+  - name: top_contributor_share_365d
+    type: double
+    checks:
+      - name: non_negative
+  - name: unique_contributors_last_365d
+    type: bigint
+    checks:
+      - name: non_negative
 
 @bruin */
 
 SELECT
     LOWER(TRIM(repo_url)) AS repo_url,
     CAST(last_commit_date AS DATE) AS last_commit_date,
-    commits_last_365d
+    commits_last_365d,
+    top_contributor_share_365d,
+    unique_contributors_last_365d
 FROM raw.github_commits

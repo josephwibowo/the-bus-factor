@@ -73,7 +73,8 @@ class FragilitySignal(_Base):
         "commit_recency",
         "release_cadence_decay",
         "issue_responsiveness",
-        "contributor_bus_factor",
+        "all_time_contribution_concentration",
+        "recent_commit_concentration_365d",
         "openssf_scorecard",
     ]
     contribution: float

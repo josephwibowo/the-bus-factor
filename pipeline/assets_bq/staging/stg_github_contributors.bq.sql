@@ -4,8 +4,8 @@ name: stg.github_contributors
 type: bq.sql
 
 description: |
-  Typed per-repo contributor concentration over the last 365 days. Top-1
-  contributor share drives the contributor_bus_factor fragility input.
+  Typed per-repo all-time contributor concentration. Top-1 contributor
+  share drives the all_time_contribution_concentration fragility input.
 
 materialization:
   type: table
@@ -24,11 +24,11 @@ columns:
     checks:
       - name: not_null
       - name: unique
-  - name: top_contributor_share_365d
+  - name: top_contributor_share_all_time
     type: double
     checks:
       - name: non_negative
-  - name: contributors_last_365d
+  - name: contributors_all_time
     type: bigint
     checks:
       - name: non_negative
@@ -37,6 +37,6 @@ columns:
 
 SELECT
     LOWER(TRIM(repo_url)) AS repo_url,
-    top_contributor_share_365d,
-    contributors_last_365d
+    top_contributor_share_all_time,
+    contributors_all_time
 FROM raw.github_contributors

@@ -5,7 +5,7 @@
       "package_name": "legacy-pyforge",
       "primary_finding": "948 days since latest release.",
       "rank": 1,
-      "risk_score": 86.9492,
+      "risk_score": 86.7869,
       "severity_tier": "Critical",
       "slug": "pypi-legacy-pyforge"
     },
@@ -14,7 +14,7 @@
       "package_name": "legacy-forge",
       "primary_finding": "948 days since latest release.",
       "rank": 2,
-      "risk_score": 85.7742,
+      "risk_score": 85.6141,
       "severity_tier": "Critical",
       "slug": "npm-legacy-forge"
     },
@@ -41,7 +41,7 @@
       "package_name": "stale-bundle",
       "primary_finding": "898 days since latest release.",
       "rank": 5,
-      "risk_score": 72.5565,
+      "risk_score": 72.0004,
       "severity_tier": "Critical",
       "slug": "npm-stale-bundle"
     }
@@ -52,7 +52,7 @@
       "pypi": 4
     },
     "headline": "8 packages flagged for continuity risk in 2026-W17.",
-    "methodology_version": "v0.3.0",
+    "methodology_version": "v0.4.0",
     "snapshot_week": "2026-04-20",
     "summary": "Flagged packages combine high downstream reach with at least two independent fragility signals. Repositories and maintainer identities are never referenced in the viral surfaces."
   },

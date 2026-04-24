@@ -1,8 +1,8 @@
 name: seed.github_contributors
 type: duckdb.seed
 description: |
-  Aggregated per-repo contributor-bus-factor proxy: top-1 contributor share
-  of commits in the last 365 days.
+  Aggregated per-repo all-time contributor concentration: top-1 contributor
+  share and total distinct contributor count.
 
 parameters:
   path: ../../fixtures/github_contributors.csv
@@ -18,12 +18,12 @@ columns:
     checks:
       - name: not_null
       - name: unique
-  - name: top_contributor_share_365d
+  - name: top_contributor_share_all_time
     type: double
-    description: Share in [0, 1] of commits by the single most active contributor.
+    description: Share in [0, 1] of all-time commits by the single most active contributor.
     checks:
       - name: non_negative
-  - name: contributors_last_365d
+  - name: contributors_all_time
     type: bigint
     checks:
       - name: non_negative

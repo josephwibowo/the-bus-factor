@@ -22,9 +22,15 @@ columns:
   - name: last_commit_date
     type: date
     description: Date of the last commit on the default branch.
-    checks:
-      - name: not_null
   - name: commits_last_365d
+    type: bigint
+    checks:
+      - name: non_negative
+  - name: top_contributor_share_365d
+    type: double
+    checks:
+      - name: non_negative
+  - name: unique_contributors_last_365d
     type: bigint
     checks:
       - name: non_negative

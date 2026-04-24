@@ -28,6 +28,10 @@ columns:
     type: date
   - name: commits_last_365d
     type: bigint
+  - name: top_contributor_share_365d
+    type: double
+  - name: unique_contributors_last_365d
+    type: bigint
   - name: ingested_at
     type: timestamp
 
@@ -54,6 +58,34 @@ MAX_PAGES = 4  # capped at 400 commits per repo in last 365d
 def _fixture() -> pd.DataFrame:
     df = pd.read_csv(FIXTURE_ROOT / "github_commits.csv")
     df["last_commit_date"] = pd.to_datetime(df["last_commit_date"]).dt.date
+    missing_share = "top_contributor_share_365d" not in df.columns
+    missing_unique = "unique_contributors_last_365d" not in df.columns
+    if missing_share or missing_unique:
+        contributor_fixture = pd.read_csv(FIXTURE_ROOT / "github_contributors.csv")
+        fallback = contributor_fixture[["repo_url"]].copy()
+        if missing_share:
+            if "top_contributor_share_365d" in contributor_fixture.columns:
+                fallback["top_contributor_share_365d"] = pd.to_numeric(
+                    contributor_fixture["top_contributor_share_365d"], errors="coerce"
+                )
+            else:
+                fallback["top_contributor_share_365d"] = None
+        if missing_unique:
+            if "contributors_last_365d" in contributor_fixture.columns:
+                fallback["unique_contributors_last_365d"] = pd.to_numeric(
+                    contributor_fixture["contributors_last_365d"], errors="coerce"
+                )
+            else:
+                fallback["unique_contributors_last_365d"] = 0
+        df = df.merge(fallback, on="repo_url", how="left")
+    df["top_contributor_share_365d"] = pd.to_numeric(
+        df["top_contributor_share_365d"], errors="coerce"
+    ).astype("float64")
+    df["unique_contributors_last_365d"] = (
+        pd.to_numeric(df["unique_contributors_last_365d"], errors="coerce")
+        .fillna(0)
+        .astype("int64")
+    )
     df["ingested_at"] = pd.Timestamp.utcnow()
     return df
 
@@ -77,6 +109,21 @@ def _parse_commit_date(raw: dict[str, Any]) -> date | None:
         return None
 
 
+def _commit_author_key(raw: dict[str, Any]) -> str | None:
+    author_login = (raw.get("author") or {}).get("login")
+    if author_login:
+        return f"user:{str(author_login).lower()}"
+    commit = raw.get("commit") or {}
+    author = commit.get("author") or {}
+    email = author.get("email")
+    if email:
+        return f"email:{str(email).lower()}"
+    name = author.get("name")
+    if name:
+        return f"name:{str(name).strip().lower()}"
+    return None
+
+
 async def _fetch_commits(
     url: str, client: HttpClient, snapshot_week: date
 ) -> dict[str, Any] | None:
@@ -88,6 +135,8 @@ async def _fetch_commits(
     until = datetime.combine(snapshot_week, datetime.min.time(), UTC)
     total = 0
     latest: date | None = None
+    contributor_counts: dict[str, int] = {}
+    truncated = False
     for page in range(1, MAX_PAGES + 1):
         payload = await client.get_json(
             f"{GITHUB_REST}/{owner}/{repo}/commits",
@@ -102,15 +151,34 @@ async def _fetch_commits(
         if not isinstance(payload, list) or not payload:
             break
         total += len(payload)
-        first_date = _parse_commit_date(payload[0])
-        if first_date is not None and (latest is None or first_date > latest):
-            latest = first_date
+        for commit in payload:
+            if not isinstance(commit, dict):
+                continue
+            commit_date = _parse_commit_date(commit)
+            if commit_date is not None and (latest is None or commit_date > latest):
+                latest = commit_date
+            author_key = _commit_author_key(commit)
+            if author_key is None:
+                continue
+            contributor_counts[author_key] = contributor_counts.get(author_key, 0) + 1
         if len(payload) < PER_PAGE:
             break
+        if page == MAX_PAGES:
+            truncated = True
+    top_share: float | None = None
+    unique_contributors = len(contributor_counts)
+    # The commit endpoint is intentionally capped; when capped, concentration
+    # from a partial sample can inflate fragility, so treat it as unavailable.
+    if truncated:
+        unique_contributors = 0
+    elif total > 0 and contributor_counts:
+        top_share = round(max(contributor_counts.values()) / total, 4)
     return {
         "repo_url": url,
         "last_commit_date": latest,
         "commits_last_365d": total,
+        "top_contributor_share_365d": top_share,
+        "unique_contributors_last_365d": unique_contributors,
     }
 
 
@@ -154,7 +222,15 @@ def _live() -> pd.DataFrame:
     df = (
         pd.DataFrame(rows)
         if rows
-        else pd.DataFrame(columns=["repo_url", "last_commit_date", "commits_last_365d"])
+        else pd.DataFrame(
+            columns=[
+                "repo_url",
+                "last_commit_date",
+                "commits_last_365d",
+                "top_contributor_share_365d",
+                "unique_contributors_last_365d",
+            ]
+        )
     )
     df["ingested_at"] = pd.Timestamp.utcnow()
     return df

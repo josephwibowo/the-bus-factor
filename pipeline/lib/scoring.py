@@ -26,6 +26,7 @@ class FragilityInputs:
     releases_prior_365d: int
     issues_opened_last_180d: int
     median_response_days: float | None
+    top_contributor_share_all_time: float | None
     top_contributor_share_365d: float | None
     scorecard_aggregate: float | None
 
@@ -87,12 +88,19 @@ def fragility_score(
         issue_score = 0.0
     components.append(FragilityComponent("issue_responsiveness", issue_score))
 
-    bus_factor = (
-        config.contributor_bus_factor.evaluate(inputs.top_contributor_share_365d)
+    all_time_conc = (
+        config.all_time_contribution_concentration.evaluate(inputs.top_contributor_share_all_time)
+        if inputs.top_contributor_share_all_time is not None
+        else 0.0
+    )
+    components.append(FragilityComponent("all_time_contribution_concentration", all_time_conc))
+
+    recent_conc = (
+        config.recent_commit_concentration_365d.evaluate(inputs.top_contributor_share_365d)
         if inputs.top_contributor_share_365d is not None
         else 0.0
     )
-    components.append(FragilityComponent("contributor_bus_factor", bus_factor))
+    components.append(FragilityComponent("recent_commit_concentration_365d", recent_conc))
 
     scorecard = (
         max(0.0, min(100.0, 100.0 - (inputs.scorecard_aggregate * config.scorecard_scale)))

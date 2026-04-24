@@ -39,6 +39,7 @@ def _healthy_inputs() -> FragilityInputs:
         releases_prior_365d=20,  # 10% decay -> cadence component ~10
         issues_opened_last_180d=40,
         median_response_days=3.0,  # <7 -> 0
+        top_contributor_share_all_time=0.20,  # <0.30 -> 0
         top_contributor_share_365d=0.20,  # <0.30 -> 0
         scorecard_aggregate=9.0,  # 100-90=10
     )
@@ -57,6 +58,7 @@ def test_stale_package_high_fragility(config) -> None:  # type: ignore[no-untype
         releases_prior_365d=8,  # 100% decay -> 100
         issues_opened_last_180d=20,
         median_response_days=100.0,  # >=90 -> 100
+        top_contributor_share_all_time=0.95,  # >=0.90 -> 100
         top_contributor_share_365d=0.95,  # >=0.90 -> 100
         scorecard_aggregate=1.0,  # 100-10 = 90
     )
@@ -114,7 +116,8 @@ def test_independent_fragility_signals_excludes_release_recency_alone(config) ->
             FragilityComponent("commit_recency", 10.0),
             FragilityComponent("release_cadence_decay", 0.0),
             FragilityComponent("issue_responsiveness", 0.0),
-            FragilityComponent("contributor_bus_factor", 0.0),
+            FragilityComponent("all_time_contribution_concentration", 0.0),
+            FragilityComponent("recent_commit_concentration_365d", 0.0),
             FragilityComponent("openssf_scorecard", 0.0),
         ),
         score=20.0,
@@ -135,7 +138,8 @@ def test_is_flagged_happy_path(config) -> None:  # type: ignore[no-untyped-def]
             FragilityComponent("commit_recency", 70.0),
             FragilityComponent("release_cadence_decay", 50.0),
             FragilityComponent("issue_responsiveness", 0.0),
-            FragilityComponent("contributor_bus_factor", 45.0),
+            FragilityComponent("all_time_contribution_concentration", 45.0),
+            FragilityComponent("recent_commit_concentration_365d", 0.0),
             FragilityComponent("openssf_scorecard", 20.0),
         ),
         score=60.0,
@@ -170,7 +174,8 @@ def test_is_flagged_rejections(config, override, expected_reason) -> None:  # ty
             FragilityComponent("release_cadence_decay", 60.0),
             FragilityComponent("release_recency", 0.0),
             FragilityComponent("issue_responsiveness", 0.0),
-            FragilityComponent("contributor_bus_factor", 0.0),
+            FragilityComponent("all_time_contribution_concentration", 0.0),
+            FragilityComponent("recent_commit_concentration_365d", 0.0),
             FragilityComponent("openssf_scorecard", 0.0),
         ),
         score=55.0,
@@ -199,7 +204,8 @@ def test_is_flagged_requires_non_release_signal(config) -> None:  # type: ignore
             FragilityComponent("commit_recency", 10.0),
             FragilityComponent("release_cadence_decay", 0.0),
             FragilityComponent("issue_responsiveness", 0.0),
-            FragilityComponent("contributor_bus_factor", 0.0),
+            FragilityComponent("all_time_contribution_concentration", 0.0),
+            FragilityComponent("recent_commit_concentration_365d", 0.0),
             FragilityComponent("openssf_scorecard", 0.0),
         ),
         score=25.0,
@@ -226,7 +232,8 @@ def test_is_flagged_release_plus_commit_is_two_signals(config) -> None:  # type:
             FragilityComponent("release_recency", 90.0),
             FragilityComponent("release_cadence_decay", 0.0),
             FragilityComponent("issue_responsiveness", 0.0),
-            FragilityComponent("contributor_bus_factor", 0.0),
+            FragilityComponent("all_time_contribution_concentration", 0.0),
+            FragilityComponent("recent_commit_concentration_365d", 0.0),
             FragilityComponent("openssf_scorecard", 0.0),
         ),
         score=55.0,

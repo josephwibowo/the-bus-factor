@@ -35,8 +35,13 @@
         },
         {
           "contribution": 0.0,
-          "evidence": "Top contributor authored 4.0% of commits over the last 365 days (distinct contributors: 1200).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 4.0% of all-time commits (distinct contributors: 1200).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 4.0% of commits over the last 365 days (unique contributors: 1200).",
+          "name": "recent_commit_concentration_365d"
         }
       ],
       "importance_score": 0.0,
@@ -55,7 +60,7 @@
           "monorepo_cap_applied(medium_max)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "@types/legacy-forge",
       "registry_url": "https://www.npmjs.com/package/@types/legacy-forge",
       "repository_url": "https://github.com/definitelytyped/definitelytyped",
@@ -99,8 +104,13 @@
         },
         {
           "contribution": 0.0,
-          "evidence": "Top contributor authored 22.0% of commits over the last 365 days (distinct contributors: 48).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 22.0% of all-time commits (distinct contributors: 48).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 22.0% of commits over the last 365 days (unique contributors: 48).",
+          "name": "recent_commit_concentration_365d"
         }
       ],
       "importance_score": 77.1053,
@@ -118,7 +128,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "active-logger",
       "registry_url": "https://www.npmjs.com/package/active-logger",
       "repository_url": "https://github.com/fake-active/active-logger",
@@ -152,8 +162,13 @@
         },
         {
           "contribution": 100.0,
-          "evidence": "Top contributor authored 90.0% of commits over the last 365 days (distinct contributors: 2).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 90.0% of all-time commits (distinct contributors: 2).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "Top contributor authored 90.0% of commits over the last 365 days (unique contributors: 2).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 66.0,
@@ -182,7 +197,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "aged-template",
       "registry_url": "https://www.npmjs.com/package/aged-template",
       "repository_url": "https://github.com/fake-aged-template/aged-template",
@@ -221,8 +236,13 @@
         },
         {
           "contribution": 0.0,
-          "evidence": "Top contributor authored 0.0% of commits over the last 365 days (distinct contributors: 0).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 0.0% of all-time commits (distinct contributors: 0).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Recent commit concentration unavailable for the last 365 days.",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 0.0,
@@ -245,7 +265,7 @@
           "deps_dev_source_repo_match(+20)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "archived-compiler",
       "registry_url": "https://www.npmjs.com/package/archived-compiler",
       "repository_url": "https://github.com/fake-archived/archived-compiler",
@@ -260,7 +280,7 @@
       "exclusion_reason": null,
       "first_release_date": "2020-01-12",
       "flagged": false,
-      "fragility_score": 3.6333,
+      "fragility_score": 4.05,
       "fragility_signals": [
         {
           "contribution": 28.0,
@@ -269,8 +289,13 @@
         },
         {
           "contribution": 8.333333333333332,
-          "evidence": "Top contributor authored 35.0% of commits over the last 365 days (distinct contributors: 14).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 35.0% of all-time commits (distinct contributors: 14).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 8.333333333333332,
+          "evidence": "Top contributor authored 35.0% of commits over the last 365 days (unique contributors: 14).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 0.0,
@@ -309,11 +334,11 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "constant-timer",
       "registry_url": "https://www.npmjs.com/package/constant-timer",
       "repository_url": "https://github.com/fake-constant/constant-timer",
-      "risk_score": 0.4876,
+      "risk_score": 0.5436,
       "severity_tier": "Stable",
       "slug": "npm-constant-timer",
       "snapshot_week": "2026-04-20"
@@ -353,8 +378,13 @@
         },
         {
           "contribution": 0.0,
-          "evidence": "Top contributor authored 25.0% of commits over the last 365 days (distinct contributors: 24).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 25.0% of all-time commits (distinct contributors: 24).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 25.0% of commits over the last 365 days (unique contributors: 24).",
+          "name": "recent_commit_concentration_365d"
         }
       ],
       "importance_score": 47.6316,
@@ -373,7 +403,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "eventful-proxy",
       "registry_url": "https://www.npmjs.com/package/eventful-proxy",
       "repository_url": "https://github.com/fake-eventful/eventful-proxy",
@@ -417,8 +447,13 @@
         },
         {
           "contribution": 0.0,
-          "evidence": "Top contributor authored 18.0% of commits over the last 365 days (distinct contributors: 56).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 18.0% of all-time commits (distinct contributors: 56).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 18.0% of commits over the last 365 days (unique contributors: 56).",
+          "name": "recent_commit_concentration_365d"
         }
       ],
       "importance_score": 67.8947,
@@ -436,7 +471,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "fresh-parser",
       "registry_url": "https://www.npmjs.com/package/fresh-parser",
       "repository_url": "https://github.com/fake-fresh/fresh-parser",
@@ -470,8 +505,13 @@
         },
         {
           "contribution": 100.0,
-          "evidence": "Top contributor authored 92.0% of commits over the last 365 days (distinct contributors: 2).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 92.0% of all-time commits (distinct contributors: 2).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "Top contributor authored 92.0% of commits over the last 365 days (unique contributors: 2).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 78.3132530120482,
@@ -500,7 +540,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "frozen-format",
       "registry_url": "https://www.npmjs.com/package/frozen-format",
       "repository_url": "https://github.com/fake-frozen/frozen-format",
@@ -515,7 +555,7 @@
       "exclusion_reason": null,
       "first_release_date": "2017-03-15",
       "flagged": true,
-      "fragility_score": 89.2992,
+      "fragility_score": 89.1325,
       "fragility_signals": [
         {
           "contribution": 100.0,
@@ -534,8 +574,13 @@
         },
         {
           "contribution": 96.66666666666669,
-          "evidence": "Top contributor authored 88.0% of commits over the last 365 days (distinct contributors: 3).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 88.0% of all-time commits (distinct contributors: 3).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 96.66666666666669,
+          "evidence": "Top contributor authored 88.0% of commits over the last 365 days (unique contributors: 3).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 65.0,
@@ -563,11 +608,11 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "legacy-forge",
       "registry_url": "https://www.npmjs.com/package/legacy-forge",
       "repository_url": "https://github.com/fake-legacy-forge/legacy-forge",
-      "risk_score": 85.7742,
+      "risk_score": 85.6141,
       "severity_tier": "Critical",
       "slug": "npm-legacy-forge",
       "snapshot_week": "2026-04-20"
@@ -578,7 +623,7 @@
       "exclusion_reason": null,
       "first_release_date": "2020-09-01",
       "flagged": false,
-      "fragility_score": 4.0701,
+      "fragility_score": 4.1261,
       "fragility_signals": [
         {
           "contribution": 26.0,
@@ -587,8 +632,13 @@
         },
         {
           "contribution": 5.000000000000004,
-          "evidence": "Top contributor authored 33.0% of commits over the last 365 days (distinct contributors: 16).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 33.0% of all-time commits (distinct contributors: 16).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 5.000000000000004,
+          "evidence": "Top contributor authored 33.0% of commits over the last 365 days (unique contributors: 16).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 3.880597014925373,
@@ -627,11 +677,11 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "measured-worker",
       "registry_url": "https://www.npmjs.com/package/measured-worker",
       "repository_url": "https://github.com/fake-measured/measured-worker",
-      "risk_score": 1.0925,
+      "risk_score": 1.1075,
       "severity_tier": "Stable",
       "slug": "npm-measured-worker",
       "snapshot_week": "2026-04-20"
@@ -642,7 +692,7 @@
       "exclusion_reason": null,
       "first_release_date": "2021-02-05",
       "flagged": false,
-      "fragility_score": 5.0474,
+      "fragility_score": 5.8807,
       "fragility_signals": [
         {
           "contribution": 32.0,
@@ -651,8 +701,13 @@
         },
         {
           "contribution": 16.666666666666675,
-          "evidence": "Top contributor authored 40.0% of commits over the last 365 days (distinct contributors: 10).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 40.0% of all-time commits (distinct contributors: 10).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 16.666666666666675,
+          "evidence": "Top contributor authored 40.0% of commits over the last 365 days (unique contributors: 10).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 1.2048192771084338,
@@ -691,11 +746,11 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "minimal-queue",
       "registry_url": "https://www.npmjs.com/package/minimal-queue",
       "repository_url": "https://github.com/fake-minimal/minimal-queue",
-      "risk_score": 0.4516,
+      "risk_score": 0.5262,
       "severity_tier": "Stable",
       "slug": "npm-minimal-queue",
       "snapshot_week": "2026-04-20"
@@ -706,7 +761,7 @@
       "exclusion_reason": null,
       "first_release_date": "2020-05-22",
       "flagged": false,
-      "fragility_score": 2.7333,
+      "fragility_score": 2.9,
       "fragility_signals": [
         {
           "contribution": 24.0,
@@ -715,8 +770,13 @@
         },
         {
           "contribution": 3.3333333333333366,
-          "evidence": "Top contributor authored 32.0% of commits over the last 365 days (distinct contributors: 20).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 32.0% of all-time commits (distinct contributors: 20).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 3.3333333333333366,
+          "evidence": "Top contributor authored 32.0% of commits over the last 365 days (unique contributors: 20).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 0.0,
@@ -755,11 +815,11 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "modest-codec",
       "registry_url": "https://www.npmjs.com/package/modest-codec",
       "repository_url": "https://github.com/fake-modest/modest-codec",
-      "risk_score": 1.0142,
+      "risk_score": 1.0761,
       "severity_tier": "Stable",
       "slug": "npm-modest-codec",
       "snapshot_week": "2026-04-20"
@@ -789,8 +849,13 @@
         },
         {
           "contribution": 100.0,
-          "evidence": "Top contributor authored 95.0% of commits over the last 365 days (distinct contributors: 2).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 95.0% of all-time commits (distinct contributors: 2).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "Top contributor authored 95.0% of commits over the last 365 days (unique contributors: 2).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 69.87951807228916,
@@ -819,7 +884,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "neglected-stream",
       "registry_url": "https://www.npmjs.com/package/neglected-stream",
       "repository_url": "https://github.com/fake-neglected/neglected-stream",
@@ -838,8 +903,13 @@
       "fragility_signals": [
         {
           "contribution": 50.0,
-          "evidence": "Top contributor authored 60.0% of commits over the last 365 days (distinct contributors: 4).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 60.0% of all-time commits (distinct contributors: 4).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 50.0,
+          "evidence": "Top contributor authored 60.0% of commits over the last 365 days (unique contributors: 4).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 0.0,
@@ -882,7 +952,7 @@
           "deps_dev_source_repo_match(+20)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "newborn-cli",
       "registry_url": "https://www.npmjs.com/package/newborn-cli",
       "repository_url": "https://github.com/fake-newborn/newborn-cli",
@@ -897,7 +967,7 @@
       "exclusion_reason": null,
       "first_release_date": "2016-05-20",
       "flagged": true,
-      "fragility_score": 89.5835,
+      "fragility_score": 89.1669,
       "fragility_signals": [
         {
           "contribution": 100.0,
@@ -916,8 +986,13 @@
         },
         {
           "contribution": 91.66666666666667,
-          "evidence": "Top contributor authored 85.0% of commits over the last 365 days (distinct contributors: 3).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 85.0% of all-time commits (distinct contributors: 3).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 91.66666666666667,
+          "evidence": "Top contributor authored 85.0% of commits over the last 365 days (unique contributors: 3).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 62.0,
@@ -945,11 +1020,11 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "old-validator",
       "registry_url": "https://www.npmjs.com/package/old-validator",
       "repository_url": "https://github.com/fake-old-validator/old-validator",
-      "risk_score": 71.4311,
+      "risk_score": 71.0988,
       "severity_tier": "Critical",
       "slug": "npm-old-validator",
       "snapshot_week": "2026-04-20"
@@ -985,7 +1060,12 @@
         {
           "contribution": 0.0,
           "evidence": "Contributor concentration unavailable.",
-          "name": "contributor_bus_factor"
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Recent commit concentration unavailable for the last 365 days.",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 0.0,
@@ -1003,7 +1083,7 @@
         "points": 0,
         "rationale": []
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "orphan-package",
       "registry_url": "https://www.npmjs.com/package/orphan-package",
       "repository_url": null,
@@ -1018,7 +1098,7 @@
       "exclusion_reason": null,
       "first_release_date": "2018-03-30",
       "flagged": false,
-      "fragility_score": 39.3609,
+      "fragility_score": 38.4754,
       "fragility_signals": [
         {
           "contribution": 60.0,
@@ -1037,8 +1117,13 @@
         },
         {
           "contribution": 33.333333333333336,
-          "evidence": "Top contributor authored 50.0% of commits over the last 365 days (distinct contributors: 6).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 50.0% of all-time commits (distinct contributors: 6).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 33.333333333333336,
+          "evidence": "Top contributor authored 50.0% of commits over the last 365 days (unique contributors: 6).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 28.22222222222222,
@@ -1067,11 +1152,11 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "quiet-daemon",
       "registry_url": "https://www.npmjs.com/package/quiet-daemon",
       "repository_url": "https://github.com/fake-quiet/quiet-daemon",
-      "risk_score": 11.0832,
+      "risk_score": 10.8338,
       "severity_tier": "Stable",
       "slug": "npm-quiet-daemon",
       "snapshot_week": "2026-04-20"
@@ -1082,7 +1167,7 @@
       "exclusion_reason": null,
       "first_release_date": "2018-09-18",
       "flagged": false,
-      "fragility_score": 41.0841,
+      "fragility_score": 40.5705,
       "fragility_signals": [
         {
           "contribution": 51.94029850746269,
@@ -1096,8 +1181,13 @@
         },
         {
           "contribution": 41.66666666666668,
-          "evidence": "Top contributor authored 55.0% of commits over the last 365 days (distinct contributors: 8).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 55.0% of all-time commits (distinct contributors: 8).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 41.66666666666668,
+          "evidence": "Top contributor authored 55.0% of commits over the last 365 days (unique contributors: 8).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 40.0,
@@ -1131,11 +1221,11 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "robust-cache",
       "registry_url": "https://www.npmjs.com/package/robust-cache",
       "repository_url": "https://github.com/fake-robust/robust-cache",
-      "risk_score": 24.4343,
+      "risk_score": 24.1287,
       "severity_tier": "Elevated",
       "slug": "npm-robust-cache",
       "snapshot_week": "2026-04-20"
@@ -1146,7 +1236,7 @@
       "exclusion_reason": null,
       "first_release_date": "2020-11-22",
       "flagged": false,
-      "fragility_score": 7.0397,
+      "fragility_score": 7.2735,
       "fragility_signals": [
         {
           "contribution": 30.0,
@@ -1155,8 +1245,13 @@
         },
         {
           "contribution": 13.333333333333336,
-          "evidence": "Top contributor authored 38.0% of commits over the last 365 days (distinct contributors: 9).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 38.0% of all-time commits (distinct contributors: 9).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 13.333333333333336,
+          "evidence": "Top contributor authored 38.0% of commits over the last 365 days (unique contributors: 9).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 8.656716417910449,
@@ -1195,11 +1290,11 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "simple-xml",
       "registry_url": "https://www.npmjs.com/package/simple-xml",
       "repository_url": "https://github.com/fake-simple/simple-xml",
-      "risk_score": 0.2223,
+      "risk_score": 0.2297,
       "severity_tier": "Stable",
       "slug": "npm-simple-xml",
       "snapshot_week": "2026-04-20"
@@ -1210,7 +1305,7 @@
       "exclusion_reason": null,
       "first_release_date": "2019-03-04",
       "flagged": false,
-      "fragility_score": 13.3005,
+      "fragility_score": 13.5355,
       "fragility_signals": [
         {
           "contribution": 31.0,
@@ -1219,8 +1314,13 @@
         },
         {
           "contribution": 25.000000000000007,
-          "evidence": "Top contributor authored 45.0% of commits over the last 365 days (distinct contributors: 8).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 45.0% of all-time commits (distinct contributors: 8).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 25.000000000000007,
+          "evidence": "Top contributor authored 45.0% of commits over the last 365 days (unique contributors: 8).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 20.298507462686565,
@@ -1259,11 +1359,11 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "stable-hash",
       "registry_url": "https://www.npmjs.com/package/stable-hash",
       "repository_url": "https://github.com/fake-stable/stable-hash",
-      "risk_score": 0.595,
+      "risk_score": 0.6055,
       "severity_tier": "Stable",
       "slug": "npm-stable-hash",
       "snapshot_week": "2026-04-20"
@@ -1274,7 +1374,7 @@
       "exclusion_reason": null,
       "first_release_date": "2016-08-01",
       "flagged": true,
-      "fragility_score": 86.9763,
+      "fragility_score": 86.3096,
       "fragility_signals": [
         {
           "contribution": 100.0,
@@ -1293,8 +1393,13 @@
         },
         {
           "contribution": 86.66666666666667,
-          "evidence": "Top contributor authored 82.0% of commits over the last 365 days (distinct contributors: 4).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 82.0% of all-time commits (distinct contributors: 4).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 86.66666666666667,
+          "evidence": "Top contributor authored 82.0% of commits over the last 365 days (unique contributors: 4).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 59.0,
@@ -1323,11 +1428,11 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "stale-bundle",
       "registry_url": "https://www.npmjs.com/package/stale-bundle",
       "repository_url": "https://github.com/fake-stale-bundle/stale-bundle",
-      "risk_score": 72.5565,
+      "risk_score": 72.0004,
       "severity_tier": "Critical",
       "slug": "npm-stale-bundle",
       "snapshot_week": "2026-04-20"
@@ -1338,7 +1443,7 @@
       "exclusion_reason": null,
       "first_release_date": "2020-07-11",
       "flagged": false,
-      "fragility_score": 3.2925,
+      "fragility_score": 2.994,
       "fragility_signals": [
         {
           "contribution": 18.0,
@@ -1367,8 +1472,13 @@
         },
         {
           "contribution": 0.0,
-          "evidence": "Top contributor authored 30.0% of commits over the last 365 days (distinct contributors: 18).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 30.0% of all-time commits (distinct contributors: 18).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 30.0% of commits over the last 365 days (unique contributors: 18).",
+          "name": "recent_commit_concentration_365d"
         }
       ],
       "importance_score": 35.0,
@@ -1387,11 +1497,11 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "steady-types",
       "registry_url": "https://www.npmjs.com/package/steady-types",
       "repository_url": "https://github.com/fake-steady/steady-types",
-      "risk_score": 1.1524,
+      "risk_score": 1.0479,
       "severity_tier": "Stable",
       "slug": "npm-steady-types",
       "snapshot_week": "2026-04-20"
@@ -1431,8 +1541,13 @@
         },
         {
           "contribution": 0.0,
-          "evidence": "Top contributor authored 28.0% of commits over the last 365 days (distinct contributors: 22).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 28.0% of all-time commits (distinct contributors: 22).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 28.0% of commits over the last 365 days (unique contributors: 22).",
+          "name": "recent_commit_concentration_365d"
         }
       ],
       "importance_score": 31.3158,
@@ -1451,7 +1566,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "thorough-test",
       "registry_url": "https://www.npmjs.com/package/thorough-test",
       "repository_url": "https://github.com/fake-thorough/thorough-test",
@@ -1495,8 +1610,13 @@
         },
         {
           "contribution": 0.0,
-          "evidence": "Top contributor authored 28.0% of commits over the last 365 days (distinct contributors: 32).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 28.0% of all-time commits (distinct contributors: 32).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 28.0% of commits over the last 365 days (unique contributors: 32).",
+          "name": "recent_commit_concentration_365d"
         }
       ],
       "importance_score": 63.4211,
@@ -1514,7 +1634,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "vibrant-router",
       "registry_url": "https://www.npmjs.com/package/vibrant-router",
       "repository_url": "https://github.com/fake-vibrant/vibrant-router",
@@ -1558,8 +1678,13 @@
         },
         {
           "contribution": 0.0,
-          "evidence": "Top contributor authored 22.0% of commits over the last 365 days (distinct contributors: 36).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 22.0% of all-time commits (distinct contributors: 36).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 22.0% of commits over the last 365 days (unique contributors: 36).",
+          "name": "recent_commit_concentration_365d"
         }
       ],
       "importance_score": 77.1053,
@@ -1577,7 +1702,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "active-pylogger",
       "registry_url": "https://pypi.org/project/active-pylogger/",
       "repository_url": "https://github.com/fake-active-py/active-pylogger",
@@ -1611,8 +1736,13 @@
         },
         {
           "contribution": 100.0,
-          "evidence": "Top contributor authored 90.0% of commits over the last 365 days (distinct contributors: 2).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 90.0% of all-time commits (distinct contributors: 2).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "Top contributor authored 90.0% of commits over the last 365 days (unique contributors: 2).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 66.0,
@@ -1641,7 +1771,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "aged-pytemplate",
       "registry_url": "https://pypi.org/project/aged-pytemplate/",
       "repository_url": "https://github.com/fake-aged-py/aged-pytemplate",
@@ -1680,8 +1810,13 @@
         },
         {
           "contribution": 0.0,
-          "evidence": "Top contributor authored 0.0% of commits over the last 365 days (distinct contributors: 0).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 0.0% of all-time commits (distinct contributors: 0).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Recent commit concentration unavailable for the last 365 days.",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 0.0,
@@ -1704,7 +1839,7 @@
           "deps_dev_source_repo_match(+20)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "archived-pycompiler",
       "registry_url": "https://pypi.org/project/archived-pycompiler/",
       "repository_url": "https://github.com/fake-archived-py/archived-pycompiler",
@@ -1719,7 +1854,7 @@
       "exclusion_reason": null,
       "first_release_date": "2020-01-12",
       "flagged": false,
-      "fragility_score": 3.6333,
+      "fragility_score": 4.05,
       "fragility_signals": [
         {
           "contribution": 28.0,
@@ -1728,8 +1863,13 @@
         },
         {
           "contribution": 8.333333333333332,
-          "evidence": "Top contributor authored 35.0% of commits over the last 365 days (distinct contributors: 11).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 35.0% of all-time commits (distinct contributors: 11).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 8.333333333333332,
+          "evidence": "Top contributor authored 35.0% of commits over the last 365 days (unique contributors: 11).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 0.0,
@@ -1768,11 +1908,11 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "constant-pytimer",
       "registry_url": "https://pypi.org/project/constant-pytimer/",
       "repository_url": "https://github.com/fake-constant-py/constant-pytimer",
-      "risk_score": 0.4876,
+      "risk_score": 0.5436,
       "severity_tier": "Stable",
       "slug": "pypi-constant-pytimer",
       "snapshot_week": "2026-04-20"
@@ -1812,8 +1952,13 @@
         },
         {
           "contribution": 0.0,
-          "evidence": "Top contributor authored 25.0% of commits over the last 365 days (distinct contributors: 20).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 25.0% of all-time commits (distinct contributors: 20).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 25.0% of commits over the last 365 days (unique contributors: 20).",
+          "name": "recent_commit_concentration_365d"
         }
       ],
       "importance_score": 47.6316,
@@ -1832,7 +1977,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "eventful-pyproxy",
       "registry_url": "https://pypi.org/project/eventful-pyproxy/",
       "repository_url": "https://github.com/fake-eventful-py/eventful-pyproxy",
@@ -1876,8 +2021,13 @@
         },
         {
           "contribution": 0.0,
-          "evidence": "Top contributor authored 18.0% of commits over the last 365 days (distinct contributors: 44).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 18.0% of all-time commits (distinct contributors: 44).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 18.0% of commits over the last 365 days (unique contributors: 44).",
+          "name": "recent_commit_concentration_365d"
         }
       ],
       "importance_score": 67.8947,
@@ -1895,7 +2045,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "fresh-pyparser",
       "registry_url": "https://pypi.org/project/fresh-pyparser/",
       "repository_url": "https://github.com/fake-fresh-py/fresh-pyparser",
@@ -1929,8 +2079,13 @@
         },
         {
           "contribution": 100.0,
-          "evidence": "Top contributor authored 92.0% of commits over the last 365 days (distinct contributors: 2).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 92.0% of all-time commits (distinct contributors: 2).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "Top contributor authored 92.0% of commits over the last 365 days (unique contributors: 2).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 78.3132530120482,
@@ -1959,7 +2114,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "frozen-pyformat",
       "registry_url": "https://pypi.org/project/frozen-pyformat/",
       "repository_url": "https://github.com/fake-frozen-py/frozen-pyformat",
@@ -1974,7 +2129,7 @@
       "exclusion_reason": null,
       "first_release_date": "2017-03-15",
       "flagged": true,
-      "fragility_score": 89.2992,
+      "fragility_score": 89.1325,
       "fragility_signals": [
         {
           "contribution": 100.0,
@@ -1993,8 +2148,13 @@
         },
         {
           "contribution": 96.66666666666669,
-          "evidence": "Top contributor authored 88.0% of commits over the last 365 days (distinct contributors: 3).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 88.0% of all-time commits (distinct contributors: 3).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 96.66666666666669,
+          "evidence": "Top contributor authored 88.0% of commits over the last 365 days (unique contributors: 3).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 65.0,
@@ -2022,11 +2182,11 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "legacy-pyforge",
       "registry_url": "https://pypi.org/project/legacy-pyforge/",
       "repository_url": "https://github.com/fake-legacy-pyforge/legacy-pyforge",
-      "risk_score": 86.9492,
+      "risk_score": 86.7869,
       "severity_tier": "Critical",
       "slug": "pypi-legacy-pyforge",
       "snapshot_week": "2026-04-20"
@@ -2037,7 +2197,7 @@
       "exclusion_reason": null,
       "first_release_date": "2020-09-01",
       "flagged": false,
-      "fragility_score": 4.0701,
+      "fragility_score": 4.1261,
       "fragility_signals": [
         {
           "contribution": 26.0,
@@ -2046,8 +2206,13 @@
         },
         {
           "contribution": 5.000000000000004,
-          "evidence": "Top contributor authored 33.0% of commits over the last 365 days (distinct contributors: 12).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 33.0% of all-time commits (distinct contributors: 12).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 5.000000000000004,
+          "evidence": "Top contributor authored 33.0% of commits over the last 365 days (unique contributors: 12).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 3.880597014925373,
@@ -2086,11 +2251,11 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "measured-pyworker",
       "registry_url": "https://pypi.org/project/measured-pyworker/",
       "repository_url": "https://github.com/fake-measured-py/measured-pyworker",
-      "risk_score": 1.0925,
+      "risk_score": 1.1075,
       "severity_tier": "Stable",
       "slug": "pypi-measured-pyworker",
       "snapshot_week": "2026-04-20"
@@ -2101,7 +2266,7 @@
       "exclusion_reason": null,
       "first_release_date": "2021-02-05",
       "flagged": false,
-      "fragility_score": 5.0474,
+      "fragility_score": 5.8807,
       "fragility_signals": [
         {
           "contribution": 32.0,
@@ -2110,8 +2275,13 @@
         },
         {
           "contribution": 16.666666666666675,
-          "evidence": "Top contributor authored 40.0% of commits over the last 365 days (distinct contributors: 8).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 40.0% of all-time commits (distinct contributors: 8).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 16.666666666666675,
+          "evidence": "Top contributor authored 40.0% of commits over the last 365 days (unique contributors: 8).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 1.2048192771084338,
@@ -2150,11 +2320,11 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "minimal-pyqueue",
       "registry_url": "https://pypi.org/project/minimal-pyqueue/",
       "repository_url": "https://github.com/fake-minimal-py/minimal-pyqueue",
-      "risk_score": 0.4516,
+      "risk_score": 0.5262,
       "severity_tier": "Stable",
       "slug": "pypi-minimal-pyqueue",
       "snapshot_week": "2026-04-20"
@@ -2165,7 +2335,7 @@
       "exclusion_reason": null,
       "first_release_date": "2020-05-22",
       "flagged": false,
-      "fragility_score": 2.7333,
+      "fragility_score": 2.9,
       "fragility_signals": [
         {
           "contribution": 24.0,
@@ -2174,8 +2344,13 @@
         },
         {
           "contribution": 3.3333333333333366,
-          "evidence": "Top contributor authored 32.0% of commits over the last 365 days (distinct contributors: 16).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 32.0% of all-time commits (distinct contributors: 16).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 3.3333333333333366,
+          "evidence": "Top contributor authored 32.0% of commits over the last 365 days (unique contributors: 16).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 0.0,
@@ -2214,11 +2389,11 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "modest-pycodec",
       "registry_url": "https://pypi.org/project/modest-pycodec/",
       "repository_url": "https://github.com/fake-modest-py/modest-pycodec",
-      "risk_score": 0.9782,
+      "risk_score": 1.0379,
       "severity_tier": "Stable",
       "slug": "pypi-modest-pycodec",
       "snapshot_week": "2026-04-20"
@@ -2248,8 +2423,13 @@
         },
         {
           "contribution": 100.0,
-          "evidence": "Top contributor authored 95.0% of commits over the last 365 days (distinct contributors: 2).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 95.0% of all-time commits (distinct contributors: 2).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 100.0,
+          "evidence": "Top contributor authored 95.0% of commits over the last 365 days (unique contributors: 2).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 69.87951807228916,
@@ -2278,7 +2458,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "neglected-pystream",
       "registry_url": "https://pypi.org/project/neglected-pystream/",
       "repository_url": "https://github.com/fake-neglected-py/neglected-pystream",
@@ -2297,8 +2477,13 @@
       "fragility_signals": [
         {
           "contribution": 50.0,
-          "evidence": "Top contributor authored 60.0% of commits over the last 365 days (distinct contributors: 3).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 60.0% of all-time commits (distinct contributors: 3).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 50.0,
+          "evidence": "Top contributor authored 60.0% of commits over the last 365 days (unique contributors: 3).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 0.0,
@@ -2341,7 +2526,7 @@
           "deps_dev_source_repo_match(+20)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "newborn-pycli",
       "registry_url": "https://pypi.org/project/newborn-pycli/",
       "repository_url": "https://github.com/fake-newborn-py/newborn-pycli",
@@ -2356,7 +2541,7 @@
       "exclusion_reason": null,
       "first_release_date": "2016-05-20",
       "flagged": true,
-      "fragility_score": 89.5835,
+      "fragility_score": 89.1669,
       "fragility_signals": [
         {
           "contribution": 100.0,
@@ -2375,8 +2560,13 @@
         },
         {
           "contribution": 91.66666666666667,
-          "evidence": "Top contributor authored 85.0% of commits over the last 365 days (distinct contributors: 3).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 85.0% of all-time commits (distinct contributors: 3).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 91.66666666666667,
+          "evidence": "Top contributor authored 85.0% of commits over the last 365 days (unique contributors: 3).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 62.0,
@@ -2404,11 +2594,11 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "old-pyvalidator",
       "registry_url": "https://pypi.org/project/old-pyvalidator/",
       "repository_url": "https://github.com/fake-old-pyvalidator/old-pyvalidator",
-      "risk_score": 71.4311,
+      "risk_score": 71.0988,
       "severity_tier": "Critical",
       "slug": "pypi-old-pyvalidator",
       "snapshot_week": "2026-04-20"
@@ -2444,7 +2634,12 @@
         {
           "contribution": 0.0,
           "evidence": "Contributor concentration unavailable.",
-          "name": "contributor_bus_factor"
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Recent commit concentration unavailable for the last 365 days.",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 0.0,
@@ -2462,7 +2657,7 @@
         "points": 0,
         "rationale": []
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "orphan-pypackage",
       "registry_url": "https://pypi.org/project/orphan-pypackage/",
       "repository_url": null,
@@ -2477,7 +2672,7 @@
       "exclusion_reason": null,
       "first_release_date": "2018-03-30",
       "flagged": false,
-      "fragility_score": 39.3609,
+      "fragility_score": 38.4754,
       "fragility_signals": [
         {
           "contribution": 60.0,
@@ -2496,8 +2691,13 @@
         },
         {
           "contribution": 33.333333333333336,
-          "evidence": "Top contributor authored 50.0% of commits over the last 365 days (distinct contributors: 5).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 50.0% of all-time commits (distinct contributors: 5).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 33.333333333333336,
+          "evidence": "Top contributor authored 50.0% of commits over the last 365 days (unique contributors: 5).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 28.22222222222222,
@@ -2526,11 +2726,11 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "quiet-pydaemon",
       "registry_url": "https://pypi.org/project/quiet-pydaemon/",
       "repository_url": "https://github.com/fake-quiet-py/quiet-pydaemon",
-      "risk_score": 10.7725,
+      "risk_score": 10.5301,
       "severity_tier": "Stable",
       "slug": "pypi-quiet-pydaemon",
       "snapshot_week": "2026-04-20"
@@ -2541,7 +2741,7 @@
       "exclusion_reason": null,
       "first_release_date": "2018-09-18",
       "flagged": false,
-      "fragility_score": 41.0841,
+      "fragility_score": 40.5705,
       "fragility_signals": [
         {
           "contribution": 51.94029850746269,
@@ -2555,8 +2755,13 @@
         },
         {
           "contribution": 41.66666666666668,
-          "evidence": "Top contributor authored 55.0% of commits over the last 365 days (distinct contributors: 7).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 55.0% of all-time commits (distinct contributors: 7).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 41.66666666666668,
+          "evidence": "Top contributor authored 55.0% of commits over the last 365 days (unique contributors: 7).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 40.0,
@@ -2590,11 +2795,11 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "robust-pycache",
       "registry_url": "https://pypi.org/project/robust-pycache/",
       "repository_url": "https://github.com/fake-robust-py/robust-pycache",
-      "risk_score": 24.4343,
+      "risk_score": 24.1287,
       "severity_tier": "Elevated",
       "slug": "pypi-robust-pycache",
       "snapshot_week": "2026-04-20"
@@ -2605,7 +2810,7 @@
       "exclusion_reason": null,
       "first_release_date": "2020-11-22",
       "flagged": false,
-      "fragility_score": 7.0397,
+      "fragility_score": 7.2735,
       "fragility_signals": [
         {
           "contribution": 30.0,
@@ -2614,8 +2819,13 @@
         },
         {
           "contribution": 13.333333333333336,
-          "evidence": "Top contributor authored 38.0% of commits over the last 365 days (distinct contributors: 7).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 38.0% of all-time commits (distinct contributors: 7).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 13.333333333333336,
+          "evidence": "Top contributor authored 38.0% of commits over the last 365 days (unique contributors: 7).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 8.656716417910449,
@@ -2654,11 +2864,11 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "simple-pyxml",
       "registry_url": "https://pypi.org/project/simple-pyxml/",
       "repository_url": "https://github.com/fake-simple-py/simple-pyxml",
-      "risk_score": 0.2223,
+      "risk_score": 0.2297,
       "severity_tier": "Stable",
       "slug": "pypi-simple-pyxml",
       "snapshot_week": "2026-04-20"
@@ -2669,7 +2879,7 @@
       "exclusion_reason": null,
       "first_release_date": "2019-03-04",
       "flagged": false,
-      "fragility_score": 13.3005,
+      "fragility_score": 13.5355,
       "fragility_signals": [
         {
           "contribution": 31.0,
@@ -2678,8 +2888,13 @@
         },
         {
           "contribution": 25.000000000000007,
-          "evidence": "Top contributor authored 45.0% of commits over the last 365 days (distinct contributors: 6).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 45.0% of all-time commits (distinct contributors: 6).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 25.000000000000007,
+          "evidence": "Top contributor authored 45.0% of commits over the last 365 days (unique contributors: 6).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 20.298507462686565,
@@ -2718,11 +2933,11 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "stable-pyhash",
       "registry_url": "https://pypi.org/project/stable-pyhash/",
       "repository_url": "https://github.com/fake-stable-py/stable-pyhash",
-      "risk_score": 0.595,
+      "risk_score": 0.6055,
       "severity_tier": "Stable",
       "slug": "pypi-stable-pyhash",
       "snapshot_week": "2026-04-20"
@@ -2733,7 +2948,7 @@
       "exclusion_reason": null,
       "first_release_date": "2016-08-01",
       "flagged": true,
-      "fragility_score": 86.9763,
+      "fragility_score": 86.3096,
       "fragility_signals": [
         {
           "contribution": 100.0,
@@ -2752,8 +2967,13 @@
         },
         {
           "contribution": 86.66666666666667,
-          "evidence": "Top contributor authored 82.0% of commits over the last 365 days (distinct contributors: 4).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 82.0% of all-time commits (distinct contributors: 4).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 86.66666666666667,
+          "evidence": "Top contributor authored 82.0% of commits over the last 365 days (unique contributors: 4).",
+          "name": "recent_commit_concentration_365d"
         },
         {
           "contribution": 59.0,
@@ -2782,11 +3002,11 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "stale-pybundle",
       "registry_url": "https://pypi.org/project/stale-pybundle/",
       "repository_url": "https://github.com/fake-stale-pybundle/stale-pybundle",
-      "risk_score": 72.5565,
+      "risk_score": 72.0004,
       "severity_tier": "Critical",
       "slug": "pypi-stale-pybundle",
       "snapshot_week": "2026-04-20"
@@ -2797,7 +3017,7 @@
       "exclusion_reason": null,
       "first_release_date": "2020-07-11",
       "flagged": false,
-      "fragility_score": 3.2925,
+      "fragility_score": 2.994,
       "fragility_signals": [
         {
           "contribution": 18.0,
@@ -2826,8 +3046,13 @@
         },
         {
           "contribution": 0.0,
-          "evidence": "Top contributor authored 30.0% of commits over the last 365 days (distinct contributors: 14).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 30.0% of all-time commits (distinct contributors: 14).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 30.0% of commits over the last 365 days (unique contributors: 14).",
+          "name": "recent_commit_concentration_365d"
         }
       ],
       "importance_score": 35.0,
@@ -2846,11 +3071,11 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "steady-pyutils",
       "registry_url": "https://pypi.org/project/steady-pyutils/",
       "repository_url": "https://github.com/fake-steady-py/steady-pyutils",
-      "risk_score": 1.1524,
+      "risk_score": 1.0479,
       "severity_tier": "Stable",
       "slug": "pypi-steady-pyutils",
       "snapshot_week": "2026-04-20"
@@ -2890,8 +3115,13 @@
         },
         {
           "contribution": 0.0,
-          "evidence": "Top contributor authored 28.0% of commits over the last 365 days (distinct contributors: 18).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 28.0% of all-time commits (distinct contributors: 18).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 28.0% of commits over the last 365 days (unique contributors: 18).",
+          "name": "recent_commit_concentration_365d"
         }
       ],
       "importance_score": 31.3158,
@@ -2910,7 +3140,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "thorough-pytest-utils",
       "registry_url": "https://pypi.org/project/thorough-pytest-utils/",
       "repository_url": "https://github.com/fake-thorough-py/thorough-pytest-utils",
@@ -2954,8 +3184,13 @@
         },
         {
           "contribution": 0.0,
-          "evidence": "Top contributor authored 6.0% of commits over the last 365 days (distinct contributors: 800).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 6.0% of all-time commits (distinct contributors: 800).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 6.0% of commits over the last 365 days (unique contributors: 800).",
+          "name": "recent_commit_concentration_365d"
         }
       ],
       "importance_score": 0.0,
@@ -2976,7 +3211,7 @@
           "monorepo_cap_applied(medium_max)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "types-legacy-pyforge",
       "registry_url": "https://pypi.org/project/types-legacy-pyforge/",
       "repository_url": "https://github.com/python/typeshed",
@@ -3020,8 +3255,13 @@
         },
         {
           "contribution": 0.0,
-          "evidence": "Top contributor authored 28.0% of commits over the last 365 days (distinct contributors: 26).",
-          "name": "contributor_bus_factor"
+          "evidence": "Top contributor authored 28.0% of all-time commits (distinct contributors: 26).",
+          "name": "all_time_contribution_concentration"
+        },
+        {
+          "contribution": 0.0,
+          "evidence": "Top contributor authored 28.0% of commits over the last 365 days (unique contributors: 26).",
+          "name": "recent_commit_concentration_365d"
         }
       ],
       "importance_score": 62.1053,
@@ -3039,7 +3279,7 @@
           "openssf_scorecard_present(+10)"
         ]
       },
-      "methodology_version": "v0.3.0",
+      "methodology_version": "v0.4.0",
       "package_name": "vibrant-pyrouter",
       "registry_url": "https://pypi.org/project/vibrant-pyrouter/",
       "repository_url": "https://github.com/fake-vibrant-py/vibrant-pyrouter",
@@ -3049,6 +3289,6 @@
       "snapshot_week": "2026-04-20"
     }
   ],
-  "methodology_version": "v0.3.0",
+  "methodology_version": "v0.4.0",
   "snapshot_week": "2026-04-20"
 }

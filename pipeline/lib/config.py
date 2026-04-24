@@ -72,7 +72,8 @@ class ScoringConfig:
     release_recency: LinearThreshold
     commit_recency: LinearThreshold
     issue_responsiveness: LinearThreshold
-    contributor_bus_factor: ShareThreshold
+    all_time_contribution_concentration: ShareThreshold
+    recent_commit_concentration_365d: ShareThreshold
     scorecard_scale: int
     release_cadence_min_prior: int
     issue_min_eligible: int
@@ -152,9 +153,13 @@ def load_scoring_config(path: Path | None = None) -> ScoringConfig:
             floor_days=int(thresholds["issue_responsiveness"]["floor_days"]),
             cap_days=int(thresholds["issue_responsiveness"]["cap_days"]),
         ),
-        contributor_bus_factor=ShareThreshold(
-            share_floor=float(thresholds["contributor_bus_factor"]["share_floor"]),
-            share_cap=float(thresholds["contributor_bus_factor"]["share_cap"]),
+        all_time_contribution_concentration=ShareThreshold(
+            share_floor=float(thresholds["all_time_contribution_concentration"]["share_floor"]),
+            share_cap=float(thresholds["all_time_contribution_concentration"]["share_cap"]),
+        ),
+        recent_commit_concentration_365d=ShareThreshold(
+            share_floor=float(thresholds["recent_commit_concentration_365d"]["share_floor"]),
+            share_cap=float(thresholds["recent_commit_concentration_365d"]["share_cap"]),
         ),
         scorecard_scale=int(thresholds["openssf_scorecard"]["scale"]),
         release_cadence_min_prior=int(

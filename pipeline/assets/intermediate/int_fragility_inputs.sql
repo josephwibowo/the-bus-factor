@@ -16,7 +16,10 @@ description: |
                               issues_opened_last_180d >= min_eligible_issues
                               (see scoring.yml; currently 5 in v0.3.0,
                               was 10 in v0.1.0)
-    contributor_bus_factor  : linear 0.30-0.90 on top-1 contributor share
+    all_time_contribution_concentration : linear 0.30-0.90 on all-time
+                              top-1 contributor share
+    recent_commit_concentration_365d : linear 0.30-0.90 on top-1 commit
+                              share over the last 365 days
     openssf_scorecard       : 100 - (score * 10), clamped 0-100
 
 materialization:
@@ -72,7 +75,11 @@ columns:
     type: double
     checks:
       - name: non_negative
-  - name: contributor_bus_factor
+  - name: all_time_contribution_concentration
+    type: double
+    checks:
+      - name: non_negative
+  - name: recent_commit_concentration_365d
     type: double
     checks:
       - name: non_negative
@@ -83,8 +90,8 @@ columns:
   - name: fragility_score
     type: double
     description: |
-      Weighted sum of the six components using fragility.weights from
-      scoring.yml (0.25 / 0.25 / 0.15 / 0.15 / 0.10 / 0.10).
+      Weighted sum of the seven components using fragility.weights from
+      scoring.yml (0.25 / 0.20 / 0.15 / 0.15 / 0.08 / 0.07 / 0.10).
     checks:
       - name: non_negative
 
@@ -112,7 +119,8 @@ joined AS (
         r.releases_prior_365d,
         i.issues_opened_last_180d,
         i.median_time_to_first_response_days,
-        co.top_contributor_share_365d,
+        co.top_contributor_share_all_time,
+        c.top_contributor_share_365d,
         sc.aggregate_score
     FROM universe u
     CROSS JOIN snap s
@@ -195,18 +203,31 @@ components AS (
             ) * 100.0
         END AS issue_responsiveness,
 
-        -- contributor_bus_factor: linear share floor/cap from scoring vars
+        -- all_time_contribution_concentration: linear share floor/cap
+        CASE
+            WHEN j.top_contributor_share_all_time IS NULL THEN 0
+            WHEN j.top_contributor_share_all_time <= {{ var.threshold_all_time_contributor_share_floor }} THEN 0
+            WHEN j.top_contributor_share_all_time >= {{ var.threshold_all_time_contributor_share_cap }} THEN 100
+            ELSE (
+                j.top_contributor_share_all_time - {{ var.threshold_all_time_contributor_share_floor }}
+            ) / (
+                {{ var.threshold_all_time_contributor_share_cap }}
+                - {{ var.threshold_all_time_contributor_share_floor }}
+            ) * 100.0
+        END AS all_time_contribution_concentration,
+
+        -- recent_commit_concentration_365d: linear share floor/cap
         CASE
             WHEN j.top_contributor_share_365d IS NULL THEN 0
-            WHEN j.top_contributor_share_365d <= {{ var.threshold_contributor_share_floor }} THEN 0
-            WHEN j.top_contributor_share_365d >= {{ var.threshold_contributor_share_cap }} THEN 100
+            WHEN j.top_contributor_share_365d <= {{ var.threshold_recent_commit_contributor_share_floor }} THEN 0
+            WHEN j.top_contributor_share_365d >= {{ var.threshold_recent_commit_contributor_share_cap }} THEN 100
             ELSE (
-                j.top_contributor_share_365d - {{ var.threshold_contributor_share_floor }}
+                j.top_contributor_share_365d - {{ var.threshold_recent_commit_contributor_share_floor }}
             ) / (
-                {{ var.threshold_contributor_share_cap }}
-                - {{ var.threshold_contributor_share_floor }}
+                {{ var.threshold_recent_commit_contributor_share_cap }}
+                - {{ var.threshold_recent_commit_contributor_share_floor }}
             ) * 100.0
-        END AS contributor_bus_factor,
+        END AS recent_commit_concentration_365d,
 
         -- openssf_scorecard: 100 - (score * configured scale)
         CASE
@@ -228,14 +249,16 @@ SELECT
     commit_recency,
     release_cadence_decay,
     issue_responsiveness,
-    contributor_bus_factor,
+    all_time_contribution_concentration,
+    recent_commit_concentration_365d,
     openssf_scorecard,
     (
         {{ var.fragility_weight_release_recency }} * release_recency
         + {{ var.fragility_weight_commit_recency }} * commit_recency
         + {{ var.fragility_weight_release_cadence_decay }} * release_cadence_decay
         + {{ var.fragility_weight_issue_responsiveness }} * issue_responsiveness
-        + {{ var.fragility_weight_contributor_bus_factor }} * contributor_bus_factor
+        + {{ var.fragility_weight_all_time_contribution_concentration }} * all_time_contribution_concentration
+        + {{ var.fragility_weight_recent_commit_concentration_365d }} * recent_commit_concentration_365d
         + {{ var.fragility_weight_openssf_scorecard }} * openssf_scorecard
     ) AS fragility_score
 FROM components
