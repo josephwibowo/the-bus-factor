@@ -5,7 +5,7 @@ test.describe("static site smoke", () => {
     await page.goto("/");
     await expect(page.getByRole("heading", { name: /leaderboard/i })).toBeVisible();
     // Every top-level nav link should resolve.
-    for (const label of ["Leaderboard", "Weekly", "Analysis", "Methodology", "Positioning"]) {
+    for (const label of ["Leaderboard", "Weekly", "Methodology"]) {
       await expect(page.getByRole("link", { name: label, exact: false }).first()).toBeVisible();
     }
     await expect(page.getByRole("link", { name: /methodology/i }).first()).toHaveAttribute(

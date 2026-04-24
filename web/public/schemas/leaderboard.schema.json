@@ -28,6 +28,10 @@
           "title": "Fragility Score",
           "type": "number"
         },
+        "importance_percentile": {
+          "title": "Importance Percentile",
+          "type": "number"
+        },
         "importance_score": {
           "title": "Importance Score",
           "type": "number"
@@ -59,6 +63,10 @@
           "title": "Severity Tier",
           "type": "string"
         },
+        "signals_above_threshold": {
+          "title": "Signals Above Threshold",
+          "type": "integer"
+        },
         "slug": {
           "title": "Slug",
           "type": "string"
@@ -75,7 +83,9 @@
         "importance_score",
         "fragility_score",
         "confidence",
-        "primary_finding"
+        "primary_finding",
+        "signals_above_threshold",
+        "importance_percentile"
       ],
       "title": "LeaderboardEntry",
       "type": "object"

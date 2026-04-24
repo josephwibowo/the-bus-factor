@@ -213,6 +213,8 @@ def _build_leaderboard(conn: duckdb.DuckDBPyConnection) -> Leaderboard:
             s.importance_score,
             s.fragility_score,
             s.confidence,
+            s.signals_above_threshold,
+            s.importance_percentile_within_eligible,
             s.snapshot_week,
             s.methodology_version,
             COALESCE(ev.evidence, 'No dominant signal identified.') AS primary_finding
@@ -257,6 +259,8 @@ def _build_leaderboard(conn: duckdb.DuckDBPyConnection) -> Leaderboard:
             fragility_score=float(row["fragility_score"]),
             confidence=row["confidence"],
             primary_finding=row["primary_finding"],
+            signals_above_threshold=int(row["signals_above_threshold"] or 0),
+            importance_percentile=float(row["importance_percentile_within_eligible"] or 0.0),
         )
         for row in rows
     ]

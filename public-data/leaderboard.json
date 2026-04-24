@@ -5,12 +5,14 @@
       "ecosystem": "npm",
       "flagged": true,
       "fragility_score": 89.1325,
+      "importance_percentile": 100.0,
       "importance_score": 96.0526,
       "package_name": "legacy-forge",
       "primary_finding": "948 days since latest release.",
       "rank_within_ecosystem": 1,
       "risk_score": 85.6141,
       "severity_tier": "Critical",
+      "signals_above_threshold": 7,
       "slug": "npm-legacy-forge"
     },
     {
@@ -18,12 +20,14 @@
       "ecosystem": "npm",
       "flagged": true,
       "fragility_score": 92.2819,
+      "importance_percentile": 94.7368,
       "importance_score": 90.0,
       "package_name": "neglected-stream",
       "primary_finding": "1015 days since latest release.",
       "rank_within_ecosystem": 2,
       "risk_score": 83.0537,
       "severity_tier": "Critical",
+      "signals_above_threshold": 7,
       "slug": "npm-neglected-stream"
     },
     {
@@ -31,12 +35,14 @@
       "ecosystem": "npm",
       "flagged": true,
       "fragility_score": 86.3096,
+      "importance_percentile": 89.4737,
       "importance_score": 83.4211,
       "package_name": "stale-bundle",
       "primary_finding": "898 days since latest release.",
       "rank_within_ecosystem": 3,
       "risk_score": 72.0004,
       "severity_tier": "Critical",
+      "signals_above_threshold": 7,
       "slug": "npm-stale-bundle"
     },
     {
@@ -44,12 +50,14 @@
       "ecosystem": "npm",
       "flagged": true,
       "fragility_score": 89.1669,
+      "importance_percentile": 84.2105,
       "importance_score": 79.7368,
       "package_name": "old-validator",
       "primary_finding": "915 days since latest release.",
       "rank_within_ecosystem": 4,
       "risk_score": 71.0988,
       "severity_tier": "Critical",
+      "signals_above_threshold": 7,
       "slug": "npm-old-validator"
     },
     {
@@ -57,12 +65,14 @@
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 93.747,
+      "importance_percentile": 73.6842,
       "importance_score": 71.5789,
       "package_name": "frozen-format",
       "primary_finding": "867 days since latest release.",
       "rank_within_ecosystem": 5,
       "risk_score": 67.1031,
       "severity_tier": "Critical",
+      "signals_above_threshold": 7,
       "slug": "npm-frozen-format"
     },
     {
@@ -70,12 +80,14 @@
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 90.2747,
+      "importance_percentile": 52.6316,
       "importance_score": 57.1053,
       "package_name": "aged-template",
       "primary_finding": "989 days since latest release.",
       "rank_within_ecosystem": 6,
       "risk_score": 51.5516,
       "severity_tier": "Critical",
+      "signals_above_threshold": 7,
       "slug": "npm-aged-template"
     },
     {
@@ -83,12 +95,14 @@
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 40.5705,
+      "importance_percentile": 57.8947,
       "importance_score": 59.4737,
       "package_name": "robust-cache",
       "primary_finding": "204 days since last commit on default branch.",
       "rank_within_ecosystem": 7,
       "risk_score": 24.1287,
       "severity_tier": "Elevated",
+      "signals_above_threshold": 5,
       "slug": "npm-robust-cache"
     },
     {
@@ -96,12 +110,14 @@
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 38.4754,
+      "importance_percentile": 26.3158,
       "importance_score": 28.1579,
       "package_name": "quiet-daemon",
       "primary_finding": "2 releases in the last 365 days vs 5 in the prior 365 days.",
       "rank_within_ecosystem": 8,
       "risk_score": 10.8338,
       "severity_tier": "Stable",
+      "signals_above_threshold": 3,
       "slug": "npm-quiet-daemon"
     },
     {
@@ -109,12 +125,14 @@
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 1.9,
+      "importance_percentile": 63.1579,
       "importance_score": 63.4211,
       "package_name": "vibrant-router",
       "primary_finding": "OpenSSF Scorecard aggregate score: 8.1 / 10.",
       "rank_within_ecosystem": 9,
       "risk_score": 1.205,
       "severity_tier": "Stable",
+      "signals_above_threshold": 0,
       "slug": "npm-vibrant-router"
     },
     {
@@ -122,12 +140,14 @@
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 1.5,
+      "importance_percentile": 78.9474,
       "importance_score": 77.1053,
       "package_name": "active-logger",
       "primary_finding": "OpenSSF Scorecard aggregate score: 8.5 / 10.",
       "rank_within_ecosystem": 10,
       "risk_score": 1.1566,
       "severity_tier": "Stable",
+      "signals_above_threshold": 0,
       "slug": "npm-active-logger"
     },
     {
@@ -135,12 +155,14 @@
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 4.1261,
+      "importance_percentile": 21.0526,
       "importance_score": 26.8421,
       "package_name": "measured-worker",
       "primary_finding": "OpenSSF Scorecard aggregate score: 7.4 / 10.",
       "rank_within_ecosystem": 11,
       "risk_score": 1.1075,
       "severity_tier": "Stable",
+      "signals_above_threshold": 0,
       "slug": "npm-measured-worker"
     },
     {
@@ -148,12 +170,14 @@
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 2.9,
+      "importance_percentile": 42.1053,
       "importance_score": 37.1053,
       "package_name": "modest-codec",
       "primary_finding": "OpenSSF Scorecard aggregate score: 7.6 / 10.",
       "rank_within_ecosystem": 12,
       "risk_score": 1.0761,
       "severity_tier": "Stable",
+      "signals_above_threshold": 0,
       "slug": "npm-modest-codec"
     },
     {
@@ -161,12 +185,14 @@
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 2.994,
+      "importance_percentile": 36.8421,
       "importance_score": 35.0,
       "package_name": "steady-types",
       "primary_finding": "OpenSSF Scorecard aggregate score: 8.2 / 10.",
       "rank_within_ecosystem": 13,
       "risk_score": 1.0479,
       "severity_tier": "Stable",
+      "signals_above_threshold": 0,
       "slug": "npm-steady-types"
     },
     {
@@ -174,12 +200,14 @@
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 2.2,
+      "importance_percentile": 47.3684,
       "importance_score": 47.6316,
       "package_name": "eventful-proxy",
       "primary_finding": "OpenSSF Scorecard aggregate score: 7.8 / 10.",
       "rank_within_ecosystem": 14,
       "risk_score": 1.0479,
       "severity_tier": "Stable",
+      "signals_above_threshold": 0,
       "slug": "npm-eventful-proxy"
     },
     {
@@ -187,12 +215,14 @@
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 1.2,
+      "importance_percentile": 68.4211,
       "importance_score": 67.8947,
       "package_name": "fresh-parser",
       "primary_finding": "OpenSSF Scorecard aggregate score: 8.8 / 10.",
       "rank_within_ecosystem": 15,
       "risk_score": 0.8147,
       "severity_tier": "Stable",
+      "signals_above_threshold": 0,
       "slug": "npm-fresh-parser"
     },
     {
@@ -200,12 +230,14 @@
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 2.1,
+      "importance_percentile": 31.5789,
       "importance_score": 31.3158,
       "package_name": "thorough-test",
       "primary_finding": "OpenSSF Scorecard aggregate score: 7.9 / 10.",
       "rank_within_ecosystem": 16,
       "risk_score": 0.6576,
       "severity_tier": "Stable",
+      "signals_above_threshold": 0,
       "slug": "npm-thorough-test"
     },
     {
@@ -213,12 +245,14 @@
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 13.5355,
+      "importance_percentile": 5.2632,
       "importance_score": 4.4737,
       "package_name": "stable-hash",
       "primary_finding": "OpenSSF Scorecard aggregate score: 6.9 / 10.",
       "rank_within_ecosystem": 17,
       "risk_score": 0.6055,
       "severity_tier": "Stable",
+      "signals_above_threshold": 0,
       "slug": "npm-stable-hash"
     },
     {
@@ -226,12 +260,14 @@
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 4.05,
+      "importance_percentile": 15.7895,
       "importance_score": 13.4211,
       "package_name": "constant-timer",
       "primary_finding": "OpenSSF Scorecard aggregate score: 7.2 / 10.",
       "rank_within_ecosystem": 18,
       "risk_score": 0.5436,
       "severity_tier": "Stable",
+      "signals_above_threshold": 0,
       "slug": "npm-constant-timer"
     },
     {
@@ -239,12 +275,14 @@
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 5.8807,
+      "importance_percentile": 10.5263,
       "importance_score": 8.9474,
       "package_name": "minimal-queue",
       "primary_finding": "OpenSSF Scorecard aggregate score: 6.8 / 10.",
       "rank_within_ecosystem": 19,
       "risk_score": 0.5262,
       "severity_tier": "Stable",
+      "signals_above_threshold": 0,
       "slug": "npm-minimal-queue"
     },
     {
@@ -252,12 +290,14 @@
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 7.2735,
+      "importance_percentile": 0.0,
       "importance_score": 3.1579,
       "package_name": "simple-xml",
       "primary_finding": "OpenSSF Scorecard aggregate score: 7.0 / 10.",
       "rank_within_ecosystem": 20,
       "risk_score": 0.2297,
       "severity_tier": "Stable",
+      "signals_above_threshold": 0,
       "slug": "npm-simple-xml"
     },
     {
@@ -265,12 +305,14 @@
       "ecosystem": "pypi",
       "flagged": true,
       "fragility_score": 89.1325,
+      "importance_percentile": 100.0,
       "importance_score": 97.3684,
       "package_name": "legacy-pyforge",
       "primary_finding": "948 days since latest release.",
       "rank_within_ecosystem": 1,
       "risk_score": 86.7869,
       "severity_tier": "Critical",
+      "signals_above_threshold": 7,
       "slug": "pypi-legacy-pyforge"
     },
     {
@@ -278,12 +320,14 @@
       "ecosystem": "pypi",
       "flagged": true,
       "fragility_score": 92.2819,
+      "importance_percentile": 94.7368,
       "importance_score": 90.0,
       "package_name": "neglected-pystream",
       "primary_finding": "1015 days since latest release.",
       "rank_within_ecosystem": 2,
       "risk_score": 83.0537,
       "severity_tier": "Critical",
+      "signals_above_threshold": 7,
       "slug": "pypi-neglected-pystream"
     },
     {
@@ -291,12 +335,14 @@
       "ecosystem": "pypi",
       "flagged": true,
       "fragility_score": 86.3096,
+      "importance_percentile": 89.4737,
       "importance_score": 83.4211,
       "package_name": "stale-pybundle",
       "primary_finding": "898 days since latest release.",
       "rank_within_ecosystem": 3,
       "risk_score": 72.0004,
       "severity_tier": "Critical",
+      "signals_above_threshold": 7,
       "slug": "pypi-stale-pybundle"
     },
     {
@@ -304,12 +350,14 @@
       "ecosystem": "pypi",
       "flagged": true,
       "fragility_score": 89.1669,
+      "importance_percentile": 84.2105,
       "importance_score": 79.7368,
       "package_name": "old-pyvalidator",
       "primary_finding": "915 days since latest release.",
       "rank_within_ecosystem": 4,
       "risk_score": 71.0988,
       "severity_tier": "Critical",
+      "signals_above_threshold": 7,
       "slug": "pypi-old-pyvalidator"
     },
     {
@@ -317,12 +365,14 @@
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 93.747,
+      "importance_percentile": 73.6842,
       "importance_score": 71.5789,
       "package_name": "frozen-pyformat",
       "primary_finding": "867 days since latest release.",
       "rank_within_ecosystem": 5,
       "risk_score": 67.1031,
       "severity_tier": "Critical",
+      "signals_above_threshold": 7,
       "slug": "pypi-frozen-pyformat"
     },
     {
@@ -330,12 +380,14 @@
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 90.2747,
+      "importance_percentile": 52.6316,
       "importance_score": 58.4211,
       "package_name": "aged-pytemplate",
       "primary_finding": "989 days since latest release.",
       "rank_within_ecosystem": 6,
       "risk_score": 52.7394,
       "severity_tier": "Critical",
+      "signals_above_threshold": 7,
       "slug": "pypi-aged-pytemplate"
     },
     {
@@ -343,12 +395,14 @@
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 40.5705,
+      "importance_percentile": 57.8947,
       "importance_score": 59.4737,
       "package_name": "robust-pycache",
       "primary_finding": "204 days since last commit on default branch.",
       "rank_within_ecosystem": 7,
       "risk_score": 24.1287,
       "severity_tier": "Elevated",
+      "signals_above_threshold": 5,
       "slug": "pypi-robust-pycache"
     },
     {
@@ -356,12 +410,14 @@
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 38.4754,
+      "importance_percentile": 26.3158,
       "importance_score": 27.3684,
       "package_name": "quiet-pydaemon",
       "primary_finding": "2 releases in the last 365 days vs 5 in the prior 365 days.",
       "rank_within_ecosystem": 8,
       "risk_score": 10.5301,
       "severity_tier": "Stable",
+      "signals_above_threshold": 3,
       "slug": "pypi-quiet-pydaemon"
     },
     {
@@ -369,12 +425,14 @@
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 1.9,
+      "importance_percentile": 63.1579,
       "importance_score": 62.1053,
       "package_name": "vibrant-pyrouter",
       "primary_finding": "OpenSSF Scorecard aggregate score: 8.1 / 10.",
       "rank_within_ecosystem": 9,
       "risk_score": 1.18,
       "severity_tier": "Stable",
+      "signals_above_threshold": 0,
       "slug": "pypi-vibrant-pyrouter"
     },
     {
@@ -382,12 +440,14 @@
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 1.5,
+      "importance_percentile": 78.9474,
       "importance_score": 77.1053,
       "package_name": "active-pylogger",
       "primary_finding": "OpenSSF Scorecard aggregate score: 8.5 / 10.",
       "rank_within_ecosystem": 10,
       "risk_score": 1.1566,
       "severity_tier": "Stable",
+      "signals_above_threshold": 0,
       "slug": "pypi-active-pylogger"
     },
     {
@@ -395,12 +455,14 @@
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 4.1261,
+      "importance_percentile": 21.0526,
       "importance_score": 26.8421,
       "package_name": "measured-pyworker",
       "primary_finding": "OpenSSF Scorecard aggregate score: 7.4 / 10.",
       "rank_within_ecosystem": 11,
       "risk_score": 1.1075,
       "severity_tier": "Stable",
+      "signals_above_threshold": 0,
       "slug": "pypi-measured-pyworker"
     },
     {
@@ -408,12 +470,14 @@
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 2.994,
+      "importance_percentile": 36.8421,
       "importance_score": 35.0,
       "package_name": "steady-pyutils",
       "primary_finding": "OpenSSF Scorecard aggregate score: 8.2 / 10.",
       "rank_within_ecosystem": 12,
       "risk_score": 1.0479,
       "severity_tier": "Stable",
+      "signals_above_threshold": 0,
       "slug": "pypi-steady-pyutils"
     },
     {
@@ -421,12 +485,14 @@
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 2.2,
+      "importance_percentile": 47.3684,
       "importance_score": 47.6316,
       "package_name": "eventful-pyproxy",
       "primary_finding": "OpenSSF Scorecard aggregate score: 7.8 / 10.",
       "rank_within_ecosystem": 13,
       "risk_score": 1.0479,
       "severity_tier": "Stable",
+      "signals_above_threshold": 0,
       "slug": "pypi-eventful-pyproxy"
     },
     {
@@ -434,12 +500,14 @@
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 2.9,
+      "importance_percentile": 42.1053,
       "importance_score": 35.7895,
       "package_name": "modest-pycodec",
       "primary_finding": "OpenSSF Scorecard aggregate score: 7.6 / 10.",
       "rank_within_ecosystem": 14,
       "risk_score": 1.0379,
       "severity_tier": "Stable",
+      "signals_above_threshold": 0,
       "slug": "pypi-modest-pycodec"
     },
     {
@@ -447,12 +515,14 @@
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 1.2,
+      "importance_percentile": 68.4211,
       "importance_score": 67.8947,
       "package_name": "fresh-pyparser",
       "primary_finding": "OpenSSF Scorecard aggregate score: 8.8 / 10.",
       "rank_within_ecosystem": 15,
       "risk_score": 0.8147,
       "severity_tier": "Stable",
+      "signals_above_threshold": 0,
       "slug": "pypi-fresh-pyparser"
     },
     {
@@ -460,12 +530,14 @@
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 2.1,
+      "importance_percentile": 31.5789,
       "importance_score": 31.3158,
       "package_name": "thorough-pytest-utils",
       "primary_finding": "OpenSSF Scorecard aggregate score: 7.9 / 10.",
       "rank_within_ecosystem": 16,
       "risk_score": 0.6576,
       "severity_tier": "Stable",
+      "signals_above_threshold": 0,
       "slug": "pypi-thorough-pytest-utils"
     },
     {
@@ -473,12 +545,14 @@
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 13.5355,
+      "importance_percentile": 5.2632,
       "importance_score": 4.4737,
       "package_name": "stable-pyhash",
       "primary_finding": "OpenSSF Scorecard aggregate score: 6.9 / 10.",
       "rank_within_ecosystem": 17,
       "risk_score": 0.6055,
       "severity_tier": "Stable",
+      "signals_above_threshold": 0,
       "slug": "pypi-stable-pyhash"
     },
     {
@@ -486,12 +560,14 @@
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 4.05,
+      "importance_percentile": 15.7895,
       "importance_score": 13.4211,
       "package_name": "constant-pytimer",
       "primary_finding": "OpenSSF Scorecard aggregate score: 7.2 / 10.",
       "rank_within_ecosystem": 18,
       "risk_score": 0.5436,
       "severity_tier": "Stable",
+      "signals_above_threshold": 0,
       "slug": "pypi-constant-pytimer"
     },
     {
@@ -499,12 +575,14 @@
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 5.8807,
+      "importance_percentile": 10.5263,
       "importance_score": 8.9474,
       "package_name": "minimal-pyqueue",
       "primary_finding": "OpenSSF Scorecard aggregate score: 6.8 / 10.",
       "rank_within_ecosystem": 19,
       "risk_score": 0.5262,
       "severity_tier": "Stable",
+      "signals_above_threshold": 0,
       "slug": "pypi-minimal-pyqueue"
     },
     {
@@ -512,12 +590,14 @@
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 7.2735,
+      "importance_percentile": 0.0,
       "importance_score": 3.1579,
       "package_name": "simple-pyxml",
       "primary_finding": "OpenSSF Scorecard aggregate score: 7.0 / 10.",
       "rank_within_ecosystem": 20,
       "risk_score": 0.2297,
       "severity_tier": "Stable",
+      "signals_above_threshold": 0,
       "slug": "pypi-simple-pyxml"
     }
   ],

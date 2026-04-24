@@ -56,6 +56,8 @@ class LeaderboardEntry(_Base):
     fragility_score: float
     confidence: Literal["low", "medium", "high"]
     primary_finding: str
+    signals_above_threshold: int
+    importance_percentile: float
 
 
 class Leaderboard(_Base):

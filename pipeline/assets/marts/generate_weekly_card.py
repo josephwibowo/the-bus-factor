@@ -98,7 +98,7 @@ def _wrap(draw: ImageDraw.ImageDraw, text: str, font: AnyFont, width: int) -> li
 def _draw_base(draw: ImageDraw.ImageDraw, weekly: dict[str, Any]) -> None:
     draw.rectangle([(0, 0), (CARD_W, CARD_H)], fill=BG)
     draw.rectangle([(0, 0), (CARD_W, 12)], fill=ACCENT)
-    title_font = _font(52, "bold")
+    title_font = _font(44, "bold")
     label_font = _font(20, "bold")
     meta_font = _font(22)
 
@@ -110,7 +110,7 @@ def _draw_base(draw: ImageDraw.ImageDraw, weekly: dict[str, Any]) -> None:
     y = 120
     for line in headline_lines[:2]:
         draw.text((60, y), line, font=title_font, fill=TEXT_PRIMARY)
-        y += 62
+        y += 54
 
 
 def _draw_findings(draw: ImageDraw.ImageDraw, findings: list[dict[str, Any]]) -> None:
@@ -152,20 +152,25 @@ def _draw_zero_state(draw: ImageDraw.ImageDraw, weekly: dict[str, Any]) -> None:
 
 
 def _draw_footer(draw: ImageDraw.ImageDraw) -> None:
-    footer_font = _font(18)
-    url_font = _font(18, "bold")
-    draw.text(
-        (60, CARD_H - 32),
-        "Scores combine importance (reach, downloads, security exposure) x fragility signals.",
-        font=footer_font,
-        fill=TEXT_MUTED,
-    )
-    draw.text(
-        (CARD_W - 450, CARD_H - 32),
-        "josephwibowo.github.io/the-bus-factor",
-        font=url_font,
-        fill=ACCENT,
-    )
+    footer_font = _font(16)
+    url_font = _font(17, "bold")
+    footer_text = "Scores combine importance x fragility signals."
+    url_text = "josephwibowo.github.io/the-bus-factor"
+    margin = 60
+    gap = 24
+    line_y = CARD_H - 34
+
+    footer_w, _ = _text_size(draw, footer_text, footer_font)
+    url_w, _ = _text_size(draw, url_text, url_font)
+    url_x = CARD_W - margin - url_w
+
+    if margin + footer_w + gap <= url_x:
+        draw.text((margin, line_y), footer_text, font=footer_font, fill=TEXT_MUTED)
+        draw.text((url_x, line_y), url_text, font=url_font, fill=ACCENT)
+        return
+
+    draw.text((margin, CARD_H - 56), footer_text, font=footer_font, fill=TEXT_MUTED)
+    draw.text((margin, CARD_H - 32), url_text, font=url_font, fill=ACCENT)
 
 
 def render(weekly: dict[str, Any]) -> Image.Image:

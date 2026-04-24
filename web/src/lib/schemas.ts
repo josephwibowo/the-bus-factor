@@ -45,6 +45,8 @@ export const leaderboardEntrySchema = z
     fragility_score: z.number(),
     confidence: confidenceEnum,
     primary_finding: z.string(),
+    signals_above_threshold: z.number().int().nonnegative(),
+    importance_percentile: z.number(),
   })
   .strict();
 export type LeaderboardEntry = z.infer<typeof leaderboardEntrySchema>;

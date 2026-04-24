@@ -17,6 +17,17 @@ const withBase = (path: string): string => {
   const normalized = path === "/" ? "/" : path.startsWith("/") ? path : `/${path}`;
   return `${base}${normalized}`;
 };
+
+const importanceBand = (percentile: number): string => {
+  if (percentile >= 90) return "top 10% importance";
+  if (percentile >= 75) return "top 25% importance";
+  if (percentile >= 50) return "top half importance";
+  return "bottom half importance";
+};
+const tierRationale = (signals: number, percentile: number): string => {
+  const signalCopy = `${signals} strong signal${signals === 1 ? "" : "s"}`;
+  return `${signalCopy} · ${importanceBand(percentile)}`;
+};
 ---
 
 <Base
@@ -29,9 +40,10 @@ const withBase = (path: string): string => {
   <section>
     <h1>Continuity-risk leaderboard</h1>
     <p class="muted">
-      Top packages by fragility-weighted importance across each ecosystem. Flagged rows indicate
-      two or more independent fragility signals above the configured threshold on widely
-      depended-on packages.
+      Top packages by fragility-weighted importance across each ecosystem. Severity tier is set by
+      the combined risk score (importance × fragility across 7 weighted signals) — the chip next to
+      each tier shows how many fragility signals cleared the threshold and where the package ranks on
+      importance. Flagged rows need two or more signals on widely depended-on packages.
     </p>
 
     {
@@ -103,7 +115,7 @@ const withBase = (path: string): string => {
                   <th scope="col">Importance</th>
                   <th scope="col">Fragility</th>
                   <th scope="col">Confidence</th>
-                  <th scope="col">Primary finding</th>
+                  <th scope="col">Top signal</th>
                 </tr>
               </thead>
               <tbody>
@@ -111,13 +123,25 @@ const withBase = (path: string): string => {
                   <tr data-row="lb" data-name={entry.package_name.toLowerCase()} data-severity={entry.severity_tier.toLowerCase()}>
                     <td>#{entry.rank_within_ecosystem}</td>
                     <td>
-                      <a href={withBase(`/package/${entry.slug}/`)}>{entry.package_name}</a>
+                      <a class="pkg-link" href={withBase(`/package/${entry.slug}/`)}>
+                        <span class="pkg-link__name">{entry.package_name}</span>
+                        <span class="pkg-link__arrow" aria-hidden="true">→</span>
+                        <span class="sr-only"> view breakdown</span>
+                      </a>
                       {entry.flagged && <span class="pill pill--flagged">flagged</span>}
                     </td>
                     <td>
-                      <span class={severityBadgeClass(entry.severity_tier)}>
-                        {entry.severity_tier}
-                      </span>
+                      <div class="severity-cell">
+                        <span class={severityBadgeClass(entry.severity_tier)}>
+                          {entry.severity_tier}
+                        </span>
+                        <span
+                          class="tier-rationale"
+                          title={`Flagged requires ≥ 2 strong signals and top 25% importance.`}
+                        >
+                          {tierRationale(entry.signals_above_threshold, entry.importance_percentile)}
+                        </span>
+                      </div>
                     </td>
                     <td>{entry.risk_score.toFixed(1)}</td>
                     <td>{entry.importance_score.toFixed(1)}</td>
@@ -219,6 +243,52 @@ const withBase = (path: string): string => {
   .finding {
     font-size: 13px;
     max-width: 320px;
+  }
+  .pkg-link {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    text-decoration: none;
+    border-bottom: 1px dashed color-mix(in srgb, var(--accent) 55%, transparent);
+    padding-bottom: 1px;
+  }
+  .pkg-link:hover,
+  .pkg-link:focus-visible {
+    border-bottom-color: var(--accent);
+    color: var(--accent);
+  }
+  .pkg-link__arrow {
+    font-size: 12px;
+    opacity: 0.55;
+    transition: transform 120ms ease, opacity 120ms ease;
+  }
+  .pkg-link:hover .pkg-link__arrow,
+  .pkg-link:focus-visible .pkg-link__arrow {
+    opacity: 1;
+    transform: translateX(2px);
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  .severity-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+  }
+  .tier-rationale {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
   }
 </style>
 

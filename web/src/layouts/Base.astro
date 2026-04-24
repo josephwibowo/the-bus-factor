@@ -4,7 +4,7 @@ export interface Props {
   description?: string;
   snapshotWeek?: string;
   methodologyVersion?: string;
-  activeNav?: "home" | "weekly" | "analysis" | "methodology" | "positioning";
+  activeNav?: "home" | "weekly" | "methodology";
 }
 
 const {
@@ -24,9 +24,7 @@ const withBase = (path: string): string => {
 const nav = [
   { id: "home", href: "/", label: "Leaderboard" },
   { id: "weekly", href: "/weekly/", label: "Weekly" },
-  { id: "analysis", href: "/analysis/", label: "Analysis" },
   { id: "methodology", href: "/methodology/", label: "Methodology" },
-  { id: "positioning", href: "/positioning/", label: "Positioning" },
 ] as const;
 ---
 
@@ -107,7 +105,6 @@ const nav = [
         <p class="muted">
           Source: <a href="https://github.com/the-bus-factor/the_bus_factor">GitHub</a>
           {" "}· Methodology: <a href={withBase("/methodology/")}>explained</a>
-          {" "}· Positioning: <a href={withBase("/positioning/")}>vs. SCA tools</a>
         </p>
       </div>
     </footer>
