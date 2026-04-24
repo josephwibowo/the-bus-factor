@@ -78,7 +78,7 @@ def _empty_issue_row(url: str) -> dict[str, Any]:
     return {
         "repo_url": url,
         "issues_opened_last_180d": 0,
-        "median_time_to_first_response_days": None,
+        "median_time_to_first_response_days": 0.0,
     }
 
 
@@ -196,7 +196,7 @@ async def _fetch_repo(url: str, client: HttpClient, snapshot_week: date) -> dict
         days = await _first_maintainer_response_days(owner, repo, issue, client, snapshot_week)
         if days is not None:
             responses.append(days)
-    median = statistics.median(responses) if responses else None
+    median = statistics.median(responses) if responses else (0.0 if not issues else None)
     return {
         "repo_url": url,
         "issues_opened_last_180d": len(issues),
@@ -225,6 +225,28 @@ async def _ingest(
     return rows, exception_count
 
 
+def _rows_to_frame(rows: list[dict[str, Any]]) -> pd.DataFrame:
+    df = pd.DataFrame(rows)
+    for column in ISSUE_COLUMNS:
+        if column not in df.columns:
+            df[column] = None
+    df = df[ISSUE_COLUMNS]
+    df["issues_opened_last_180d"] = (
+        pd.to_numeric(df["issues_opened_last_180d"], errors="coerce").fillna(0).astype("int64")
+    )
+    df["median_time_to_first_response_days"] = pd.to_numeric(
+        df["median_time_to_first_response_days"], errors="coerce"
+    )
+    df.loc[
+        df["issues_opened_last_180d"].eq(0) & df["median_time_to_first_response_days"].isna(),
+        "median_time_to_first_response_days",
+    ] = 0.0
+    df["median_time_to_first_response_days"] = df["median_time_to_first_response_days"].astype(
+        "float64"
+    )
+    return df
+
+
 def _live() -> pd.DataFrame:
     window = live.resolve_window()
     snapshot_week = live.resolve_window_date()
@@ -245,7 +267,7 @@ def _live() -> pd.DataFrame:
                 succeeded=len(rows),
                 exception_count=exception_count,
             )
-    df = pd.DataFrame(rows, columns=ISSUE_COLUMNS)
+    df = _rows_to_frame(rows)
     df["ingested_at"] = pd.Timestamp.utcnow()
     return df
 

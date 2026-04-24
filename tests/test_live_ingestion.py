@@ -258,10 +258,31 @@ def test_github_issues_ingest_keeps_rows_when_repos_error_or_parse_empty(
     assert {row["repo_url"] for row in rows} == set(urls)
     errored = next(row for row in rows if row["repo_url"].endswith("/boom"))
     assert errored["issues_opened_last_180d"] == 0
-    assert errored["median_time_to_first_response_days"] is None
+    assert errored["median_time_to_first_response_days"] == 0.0
     invalid = next(row for row in rows if row["repo_url"].endswith("/invalid"))
     assert invalid["issues_opened_last_180d"] == 0
-    assert invalid["median_time_to_first_response_days"] is None
+    assert invalid["median_time_to_first_response_days"] == 0.0
+
+
+def test_github_issues_frame_preserves_all_null_median_column() -> None:
+    df = issues._rows_to_frame(
+        [
+            {
+                "repo_url": "https://github.com/owner/no-issues",
+                "issues_opened_last_180d": 0,
+                "median_time_to_first_response_days": None,
+            }
+        ]
+    )
+
+    assert list(df.columns) == [
+        "repo_url",
+        "issues_opened_last_180d",
+        "median_time_to_first_response_days",
+    ]
+    assert str(df["issues_opened_last_180d"].dtype) == "int64"
+    assert str(df["median_time_to_first_response_days"].dtype) == "float64"
+    assert df.loc[0, "median_time_to_first_response_days"] == 0.0
 
 
 def test_github_commits_uses_snapshot_week_window() -> None:
@@ -328,6 +349,82 @@ def test_github_commits_truncated_pages_drop_concentration_signal() -> None:
     assert got["commits_last_365d"] == commits.PER_PAGE * commits.MAX_PAGES
     assert got["top_contributor_share_365d"] is None
     assert got["unique_contributors_last_365d"] == 0
+
+
+def test_github_commits_ingest_keeps_rows_when_repos_error_or_parse_empty(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class DummyHttpClient:
+        def __init__(self, **_kwargs: object) -> None:
+            pass
+
+        async def __aenter__(self) -> DummyHttpClient:
+            return self
+
+        async def __aexit__(self, *_exc: object) -> None:
+            return None
+
+    async def fake_fetch_commits(
+        url: str,
+        _client: DummyHttpClient,
+        _snapshot_week: date,
+    ) -> dict[str, object] | None:
+        if url.endswith("/boom"):
+            raise RuntimeError("boom")
+        if url.endswith("/invalid"):
+            return None
+        return {
+            "repo_url": url,
+            "last_commit_date": date(2026, 4, 18),
+            "commits_last_365d": 12,
+            "top_contributor_share_365d": 0.25,
+            "unique_contributors_last_365d": 4,
+        }
+
+    monkeypatch.setattr(commits, "HttpClient", DummyHttpClient)
+    monkeypatch.setattr(commits, "_fetch_commits", fake_fetch_commits)
+
+    urls = [
+        "https://github.com/owner/ok",
+        "https://github.com/owner/boom",
+        "https://github.com/owner/invalid",
+    ]
+    rows, exception_count = asyncio.run(commits._ingest("w", urls, date(2026, 4, 20)))
+
+    assert exception_count == 1
+    assert len(rows) == len(urls)
+    assert {row["repo_url"] for row in rows} == set(urls)
+    errored = next(row for row in rows if row["repo_url"].endswith("/boom"))
+    assert errored["last_commit_date"] is None
+    assert errored["commits_last_365d"] == 0
+    assert errored["top_contributor_share_365d"] == 0.0
+    assert errored["unique_contributors_last_365d"] == 0
+
+
+def test_github_commits_frame_preserves_all_null_date_column() -> None:
+    df = commits._rows_to_frame(
+        [
+            {
+                "repo_url": "https://github.com/owner/no-commits",
+                "last_commit_date": None,
+                "commits_last_365d": 0,
+                "top_contributor_share_365d": 0.0,
+                "unique_contributors_last_365d": 0,
+            }
+        ]
+    )
+
+    assert list(df.columns) == [
+        "repo_url",
+        "last_commit_date",
+        "commits_last_365d",
+        "top_contributor_share_365d",
+        "unique_contributors_last_365d",
+    ]
+    assert str(df["commits_last_365d"].dtype) == "int64"
+    assert str(df["top_contributor_share_365d"].dtype) == "float64"
+    assert str(df["unique_contributors_last_365d"].dtype) == "int64"
+    assert pd.isna(df.loc[0, "last_commit_date"])
 
 
 def test_github_commits_fixture_fallback_handles_new_contributor_fixture_columns(

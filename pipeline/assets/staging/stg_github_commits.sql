@@ -49,10 +49,23 @@ columns:
 
 @bruin */
 
+WITH source AS (
+    SELECT * FROM raw.github_commits
+    UNION ALL BY NAME
+    SELECT
+        CAST(NULL AS VARCHAR) AS repo_url,
+        CAST(NULL AS DATE) AS last_commit_date,
+        CAST(NULL AS BIGINT) AS commits_last_365d,
+        CAST(NULL AS DOUBLE) AS top_contributor_share_365d,
+        CAST(NULL AS BIGINT) AS unique_contributors_last_365d,
+        CAST(NULL AS TIMESTAMP) AS ingested_at
+    WHERE FALSE
+)
+
 SELECT
     LOWER(TRIM(repo_url)) AS repo_url,
     CAST(last_commit_date AS DATE) AS last_commit_date,
-    commits_last_365d,
+    COALESCE(commits_last_365d, 0) AS commits_last_365d,
     top_contributor_share_365d,
-    unique_contributors_last_365d
-FROM raw.github_commits
+    COALESCE(unique_contributors_last_365d, 0) AS unique_contributors_last_365d
+FROM source

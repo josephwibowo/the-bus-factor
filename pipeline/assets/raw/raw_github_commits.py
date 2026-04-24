@@ -53,6 +53,13 @@ FIXTURE_ROOT = Path(__file__).resolve().parents[2] / "fixtures"
 GITHUB_REST = "https://api.github.com/repos"
 PER_PAGE = 100
 MAX_PAGES = 4  # capped at 400 commits per repo in last 365d
+COMMIT_COLUMNS = [
+    "repo_url",
+    "last_commit_date",
+    "commits_last_365d",
+    "top_contributor_share_365d",
+    "unique_contributors_last_365d",
+]
 
 
 def _fixture() -> pd.DataFrame:
@@ -95,6 +102,16 @@ def _parse_owner_repo(url: str) -> tuple[str, str] | None:
     if len(parts) < 2:
         return None
     return parts[0], parts[1]
+
+
+def _empty_commit_row(url: str) -> dict[str, Any]:
+    return {
+        "repo_url": url,
+        "last_commit_date": None,
+        "commits_last_365d": 0,
+        "top_contributor_share_365d": 0.0,
+        "unique_contributors_last_365d": 0,
+    }
 
 
 def _parse_commit_date(raw: dict[str, Any]) -> date | None:
@@ -191,12 +208,38 @@ async def _ingest(
             return_exceptions=True,
         )
     rows: list[dict[str, Any]] = []
-    exception_count = sum(1 for res in results if isinstance(res, BaseException))
-    for res in results:
-        if isinstance(res, BaseException) or res is None:
+    exception_count = 0
+    for url, res in zip(urls, results, strict=True):
+        if isinstance(res, BaseException):
+            exception_count += 1
+            rows.append(_empty_commit_row(url))
+            continue
+        if res is None:
+            rows.append(_empty_commit_row(url))
             continue
         rows.append(res)
     return rows, exception_count
+
+
+def _rows_to_frame(rows: list[dict[str, Any]]) -> pd.DataFrame:
+    df = pd.DataFrame(rows)
+    for column in COMMIT_COLUMNS:
+        if column not in df.columns:
+            df[column] = None
+    df = df[COMMIT_COLUMNS]
+    df["last_commit_date"] = pd.to_datetime(df["last_commit_date"], errors="coerce").dt.date
+    df["commits_last_365d"] = (
+        pd.to_numeric(df["commits_last_365d"], errors="coerce").fillna(0).astype("int64")
+    )
+    df["top_contributor_share_365d"] = pd.to_numeric(
+        df["top_contributor_share_365d"], errors="coerce"
+    ).astype("float64")
+    df["unique_contributors_last_365d"] = (
+        pd.to_numeric(df["unique_contributors_last_365d"], errors="coerce")
+        .fillna(0)
+        .astype("int64")
+    )
+    return df
 
 
 def _live() -> pd.DataFrame:
@@ -219,19 +262,7 @@ def _live() -> pd.DataFrame:
                 succeeded=len(rows),
                 exception_count=exception_count,
             )
-    df = (
-        pd.DataFrame(rows)
-        if rows
-        else pd.DataFrame(
-            columns=[
-                "repo_url",
-                "last_commit_date",
-                "commits_last_365d",
-                "top_contributor_share_365d",
-                "unique_contributors_last_365d",
-            ]
-        )
-    )
+    df = _rows_to_frame(rows)
     df["ingested_at"] = pd.Timestamp.utcnow()
     return df
 

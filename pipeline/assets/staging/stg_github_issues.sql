@@ -36,8 +36,19 @@ columns:
 
 @bruin */
 
+WITH source AS (
+    SELECT * FROM raw.github_issues
+    UNION ALL BY NAME
+    SELECT
+        CAST(NULL AS VARCHAR) AS repo_url,
+        CAST(NULL AS BIGINT) AS issues_opened_last_180d,
+        CAST(NULL AS DOUBLE) AS median_time_to_first_response_days,
+        CAST(NULL AS TIMESTAMP) AS ingested_at
+    WHERE FALSE
+)
+
 SELECT
     LOWER(TRIM(repo_url)) AS repo_url,
-    issues_opened_last_180d,
+    COALESCE(issues_opened_last_180d, 0) AS issues_opened_last_180d,
     median_time_to_first_response_days
-FROM raw.github_issues
+FROM source

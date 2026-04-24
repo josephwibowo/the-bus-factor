@@ -161,7 +161,11 @@ SELECT ecosystem, package_name, 'issue_responsiveness',
                  || CAST(issues_opened_last_180d AS VARCHAR)
                  || ' issues.'
         ELSE 'Median first maintainer response: '
-             || CAST(ROUND(median_time_to_first_response_days, 1) AS VARCHAR)
+             || REGEXP_REPLACE(
+                 CAST(ROUND(median_time_to_first_response_days, 1) AS VARCHAR),
+                 '\.0$',
+                 ''
+             )
              || ' days on '
              || CAST(issues_opened_last_180d AS VARCHAR)
              || ' issues.'
