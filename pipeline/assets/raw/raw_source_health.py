@@ -9,6 +9,16 @@ materialization:
 
 depends:
   - seed.source_health
+  - raw.npm_registry
+  - raw.pypi_registry
+  - raw.deps_dev
+  - raw.github_repos
+  - raw.github_commits
+  - raw.github_releases
+  - raw.github_issues
+  - raw.github_contributors
+  - raw.osv
+  - raw.scorecard
 
 description: |
   Per-source ingestion telemetry. In fixture mode this mirrors the committed
