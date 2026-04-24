@@ -169,12 +169,17 @@ def mark_degraded_if_low_success(
     attempted: int,
     succeeded: int,
     exception_count: int,
+    emitted_rows: int | None = None,
 ) -> None:
     """Mark source health as degraded when coverage falls below threshold.
 
     ``attempted`` is the number of requested targets (packages/repos).
-    ``succeeded`` is the number of rows produced for those targets.
+    ``succeeded`` is the number of targets that produced usable signal. For
+    assets that emit placeholder rows on fetch failure, this MUST exclude
+    the placeholders — otherwise the ratio silently reports success.
     ``exception_count`` is the number of worker exceptions observed.
+    ``emitted_rows`` is the total number of rows written to the raw table
+    (including placeholders); only needed when it differs from ``succeeded``.
     """
 
     if attempted <= 0:
@@ -183,12 +188,13 @@ def mark_degraded_if_low_success(
     min_ratio = resolve_source_success_ratio()
     success_ratio = succeeded / attempted
     exception_ratio = exception_count / attempted
+    emitted = emitted_rows if emitted_rows is not None else succeeded
 
     if success_ratio < min_ratio or exception_ratio > (1.0 - min_ratio):
         tracker.mark_degraded(
-            f"partial ingestion for {source_name}: success_ratio={success_ratio:.3f} "
-            f"(min={min_ratio:.3f}), attempted={attempted}, succeeded={succeeded}, "
-            f"exceptions={exception_count}"
+            f"partial ingestion for {source_name}: usable_success_ratio={success_ratio:.3f} "
+            f"(min={min_ratio:.3f}), attempted={attempted}, usable={succeeded}, "
+            f"emitted_rows={emitted}, exceptions={exception_count}"
         )
 
 

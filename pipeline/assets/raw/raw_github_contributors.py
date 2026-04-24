@@ -231,6 +231,7 @@ def _live() -> pd.DataFrame:
                 attempted=attempted,
                 succeeded=usable_signals,
                 exception_count=exception_count,
+                emitted_rows=len(rows),
             )
             if truncated_count > 0:
                 t.mark_degraded(

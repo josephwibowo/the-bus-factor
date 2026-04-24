@@ -251,9 +251,12 @@ def test_github_issues_ingest_keeps_rows_when_repos_error_or_parse_empty(
         "https://github.com/owner/boom",
         "https://github.com/owner/invalid",
     ]
-    rows, exception_count = asyncio.run(issues._ingest("w", urls, date(2026, 4, 20)))
+    rows, exception_count, usable_successes = asyncio.run(
+        issues._ingest("w", urls, date(2026, 4, 20))
+    )
 
     assert exception_count == 1
+    assert usable_successes == 1
     assert len(rows) == len(urls)
     assert {row["repo_url"] for row in rows} == set(urls)
     errored = next(row for row in rows if row["repo_url"].endswith("/boom"))
@@ -389,9 +392,12 @@ def test_github_commits_ingest_keeps_rows_when_repos_error_or_parse_empty(
         "https://github.com/owner/boom",
         "https://github.com/owner/invalid",
     ]
-    rows, exception_count = asyncio.run(commits._ingest("w", urls, date(2026, 4, 20)))
+    rows, exception_count, usable_successes = asyncio.run(
+        commits._ingest("w", urls, date(2026, 4, 20))
+    )
 
     assert exception_count == 1
+    assert usable_successes == 1
     assert len(rows) == len(urls)
     assert {row["repo_url"] for row in rows} == set(urls)
     errored = next(row for row in rows if row["repo_url"].endswith("/boom"))
@@ -683,3 +689,101 @@ def test_mark_degraded_if_low_success_keeps_ok_when_above_threshold(tmp_path: Pa
 
     rows = sources_lib.read_buffer("w", root=tmp_path)
     assert rows[0].status == "ok"
+
+
+def test_mark_degraded_if_low_success_all_exceptions_reports_zero_usable(
+    tmp_path: Path,
+) -> None:
+    """All-exception ingest must not be reported as success_ratio=1.0.
+
+    Regression: previously raw_github_commits/_issues passed ``succeeded=len(rows)``,
+    where ``rows`` included placeholders emitted for every failed fetch. That made
+    the note claim ``success_ratio=1.000`` while ``exceptions`` equalled
+    ``attempted``.
+    """
+
+    with sources_lib.SourceHealthTracker("github_commits", window="w", root=tmp_path) as t:
+        live.mark_degraded_if_low_success(
+            tracker=t,
+            source_name="github_commits",
+            attempted=152,
+            succeeded=0,
+            exception_count=152,
+            emitted_rows=152,
+        )
+
+    rows = sources_lib.read_buffer("w", root=tmp_path)
+    assert rows[0].status == "degraded"
+    note = rows[0].note
+    assert "usable_success_ratio=0.000" in note
+    assert "usable=0" in note
+    assert "emitted_rows=152" in note
+    assert "exceptions=152" in note
+
+
+def test_github_commits_all_exceptions_flow_usable_is_zero(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """End-to-end: every repo raises → _ingest reports usable_successes=0."""
+
+    class DummyHttpClient:
+        def __init__(self, **_kwargs: object) -> None:
+            pass
+
+        async def __aenter__(self) -> DummyHttpClient:
+            return self
+
+        async def __aexit__(self, *_exc: object) -> None:
+            return None
+
+    async def always_raise(
+        _url: str,
+        _client: DummyHttpClient,
+        _snapshot_week: date,
+    ) -> dict[str, object]:
+        raise RuntimeError("403 rate limited")
+
+    monkeypatch.setattr(commits, "HttpClient", DummyHttpClient)
+    monkeypatch.setattr(commits, "_fetch_commits", always_raise)
+
+    urls = [f"https://github.com/owner/repo{i}" for i in range(5)]
+    rows, exception_count, usable_successes = asyncio.run(
+        commits._ingest("w", urls, date(2026, 4, 20))
+    )
+
+    assert exception_count == len(urls)
+    assert usable_successes == 0
+    assert len(rows) == len(urls)
+
+
+def test_github_issues_all_exceptions_flow_usable_is_zero(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class DummyHttpClient:
+        def __init__(self, **_kwargs: object) -> None:
+            pass
+
+        async def __aenter__(self) -> DummyHttpClient:
+            return self
+
+        async def __aexit__(self, *_exc: object) -> None:
+            return None
+
+    async def always_raise(
+        _url: str,
+        _client: DummyHttpClient,
+        _snapshot_week: date,
+    ) -> dict[str, object]:
+        raise RuntimeError("403 rate limited")
+
+    monkeypatch.setattr(issues, "HttpClient", DummyHttpClient)
+    monkeypatch.setattr(issues, "_fetch_repo", always_raise)
+
+    urls = [f"https://github.com/owner/repo{i}" for i in range(5)]
+    rows, exception_count, usable_successes = asyncio.run(
+        issues._ingest("w", urls, date(2026, 4, 20))
+    )
+
+    assert exception_count == len(urls)
+    assert usable_successes == 0
+    assert len(rows) == len(urls)

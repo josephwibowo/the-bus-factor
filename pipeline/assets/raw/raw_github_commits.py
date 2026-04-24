@@ -201,7 +201,7 @@ async def _fetch_commits(
 
 async def _ingest(
     window: str, urls: list[str], snapshot_week: date
-) -> tuple[list[dict[str, Any]], int]:
+) -> tuple[list[dict[str, Any]], int, int]:
     async with HttpClient(window=window, concurrency=8) as client:
         results = await asyncio.gather(
             *[_fetch_commits(url, client, snapshot_week) for url in urls],
@@ -209,6 +209,7 @@ async def _ingest(
         )
     rows: list[dict[str, Any]] = []
     exception_count = 0
+    usable_successes = 0
     for url, res in zip(urls, results, strict=True):
         if isinstance(res, BaseException):
             exception_count += 1
@@ -218,7 +219,8 @@ async def _ingest(
             rows.append(_empty_commit_row(url))
             continue
         rows.append(res)
-    return rows, exception_count
+        usable_successes += 1
+    return rows, exception_count, usable_successes
 
 
 def _rows_to_frame(rows: list[dict[str, Any]]) -> pd.DataFrame:
@@ -247,7 +249,7 @@ def _live() -> pd.DataFrame:
     snapshot_week = live.resolve_window_date()
     with live.tracker("github_commits") as t:
         urls = live.repo_urls_from_duckdb(live.duckdb_path())
-        rows, exception_count = asyncio.run(_ingest(window, urls, snapshot_week))
+        rows, exception_count, usable_successes = asyncio.run(_ingest(window, urls, snapshot_week))
         attempted = len(urls)
         t.row_count = len(rows)
         if attempted == 0:
@@ -259,8 +261,9 @@ def _live() -> pd.DataFrame:
                 tracker=t,
                 source_name="github_commits",
                 attempted=attempted,
-                succeeded=len(rows),
+                succeeded=usable_successes,
                 exception_count=exception_count,
+                emitted_rows=len(rows),
             )
     df = _rows_to_frame(rows)
     df["ingested_at"] = pd.Timestamp.utcnow()
