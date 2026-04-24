@@ -631,6 +631,10 @@ def _exporter_env(
     snapshot_week: str,
 ) -> dict[str, str]:
     env = os.environ.copy()
+    existing_pythonpath = env.get("PYTHONPATH")
+    env["PYTHONPATH"] = (
+        str(ROOT) if not existing_pythonpath else os.pathsep.join([str(ROOT), existing_pythonpath])
+    )
     env["duckdb_default"] = json.dumps({"path": str(duckdb_path)})
     env["source_mode"] = source_mode
     env["warehouse"] = warehouse

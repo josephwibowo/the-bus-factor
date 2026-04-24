@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 from datetime import date
 from pathlib import Path
 
@@ -100,6 +101,7 @@ def test_exporter_env_marks_bigquery_bundle_as_live(tmp_path: Path) -> None:
     assert env["source_mode"] == "live"
     assert env["warehouse"] == "bigquery"
     assert env["snapshot_week"] == "2026-04-20"
+    assert str(Path.cwd()) in env["PYTHONPATH"].split(os.pathsep)
     bruin_vars = json.loads(env["BRUIN_VARS"])
     assert bruin_vars["source_mode"] == "live"
     assert bruin_vars["warehouse"] == "bigquery"
