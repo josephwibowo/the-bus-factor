@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const ecosystemEnum = z.enum(["npm", "pypi"]);
-const severityEnum = z.enum(["Stable", "Watch", "Elevated", "High", "Critical"]);
+const severityEnum = z.enum(["Unrated", "Stable", "Watch", "Elevated", "High", "Critical"]);
 const confidenceEnum = z.enum(["low", "medium", "high"]);
 const sourceStatusEnum = z.enum(["ok", "degraded", "failed"]);
 

@@ -68,17 +68,35 @@ const freshnessLabel = (stale: boolean): string => (stale ? "needs review" : "fr
       </div>
       <div class="card">
         <h3>Fragility (0-100)</h3>
-        <p class="muted">Six signals blended by weight; each 0-100.</p>
+        <p class="muted">Seven signals blended by weight; each 0-100.</p>
         <ul>
           <li>Release recency (0.25) — 90-540 day ramp, paired-signal only</li>
-          <li>Commit recency (0.25) — 30-365 day ramp</li>
+          <li>Commit recency (0.20) — 30-365 day ramp</li>
           <li>Release cadence decay (0.15)</li>
           <li>Issue responsiveness (0.15) — median first response</li>
-          <li>Contributor bus factor (0.10) — top-1 share 0.30-0.90 ramp</li>
+          <li>All-time contributor concentration (0.08) — top-1 share 0.30-0.90 ramp</li>
+          <li>Recent contributor concentration (0.07) — top-1 share 0.30-0.90 ramp</li>
           <li>OpenSSF Scorecard aggregate (0.10)</li>
         </ul>
       </div>
     </div>
+  </section>
+
+  <section aria-labelledby="tiers-heading">
+    <h2 id="tiers-heading">Severity tiers</h2>
+    <p class="muted">
+      Tier ladder: <strong>Critical</strong> → <strong>High</strong> → <strong>Elevated</strong> →
+      <strong> Watch</strong> → <strong>Stable</strong> → <strong>Unrated</strong>. Unrated is
+      confidence-driven: any <code>confidence = low</code> row is forced to Unrated regardless of score.
+    </p>
+    <ul>
+      <li><strong>Stable</strong>: risk 0-14 when confidence is medium/high</li>
+      <li><strong>Watch</strong>: risk 15-24 when confidence is medium/high</li>
+      <li><strong>Elevated</strong>: risk 25-29 when confidence is medium/high</li>
+      <li><strong>High</strong>: risk 30-49 when confidence is medium/high</li>
+      <li><strong>Critical</strong>: risk 50-100 when confidence is medium/high</li>
+      <li><strong>Unrated</strong>: confidence is low (insufficient evidence quality)</li>
+    </ul>
   </section>
 
   <section aria-labelledby="flagged-heading">

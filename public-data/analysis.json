@@ -6,7 +6,7 @@
       "capture_source": "local-analysis",
       "dataset_version": "2026-W17",
       "example_id": "Q1",
-      "methodology_version": "v0.4.0",
+      "methodology_version": "v0.5.0",
       "prompt": "Which currently flagged npm packages have the highest risk score, and what evidence explains each score?",
       "screenshot_path": "/screenshots/Q1_flagged_npm.png"
     },
@@ -16,7 +16,7 @@
       "capture_source": "local-analysis",
       "dataset_version": "2026-W17",
       "example_id": "Q2",
-      "methodology_version": "v0.4.0",
+      "methodology_version": "v0.5.0",
       "prompt": "Which currently flagged PyPI packages have the highest risk score, and what evidence explains each score?",
       "screenshot_path": "/screenshots/Q2_flagged_pypi.png"
     },
@@ -26,7 +26,7 @@
       "capture_source": "local-analysis",
       "dataset_version": "2026-W17",
       "example_id": "Q3",
-      "methodology_version": "v0.4.0",
+      "methodology_version": "v0.5.0",
       "prompt": "Group the current flagged packages by ecosystem and severity tier.",
       "screenshot_path": "/screenshots/Q3_grouped.png"
     },
@@ -36,7 +36,7 @@
       "capture_source": "local-analysis",
       "dataset_version": "2026-W17",
       "example_id": "Q4",
-      "methodology_version": "v0.4.0",
+      "methodology_version": "v0.5.0",
       "prompt": "Which high-importance packages have elevated fragility signals but are not flagged, and why are they below the threshold?",
       "screenshot_path": "/screenshots/Q4_elevated_not_flagged.png"
     },
@@ -46,7 +46,7 @@
       "capture_source": "local-analysis",
       "dataset_version": "2026-W17",
       "example_id": "Q5",
-      "methodology_version": "v0.4.0",
+      "methodology_version": "v0.5.0",
       "prompt": "Which packages were excluded because they are archived or deprecated, and why are they not ranked?",
       "screenshot_path": "/screenshots/Q5_archived.png"
     },
@@ -56,7 +56,7 @@
       "capture_source": "local-analysis",
       "dataset_version": "2026-W17",
       "example_id": "Q6",
-      "methodology_version": "v0.4.0",
+      "methodology_version": "v0.5.0",
       "prompt": "Which tracked packages are excluded because their repository mapping confidence is too low?",
       "screenshot_path": "/screenshots/Q6_unmappable.png"
     },
@@ -66,7 +66,7 @@
       "capture_source": "local-analysis",
       "dataset_version": "2026-W17",
       "example_id": "Q7",
-      "methodology_version": "v0.4.0",
+      "methodology_version": "v0.5.0",
       "prompt": "Compare the top flagged npm and PyPI packages by importance score, fragility score, confidence, and primary findings.",
       "screenshot_path": "/screenshots/Q7_cross_ecosystem.png"
     },
@@ -76,7 +76,7 @@
       "capture_source": "local-analysis",
       "dataset_version": "2026-W17",
       "example_id": "Q8",
-      "methodology_version": "v0.4.0",
+      "methodology_version": "v0.5.0",
       "prompt": "Which packages changed severity tier since the previous methodology-compatible weekly snapshot?",
       "screenshot_path": "/screenshots/Q8_tier_changes.png"
     }

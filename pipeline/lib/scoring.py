@@ -218,7 +218,9 @@ def independent_fragility_signals(
     return len(qualifying)
 
 
-def tier_name(risk: float, config: ScoringConfig) -> str:
+def tier_name(risk: float, config: ScoringConfig, *, confidence: str | None = None) -> str:
+    if confidence == "low":
+        return "Unrated"
     return config.severity_for(risk).name
 
 

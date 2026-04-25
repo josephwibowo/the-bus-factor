@@ -8,7 +8,7 @@ const ecosystems = ["npm", "pypi"] as const;
 const entriesByEcosystem = (ecosystem: (typeof ecosystems)[number]) =>
   (leaderboard?.entries ?? [])
     .filter((entry) => entry.ecosystem === ecosystem)
-    .sort((a, b) => b.risk_score - a.risk_score);
+    .sort((a, b) => a.rank_within_ecosystem - b.rank_within_ecosystem);
 
 const totalEntries = leaderboard?.entries.length ?? 0;
 const flaggedCount = (leaderboard?.entries ?? []).filter((e) => e.flagged).length;
@@ -24,9 +24,34 @@ const importanceBand = (percentile: number): string => {
   if (percentile >= 50) return "top half importance";
   return "bottom half importance";
 };
-const tierRationale = (signals: number, percentile: number): string => {
+const tierRationale = (tier: string, signals: number, percentile: number): string => {
+  if (tier === "Unrated") {
+    return "Low-confidence evidence quality; shown for transparency, not as a stability verdict";
+  }
   const signalCopy = `${signals} strong signal${signals === 1 ? "" : "s"}`;
   return `${signalCopy} · ${importanceBand(percentile)}`;
+};
+
+type MetricKind = "risk" | "fragility" | "importance";
+const clampPct = (v: number): number => Math.min(100, Math.max(0, v));
+const metricBarColor = (value: number, kind: MetricKind): string => {
+  if (kind === "importance") return "var(--watch)";
+  if (value >= 60) return "var(--high)";
+  if (value >= 30) return "var(--elevated)";
+  return "var(--stable)";
+};
+const metricBarStyle = (value: number, kind: MetricKind): string =>
+  `--fill:${clampPct(value)}%; --fill-color:${metricBarColor(value, kind)}`;
+
+const confidenceHint = (level: "low" | "medium" | "high"): string => {
+  switch (level) {
+    case "high":
+      return "Strong repository mapping with healthy source data and full-age eligibility.";
+    case "medium":
+      return "Adequate mapping with minor source-health limitations or reduced-confidence age.";
+    case "low":
+      return "Sparse mapping or insufficient data. Low-confidence packages are labeled Unrated (not Stable) because evidence quality is too thin for a reliable stability verdict.";
+  }
 };
 ---
 
@@ -41,8 +66,10 @@ const tierRationale = (signals: number, percentile: number): string => {
     <h1>Continuity-risk leaderboard</h1>
     <p class="muted">
       Top packages by fragility-weighted importance across each ecosystem. Severity tier is set by
-      the combined risk score (importance × fragility across 7 weighted signals) — the chip next to
-      each tier shows how many fragility signals cleared the threshold and where the package ranks on
+      the combined risk score (importance × fragility across 7 weighted signals). All scores are
+      0–100 — higher risk and fragility are worse; importance is ecosystem-relative. Low-confidence
+      rows are shown as <strong>Unrated</strong> rather than Stable. Hover any
+      severity badge to see how many signals cleared the threshold and where the package ranks on
       importance. Flagged rows need two or more signals on widely depended-on packages.
     </p>
 
@@ -105,49 +132,134 @@ const tierRationale = (signals: number, percentile: number): string => {
             aria-labelledby={`tab-${eco}`}
             class:list={["panel", { "panel--hidden": idx !== 0 }]}
           >
-            <table>
+            <table class="lb-table">
               <thead>
                 <tr>
-                  <th scope="col">Rank</th>
-                  <th scope="col">Package</th>
+                  <th scope="col" class="th-rank">Rank</th>
+                  <th scope="col" class="th-pkg">Package</th>
                   <th scope="col">Severity</th>
-                  <th scope="col">Risk</th>
-                  <th scope="col">Importance</th>
-                  <th scope="col">Fragility</th>
-                  <th scope="col">Confidence</th>
+                  <th scope="col" class="th-metric">
+                    <span class="th-name">Risk</span>
+                    <span class="th-scale">0–100 · higher = worse</span>
+                  </th>
+                  <th scope="col" class="th-metric">
+                    <span class="th-name">Importance</span>
+                    <span class="th-scale">0–100 · ecosystem-relative</span>
+                  </th>
+                  <th scope="col" class="th-metric">
+                    <span class="th-name">Fragility</span>
+                    <span class="th-scale">0–100 · higher = worse</span>
+                  </th>
+                  <th scope="col" class="th-confidence th-metric">
+                    <span class="th-name">Confidence</span>
+                    <span class="th-scale">evidence quality</span>
+                  </th>
                   <th scope="col">Top signal</th>
                 </tr>
               </thead>
               <tbody>
                 {entriesByEcosystem(eco).map((entry) => (
                   <tr data-row="lb" data-name={entry.package_name.toLowerCase()} data-severity={entry.severity_tier.toLowerCase()}>
-                    <td>#{entry.rank_within_ecosystem}</td>
-                    <td>
+                    <td class="td-rank">#{entry.rank_within_ecosystem}</td>
+                    <td class="td-pkg">
                       <a class="pkg-link" href={withBase(`/package/${entry.slug}/`)}>
                         <span class="pkg-link__name">{entry.package_name}</span>
                         <span class="pkg-link__arrow" aria-hidden="true">→</span>
                         <span class="sr-only"> view breakdown</span>
                       </a>
-                      {entry.flagged && <span class="pill pill--flagged">flagged</span>}
+                      {entry.flagged && (
+                        <span
+                          class="flag-marker"
+                          tabindex="0"
+                          aria-label="Flagged — meets escalation criteria"
+                        >
+                          <svg
+                            width="13"
+                            height="13"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                          >
+                            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
+                            <line x1="4" y1="22" x2="4" y2="15" />
+                          </svg>
+                          <span class="flag-marker__tooltip" role="tooltip">
+                            <span class="flag-marker__title">Flagged</span>
+                            <span class="flag-marker__hint">
+                              ≥ 2 strong fragility signals on a top-25% importance package.
+                            </span>
+                          </span>
+                        </span>
+                      )}
                     </td>
                     <td>
-                      <div class="severity-cell">
+                      <span
+                        class="severity-wrap"
+                        tabindex="0"
+                        aria-label={`${entry.severity_tier}. ${tierRationale(entry.severity_tier, entry.signals_above_threshold, entry.importance_percentile)}.`}
+                      >
                         <span class={severityBadgeClass(entry.severity_tier)}>
                           {entry.severity_tier}
                         </span>
-                        <span
-                          class="tier-rationale"
-                          title={`Flagged requires ≥ 2 strong signals and top 25% importance.`}
-                        >
-                          {tierRationale(entry.signals_above_threshold, entry.importance_percentile)}
+                        <span class="severity-tooltip" role="tooltip">
+                          <span class="severity-tooltip__title">Why {entry.severity_tier}?</span>
+                          <span class="severity-tooltip__rationale">
+                            {tierRationale(entry.severity_tier, entry.signals_above_threshold, entry.importance_percentile)}
+                          </span>
+                          <span class="severity-tooltip__hint">
+                            Flagged needs ≥ 2 strong signals and top 25% importance.
+                          </span>
                         </span>
-                      </div>
+                      </span>
                     </td>
-                    <td>{entry.risk_score.toFixed(1)}</td>
-                    <td>{entry.importance_score.toFixed(1)}</td>
-                    <td>{entry.fragility_score.toFixed(1)}</td>
-                    <td>
-                      <span class="muted">{entry.confidence}</span>
+                    <td class="metric-cell">
+                      <span class="metric-value">{entry.risk_score.toFixed(1)}</span>
+                      <span
+                        class="metric-bar"
+                        style={metricBarStyle(entry.risk_score, "risk")}
+                        aria-hidden="true"
+                      ></span>
+                    </td>
+                    <td class="metric-cell">
+                      <span class="metric-value">{entry.importance_score.toFixed(1)}</span>
+                      <span
+                        class="metric-bar"
+                        style={metricBarStyle(entry.importance_score, "importance")}
+                        aria-hidden="true"
+                      ></span>
+                    </td>
+                    <td class="metric-cell">
+                      <span class="metric-value">{entry.fragility_score.toFixed(1)}</span>
+                      <span
+                        class="metric-bar"
+                        style={metricBarStyle(entry.fragility_score, "fragility")}
+                        aria-hidden="true"
+                      ></span>
+                    </td>
+                    <td class="confidence-cell">
+                      <span
+                        class="confidence-pips"
+                        data-level={entry.confidence}
+                        tabindex="0"
+                        aria-label={`Confidence: ${entry.confidence}`}
+                      >
+                        <span class="pip"></span>
+                        <span class="pip"></span>
+                        <span class="pip"></span>
+                        <span class="confidence-tooltip" role="tooltip">
+                          <span class="confidence-tooltip__title">
+                            {entry.confidence} confidence
+                          </span>
+                          <span class="confidence-tooltip__hint">
+                            {confidenceHint(entry.confidence)}
+                          </span>
+                        </span>
+                      </span>
+                      <span class="confidence-label muted">{entry.confidence}</span>
                     </td>
                     <td class="muted finding">{entry.primary_finding}</td>
                   </tr>
@@ -227,22 +339,285 @@ const tierRationale = (signals: number, percentile: number): string => {
   .panel--hidden {
     display: none;
   }
-  .pill {
-    display: inline-block;
+  .flag-marker {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
     margin-left: 8px;
-    padding: 2px 8px;
-    font-size: 11px;
-    border-radius: 999px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .pill--flagged {
-    background: rgba(244, 127, 89, 0.18);
     color: var(--high);
+    background: rgba(244, 127, 89, 0.14);
+    border-radius: 6px;
+    cursor: help;
+    vertical-align: -4px;
+    outline: none;
+  }
+  .flag-marker:hover {
+    background: rgba(244, 127, 89, 0.22);
+  }
+  .flag-marker:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .flag-marker__tooltip {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: max-content;
+    max-width: 240px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: var(--surface-2);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    font-size: 12px;
+    line-height: 1.45;
+    white-space: normal;
+    text-transform: none;
+    letter-spacing: 0;
+    opacity: 0;
+    transform: translateY(-4px);
+    pointer-events: none;
+    transition: opacity 120ms ease, transform 120ms ease;
+    z-index: 20;
+  }
+  .flag-marker:hover .flag-marker__tooltip,
+  .flag-marker:focus-visible .flag-marker__tooltip,
+  .flag-marker:focus-within .flag-marker__tooltip {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .flag-marker__title {
+    font-weight: 600;
+    color: var(--high);
+  }
+  .flag-marker__hint {
+    color: var(--text-muted);
+    font-size: 11px;
+  }
+  .confidence-cell {
+    white-space: nowrap;
+  }
+  .confidence-pips {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 4px 2px;
+    cursor: help;
+    outline: none;
+    vertical-align: middle;
+  }
+  .confidence-pips:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  .confidence-pips .pip {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+  }
+  .confidence-pips[data-level="low"] .pip:nth-child(1),
+  .confidence-pips[data-level="medium"] .pip:nth-child(-n + 2),
+  .confidence-pips[data-level="high"] .pip {
+    background: var(--text-muted);
+    border-color: transparent;
+  }
+  .confidence-pips[data-level="high"] .pip {
+    background: var(--text);
+  }
+  .confidence-label {
+    margin-left: 8px;
+    font-size: 12px;
+    text-transform: capitalize;
+    vertical-align: middle;
+  }
+  .confidence-tooltip {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: max-content;
+    max-width: 280px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: var(--surface-2);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    font-size: 12px;
+    line-height: 1.45;
+    white-space: normal;
+    text-transform: none;
+    letter-spacing: 0;
+    opacity: 0;
+    transform: translateY(-4px);
+    pointer-events: none;
+    transition: opacity 120ms ease, transform 120ms ease;
+    z-index: 20;
+  }
+  .confidence-pips:hover .confidence-tooltip,
+  .confidence-pips:focus-visible .confidence-tooltip,
+  .confidence-pips:focus-within .confidence-tooltip {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .confidence-tooltip__title {
+    font-weight: 600;
+    color: var(--text);
+    text-transform: capitalize;
+  }
+  .confidence-tooltip__hint {
+    color: var(--text-muted);
+    font-size: 11px;
+  }
+  .lb-table {
+    overflow: visible;
+    table-layout: auto;
+  }
+  .lb-table th,
+  .lb-table td {
+    vertical-align: middle;
+  }
+  .lb-table thead th {
+    vertical-align: bottom;
+  }
+  .th-rank {
+    width: 1%;
+    white-space: nowrap;
+  }
+  .td-rank {
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .th-pkg {
+    min-width: 220px;
+  }
+  .th-metric {
+    min-width: 96px;
+  }
+  .th-metric .th-name {
+    display: block;
+  }
+  .th-scale {
+    display: block;
+    margin-top: 4px;
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--text-muted);
+    white-space: nowrap;
+    opacity: 0.85;
+  }
+  .metric-cell {
+    min-width: 96px;
+  }
+  .metric-value {
+    display: block;
+    font-variant-numeric: tabular-nums;
+    font-size: 14px;
+    line-height: 1.1;
+  }
+  .metric-bar {
+    display: block;
+    position: relative;
+    width: 84px;
+    height: 4px;
+    margin-top: 6px;
+    background: var(--surface-2);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .metric-bar::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: var(--fill, 0%);
+    background: var(--fill-color, var(--text-muted));
+    border-radius: 999px;
+  }
+  .severity-wrap {
+    position: relative;
+    display: inline-flex;
+    cursor: help;
+    outline: none;
+  }
+  .severity-wrap:focus-visible .badge {
+    box-shadow: 0 0 0 2px var(--accent);
+  }
+  .severity-tooltip {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: max-content;
+    max-width: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px 12px;
+    background: var(--surface-2);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    font-size: 12px;
+    line-height: 1.45;
+    white-space: normal;
+    text-transform: none;
+    letter-spacing: 0;
+    opacity: 0;
+    transform: translateY(-4px);
+    pointer-events: none;
+    transition: opacity 120ms ease, transform 120ms ease;
+    z-index: 20;
+  }
+  .severity-tooltip::before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: 14px;
+    width: 8px;
+    height: 8px;
+    background: var(--surface-2);
+    border-left: 1px solid var(--border);
+    border-top: 1px solid var(--border);
+    transform: rotate(45deg);
+  }
+  .severity-tooltip__title {
+    font-weight: 600;
+    color: var(--text);
+  }
+  .severity-tooltip__rationale {
+    color: var(--text);
+  }
+  .severity-tooltip__hint {
+    color: var(--text-muted);
+    font-size: 11px;
+  }
+  .severity-wrap:hover .severity-tooltip,
+  .severity-wrap:focus-visible .severity-tooltip,
+  .severity-wrap:focus-within .severity-tooltip {
+    opacity: 1;
+    transform: translateY(0);
   }
   .finding {
     font-size: 13px;
-    max-width: 320px;
+    min-width: 220px;
   }
   .pkg-link {
     display: inline-flex;
@@ -277,18 +652,6 @@ const tierRationale = (signals: number, percentile: number): string => {
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
-  }
-  .severity-cell {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    align-items: flex-start;
-  }
-  .tier-rationale {
-    font-size: 11px;
-    color: var(--text-muted);
-    letter-spacing: 0.02em;
-    white-space: nowrap;
   }
 </style>
 

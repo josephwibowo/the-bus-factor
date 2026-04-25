@@ -124,6 +124,8 @@ export function severityBadgeClass(tier: string): string {
       return "badge badge--elevated";
     case "Watch":
       return "badge badge--watch";
+    case "Unrated":
+      return "badge badge--unrated";
     default:
       return "badge badge--stable";
   }

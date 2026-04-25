@@ -4,8 +4,8 @@
     "npm",
     "pypi"
   ],
-  "generated_at": "2026-04-24T21:17:42.724838Z",
-  "methodology_version": "v0.4.0",
+  "generated_at": "2026-04-25T03:36:54.147347Z",
+  "methodology_version": "v0.5.0",
   "notes": [
     "Fixture data: deterministic snapshot shipped with the repository.",
     "Live ingestion (Cycle 2) replaces raw_* assets with external APIs."

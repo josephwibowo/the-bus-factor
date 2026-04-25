@@ -50,7 +50,7 @@ class LeaderboardEntry(_Base):
     slug: str
     rank_within_ecosystem: int
     risk_score: float
-    severity_tier: Literal["Stable", "Watch", "Elevated", "High", "Critical"]
+    severity_tier: Literal["Unrated", "Stable", "Watch", "Elevated", "High", "Critical"]
     flagged: bool
     importance_score: float
     fragility_score: float
@@ -95,7 +95,7 @@ class PackageDetail(_Base):
     slug: str
     snapshot_week: str
     methodology_version: str
-    severity_tier: Literal["Stable", "Watch", "Elevated", "High", "Critical"]
+    severity_tier: Literal["Unrated", "Stable", "Watch", "Elevated", "High", "Critical"]
     flagged: bool
     risk_score: float
     importance_score: float
@@ -135,7 +135,7 @@ class WeeklyFinding(_Base):
     ecosystem: Literal["npm", "pypi"]
     package_name: str
     slug: str
-    severity_tier: Literal["Stable", "Watch", "Elevated", "High", "Critical"]
+    severity_tier: Literal["Unrated", "Stable", "Watch", "Elevated", "High", "Critical"]
     risk_score: float
     primary_finding: str
 

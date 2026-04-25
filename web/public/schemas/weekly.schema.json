@@ -29,6 +29,7 @@
         },
         "severity_tier": {
           "enum": [
+            "Unrated",
             "Stable",
             "Watch",
             "Elevated",

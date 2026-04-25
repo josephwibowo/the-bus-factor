@@ -131,6 +131,10 @@ def test_tier_name_matches_config(config) -> None:  # type: ignore[no-untyped-de
     assert tier_name(10.0, config) == "Stable"
 
 
+def test_tier_name_low_confidence_is_unrated(config) -> None:  # type: ignore[no-untyped-def]
+    assert tier_name(80.0, config, confidence="low") == "Unrated"
+
+
 def test_is_flagged_happy_path(config) -> None:  # type: ignore[no-untyped-def]
     breakdown = FragilityBreakdown(
         components=(

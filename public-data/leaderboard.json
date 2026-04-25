@@ -101,7 +101,7 @@
       "primary_finding": "204 days since last commit on default branch.",
       "rank_within_ecosystem": 7,
       "risk_score": 24.1287,
-      "severity_tier": "Elevated",
+      "severity_tier": "Watch",
       "signals_above_threshold": 5,
       "slug": "npm-robust-cache"
     },
@@ -121,7 +121,7 @@
       "slug": "npm-quiet-daemon"
     },
     {
-      "confidence": "low",
+      "confidence": "high",
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 1.9,
@@ -136,7 +136,7 @@
       "slug": "npm-vibrant-router"
     },
     {
-      "confidence": "low",
+      "confidence": "high",
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 1.5,
@@ -151,7 +151,7 @@
       "slug": "npm-active-logger"
     },
     {
-      "confidence": "low",
+      "confidence": "high",
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 4.1261,
@@ -166,7 +166,7 @@
       "slug": "npm-measured-worker"
     },
     {
-      "confidence": "low",
+      "confidence": "high",
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 2.9,
@@ -181,7 +181,7 @@
       "slug": "npm-modest-codec"
     },
     {
-      "confidence": "low",
+      "confidence": "high",
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 2.994,
@@ -196,7 +196,7 @@
       "slug": "npm-steady-types"
     },
     {
-      "confidence": "low",
+      "confidence": "high",
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 2.2,
@@ -211,7 +211,7 @@
       "slug": "npm-eventful-proxy"
     },
     {
-      "confidence": "low",
+      "confidence": "high",
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 1.2,
@@ -226,7 +226,7 @@
       "slug": "npm-fresh-parser"
     },
     {
-      "confidence": "low",
+      "confidence": "high",
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 2.1,
@@ -241,7 +241,7 @@
       "slug": "npm-thorough-test"
     },
     {
-      "confidence": "low",
+      "confidence": "high",
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 13.5355,
@@ -256,7 +256,7 @@
       "slug": "npm-stable-hash"
     },
     {
-      "confidence": "low",
+      "confidence": "high",
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 4.05,
@@ -271,7 +271,7 @@
       "slug": "npm-constant-timer"
     },
     {
-      "confidence": "low",
+      "confidence": "high",
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 5.8807,
@@ -286,7 +286,7 @@
       "slug": "npm-minimal-queue"
     },
     {
-      "confidence": "low",
+      "confidence": "high",
       "ecosystem": "npm",
       "flagged": false,
       "fragility_score": 7.2735,
@@ -401,7 +401,7 @@
       "primary_finding": "204 days since last commit on default branch.",
       "rank_within_ecosystem": 7,
       "risk_score": 24.1287,
-      "severity_tier": "Elevated",
+      "severity_tier": "Watch",
       "signals_above_threshold": 5,
       "slug": "pypi-robust-pycache"
     },
@@ -421,7 +421,7 @@
       "slug": "pypi-quiet-pydaemon"
     },
     {
-      "confidence": "low",
+      "confidence": "high",
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 1.9,
@@ -436,7 +436,7 @@
       "slug": "pypi-vibrant-pyrouter"
     },
     {
-      "confidence": "low",
+      "confidence": "high",
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 1.5,
@@ -451,7 +451,7 @@
       "slug": "pypi-active-pylogger"
     },
     {
-      "confidence": "low",
+      "confidence": "high",
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 4.1261,
@@ -466,7 +466,7 @@
       "slug": "pypi-measured-pyworker"
     },
     {
-      "confidence": "low",
+      "confidence": "high",
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 2.994,
@@ -481,7 +481,7 @@
       "slug": "pypi-steady-pyutils"
     },
     {
-      "confidence": "low",
+      "confidence": "high",
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 2.2,
@@ -496,7 +496,7 @@
       "slug": "pypi-eventful-pyproxy"
     },
     {
-      "confidence": "low",
+      "confidence": "high",
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 2.9,
@@ -511,7 +511,7 @@
       "slug": "pypi-modest-pycodec"
     },
     {
-      "confidence": "low",
+      "confidence": "high",
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 1.2,
@@ -526,7 +526,7 @@
       "slug": "pypi-fresh-pyparser"
     },
     {
-      "confidence": "low",
+      "confidence": "high",
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 2.1,
@@ -541,7 +541,7 @@
       "slug": "pypi-thorough-pytest-utils"
     },
     {
-      "confidence": "low",
+      "confidence": "high",
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 13.5355,
@@ -556,7 +556,7 @@
       "slug": "pypi-stable-pyhash"
     },
     {
-      "confidence": "low",
+      "confidence": "high",
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 4.05,
@@ -571,7 +571,7 @@
       "slug": "pypi-constant-pytimer"
     },
     {
-      "confidence": "low",
+      "confidence": "high",
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 5.8807,
@@ -586,7 +586,7 @@
       "slug": "pypi-minimal-pyqueue"
     },
     {
-      "confidence": "low",
+      "confidence": "high",
       "ecosystem": "pypi",
       "flagged": false,
       "fragility_score": 7.2735,
@@ -601,6 +601,6 @@
       "slug": "pypi-simple-pyxml"
     }
   ],
-  "methodology_version": "v0.4.0",
+  "methodology_version": "v0.5.0",
   "snapshot_week": "2026-04-20"
 }

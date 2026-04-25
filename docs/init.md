@@ -745,9 +745,9 @@ All percentile ranks are computed within ecosystem (npm or PyPI) on the eligible
 
 | Confidence | Definition |
 | --- | --- |
-| High | Confident repository mapping, fresh package metadata, fresh repository data, and at least two independent fragility evidence signals. |
-| Medium | Confident repository mapping and enough fresh evidence to score, but one non-critical source is missing or stale. |
-| Low | Repository mapping, source freshness, package age, or signal coverage is incomplete enough that the package cannot be flagged. |
+| High | High mapping confidence, not in reduced-confidence age band, and no unhealthy critical/non-critical sources. |
+| Medium | High/medium mapping confidence, no critical source-health failures, and at most one non-critical unhealthy source. |
+| Low | Mapping confidence, source health, or package age is insufficient for a reliable stability verdict. |
 
 Low-confidence packages may be displayed in detail/search views but must not be marked `flagged = true`.
 
@@ -755,6 +755,7 @@ Low-confidence packages may be displayed in detail/search views but must not be 
 
 | Tier | Score range | Public meaning |
 | --- | ---: | --- |
+| Unrated | n/a (confidence-driven) | Evidence quality is too low to make a stable-vs-risk claim; assigned whenever confidence is low. |
 | Stable | 0–14 | No concerning combination of importance and fragility in the current snapshot. |
 | Watch | 15–24 | Some weak signals worth monitoring, but not enough evidence to flag. |
 | Elevated | 25–29 | Meaningful fragility signals on an important package; visible in detail/search but not treated as headline flagged risk. |
@@ -1218,7 +1219,7 @@ This architecture should be expressed conceptually in the spec and visually in t
 
 ### Final v1 decisions
 
-1. Severity tiers are `Stable`, `Watch`, `Elevated`, `High`, and `Critical`.
+1. Severity tiers are `Unrated`, `Stable`, `Watch`, `Elevated`, `High`, and `Critical` (`Unrated` is confidence-driven for low-confidence rows).
 2. `flagged = true` requires eligibility, `risk_score >= 30`, `High` or `Critical` tier, medium/high confidence, at least two independent fragility signals, and top-quartile ecosystem importance.
 3. The canonical Bruin AI Data Analyst gallery uses the eight prompts listed in “Canonical Bruin AI Data Analyst questions.”
 4. The weekly card shows up to five flagged packages and does not pad with non-flagged packages.

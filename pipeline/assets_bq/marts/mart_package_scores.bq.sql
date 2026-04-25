@@ -74,6 +74,7 @@ columns:
       - name: not_null
       - name: accepted_values
         value:
+          - Unrated
           - Stable
           - Watch
           - Elevated
@@ -94,7 +95,7 @@ columns:
           - high
   - name: importance_rank_within_ecosystem
     type: INTEGER
-    description: Dense rank by risk_score within each ecosystem (1 = highest risk).
+    description: Dense rank by severity tier ordinal (Critical..Unrated), then risk_score, within each ecosystem (1 = highest risk).
     checks:
       - name: not_null
       - name: positive
@@ -119,6 +120,13 @@ custom_checks:
     query: |
       SELECT COUNT(*) FROM mart.package_scores
       WHERE flagged AND confidence = 'low'
+  - name: unrated_matches_low_confidence
+    description: Unrated is reserved for low-confidence rows, and all low-confidence rows must be Unrated.
+    value: 0
+    query: |
+      SELECT COUNT(*) FROM mart.package_scores
+      WHERE (confidence = 'low' AND severity_tier != 'Unrated')
+         OR (confidence != 'low' AND severity_tier = 'Unrated')
   - name: flagged_has_two_independent_signals
     description: Every flagged package must expose at least two fragility signals >= 40.
     value: 0
@@ -364,16 +372,9 @@ with_risk AS (
         (importance_score * fragility_score) / 100.0 AS risk_score
     FROM scored
 ),
-with_tier AS (
+with_signals AS (
     SELECT
         *,
-        CASE
-            WHEN risk_score <= {{ var.severity_stable_max }} THEN 'Stable'
-            WHEN risk_score <= {{ var.severity_watch_max }} THEN 'Watch'
-            WHEN risk_score <= {{ var.severity_elevated_max }} THEN 'Elevated'
-            WHEN risk_score <= {{ var.severity_high_max }} THEN 'High'
-            ELSE 'Critical'
-        END AS severity_tier,
         (
             CASE WHEN release_recency >= {{ var.flagged_signal_contribution_threshold }} THEN 1 ELSE 0 END
             + CASE WHEN commit_recency >= {{ var.flagged_signal_contribution_threshold }} THEN 1 ELSE 0 END
@@ -399,18 +400,29 @@ with_confidence AS (
         CASE
             WHEN critical_unhealthy_sources > 0 OR unhealthy_sources > 1 THEN 'low'
             WHEN mapping_bucket = 'high'
-                 AND signals_above_threshold >= 2
                  AND NOT is_reduced_confidence_age
                  AND unhealthy_sources = 0
                 THEN 'high'
             WHEN mapping_bucket IN ('high', 'medium')
-                 AND signals_above_threshold >= 1
                  AND critical_unhealthy_sources = 0
                  AND unhealthy_sources <= 1
                 THEN 'medium'
             ELSE 'low'
         END AS confidence
-    FROM with_tier
+    FROM with_signals
+),
+with_tier AS (
+    SELECT
+        *,
+        CASE
+            WHEN confidence = 'low' THEN 'Unrated'
+            WHEN risk_score < ({{ var.severity_stable_max }} + 1) THEN 'Stable'
+            WHEN risk_score < ({{ var.severity_watch_max }} + 1) THEN 'Watch'
+            WHEN risk_score < ({{ var.severity_elevated_max }} + 1) THEN 'Elevated'
+            WHEN risk_score < ({{ var.severity_high_max }} + 1) THEN 'High'
+            ELSE 'Critical'
+        END AS severity_tier
+    FROM with_confidence
 ),
 with_rank AS (
     SELECT
@@ -418,9 +430,20 @@ with_rank AS (
         PERCENT_RANK() OVER (PARTITION BY ecosystem ORDER BY importance_score)
             * 100.0 AS importance_percentile_within_eligible,
         ROW_NUMBER() OVER (
-            PARTITION BY ecosystem ORDER BY risk_score DESC, importance_score DESC
+            PARTITION BY ecosystem
+            ORDER BY
+                CASE severity_tier
+                    WHEN 'Critical' THEN 5
+                    WHEN 'High' THEN 4
+                    WHEN 'Elevated' THEN 3
+                    WHEN 'Watch' THEN 2
+                    WHEN 'Stable' THEN 1
+                    ELSE 0
+                END DESC,
+                risk_score DESC,
+                importance_score DESC
         ) AS importance_rank_within_ecosystem
-    FROM with_confidence
+    FROM with_tier
 ),
 flagged_decision AS (
     SELECT

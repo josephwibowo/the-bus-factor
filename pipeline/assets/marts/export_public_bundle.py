@@ -354,7 +354,7 @@ def _build_packages(conn: duckdb.DuckDBPyConnection) -> Packages:
                 slug=row["slug"],
                 snapshot_week=_iso_date(anchor["snapshot_week"]).isoformat(),
                 methodology_version=str(anchor["methodology_version"]),
-                severity_tier=(row["severity_tier"] or "Stable"),
+                severity_tier=(row["severity_tier"] or "Unrated"),
                 flagged=bool(row["flagged"] or False),
                 risk_score=float(row["risk_score"] or 0.0),
                 importance_score=float(row["importance_score"] or 0.0),

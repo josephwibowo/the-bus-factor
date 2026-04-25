@@ -55,6 +55,7 @@ class SeverityTier:
     min_score: int
     max_score: int
     flagged: bool
+    confidence_driven: bool = False
 
     def contains(self, score: float) -> bool:
         """Inclusive match. For float scores the tier boundary aligns with
@@ -96,16 +97,21 @@ class ScoringConfig:
     def severity_for(self, risk_score: float) -> SeverityTier:
         """Map a 0-100 risk score to its severity tier, handling fractional scores.
 
-        The YAML bands are inclusive integer ranges (e.g. Stable 0-39,
-        Watch 40-59). We treat each band as the half-open interval
-        ``[min, next_tier.min)`` so a fractional score such as 39.9 stays
-        in Stable and only crosses into Watch at 40.0. The top tier is
+        The YAML bands are inclusive integer ranges (e.g. Stable 0-14,
+        Watch 15-24). We treat each band as the half-open interval
+        ``[min, next_tier.min)`` so a fractional score such as 14.9 stays
+        in Stable and only crosses into Watch at 15.0. The top tier is
         capped at ``[min, max]`` inclusive.
         """
 
         if risk_score < 0:
             raise ValueError(f"risk_score {risk_score} is negative")
-        ordered = sorted(self.severity_tiers, key=lambda t: t.min_score)
+        ordered = sorted(
+            (tier for tier in self.severity_tiers if not tier.confidence_driven),
+            key=lambda t: t.min_score,
+        )
+        if not ordered:
+            raise ValueError("no score-driven severity tiers configured")
         for idx, tier in enumerate(ordered):
             is_last = idx == len(ordered) - 1
             if is_last:
@@ -133,6 +139,7 @@ def load_scoring_config(path: Path | None = None) -> ScoringConfig:
             min_score=int(row["min"]),
             max_score=int(row["max"]),
             flagged=bool(row["flagged"]),
+            confidence_driven=bool(row.get("confidence_driven", False)),
         )
         for row in raw["severity_tiers"]
     )

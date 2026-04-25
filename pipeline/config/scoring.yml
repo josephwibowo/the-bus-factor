@@ -4,7 +4,7 @@
 #
 # Loaded by both SQL assets (via Bruin `{{ var() }}` / Jinja) and Python assets.
 
-methodology_version: v0.4.0
+methodology_version: v0.5.0
 
 # ------------------------------------------------------------------
 # Importance: 0-100 ecosystem-relative percentile, weights sum to 1.0
@@ -107,8 +107,19 @@ flagged:
 # v0.2.0 bands follow the observed live distribution (npm p95 ~= 22,
 # combined p99 ~= 30). Packages hit "High" only when they rank in the
 # top ~1% of their ecosystem across multiple fragility signals.
+#
+# v0.5.0: Introduced the "Unrated" tier (sort order below Stable) for
+# low-confidence rows. Stable previously absorbed any package with no
+# signals firing - including those where no signals fired because we
+# could not gather enough data to score them. That conflated "examined
+# and healthy" with "not enough evidence to score." Unrated is now
+# assigned whenever confidence == 'low', regardless of risk_score, and
+# never inherits the Stable band's healthy semantics. The tier has no
+# risk_score band of its own; its assignment is driven by confidence,
+# not score.
 # ------------------------------------------------------------------
 severity_tiers:
+  - { name: Unrated,  min: 0,  max: 0,  flagged: false, confidence_driven: true }
   - { name: Stable,   min: 0,  max: 14, flagged: false }
   - { name: Watch,    min: 15, max: 24, flagged: false }
   - { name: Elevated, min: 25, max: 29, flagged: false }
@@ -140,10 +151,11 @@ mapping_confidence:
 confidence_requirements:
   high:
     mapping_bucket: [high]
-    max_stale_sources: 0
-    min_fragility_signals: 2
+    allow_reduced_confidence_age: false
+    max_unhealthy_sources: 0
+    max_critical_unhealthy_sources: 0
   medium:
     mapping_bucket: [high, medium]
-    max_stale_sources: 1
-    min_fragility_signals: 1
+    max_unhealthy_sources: 1
+    max_critical_unhealthy_sources: 0
   # Everything else is "low" and cannot be flagged.
